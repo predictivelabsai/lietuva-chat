@@ -1,0 +1,95 @@
+"""3-pane chat page wrapper."""
+
+from __future__ import annotations
+
+from fasthtml.common import (
+    Html, Head, Body, Meta, Title, Link, Script, NotStr,
+    Div, Span,
+)
+
+from chat.components import left_pane, center_pane, right_pane, signin_overlay
+from utils.brand import Icon, Mark, brand_head
+from utils.version import app_version
+
+
+def _head(title: str = "eesti.chat", with_brand: bool = True) -> Head:
+    # Pages rendered through the app's global hdrs already get brand_head().
+    return Head(
+        Meta(charset="utf-8"),
+        Meta(name="viewport", content="width=device-width, initial-scale=1, viewport-fit=cover"),
+        Meta(name="apple-mobile-web-app-capable", content="yes"),
+        Meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent"),
+        *(brand_head() if with_brand else ()),
+        Title(f"{title} — eesti.chat"),
+        Script(src="/static/marked.min.js?v=1"),
+    )
+
+
+def chat_page(user_email=None, sessions=None, current_sid="",
+              messages=None, current_agent_slug=None, readonly=False, lang="en"):
+    from utils.i18n import js_translations, thinking_words
+    import json as _json
+    from fasthtml.common import Button
+    body = Body(
+        signin_overlay(lang=lang),
+        Div(id="left-overlay", cls="left-overlay", onclick="toggleLeftPane()"),
+        left_pane(user_email=user_email, sessions=sessions, current_sid=current_sid,
+                  current_agent_slug=current_agent_slug, lang=lang),
+        center_pane(messages=messages, current_agent_slug=current_agent_slug, lang=lang),
+        Div(id="right-overlay", cls="right-overlay", onclick="toggleArtifactPane()"),
+        right_pane(lang=lang),
+        Button(
+            Icon("panel", 16),
+            Span("Results", cls="toggle-label"),
+            id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
+        ),
+        Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
+        Script(_json.dumps(thinking_words(lang), ensure_ascii=False), id="thinking-words-data", type="application/json"),
+        Script(src=f"/static/chat.js?v={app_version()}"),
+        cls="bg-white text-ink font-sans antialiased app",
+    )
+    return (*_head("Ask eesti.chat", with_brand=False).children, body)
+
+
+def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None):
+    from agents.registry import AGENTS_BY_SLUG
+
+    msg_els = []
+    for m in (messages or []):
+        role = m.get("role", "user")
+        content = m.get("content", "")
+        agent = m.get("agent_slug")
+        bubble = Div(content, cls="msg-bubble")
+        if role == "assistant" and agent:
+            spec = AGENTS_BY_SLUG.get(agent)
+            agent_label = Div(
+                Mark(16, cls="msg-agent-icon"),
+                Div(spec.name if spec else agent, cls="msg-agent-label"),
+                cls="msg-agent",
+            )
+            msg_els.append(Div(agent_label, bubble, cls=f"msg msg-{role}"))
+        else:
+            msg_els.append(Div(bubble, cls=f"msg msg-{role}"))
+
+    body = Body(
+        Div(
+            Div(
+                Div(title, cls="chat-header-title"),
+                Div(
+                    Div("Shared via eesti.chat", cls="shared-subtitle"),
+                    cls="chat-header-actions",
+                ),
+                cls="chat-header",
+            ),
+            Div(*msg_els, id="messages", cls="messages"),
+            cls="center-pane",
+            style="max-width:800px;margin:0 auto;",
+        ),
+        Script(NotStr("""
+            document.querySelectorAll('.msg-bubble').forEach(b => {
+                if (typeof marked !== 'undefined') b.innerHTML = marked.parse(b.textContent);
+            });
+        """)),
+        cls="bg-white text-ink font-sans antialiased",
+    )
+    return (*_head(title, with_brand=False).children, body)

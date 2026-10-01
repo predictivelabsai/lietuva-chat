@@ -1,0 +1,39 @@
+{
+  "schema": "eesti",
+  "tables": {
+    "chat_users": {
+      "description": "Accounts used for authentication and chat ownership",
+      "columns": [
+        "id", "email", "password_hash", "name", "is_verified",
+        "verify_token", "reset_token", "reset_token_expires", "role", "created_at"
+      ]
+    },
+    "chat_sessions": {
+      "description": "Saved conversations and share links",
+      "columns": [
+        "id", "user_id", "title", "agent_slug", "share_token", "created_at", "updated_at"
+      ]
+    },
+    "chat_messages": {
+      "description": "User and assistant messages, including tool-call metadata",
+      "columns": [
+        "id", "session_id", "role", "content", "agent_slug", "tool_calls", "created_at"
+      ]
+    },
+    "user_profiles": {
+      "description": "Optional account profile information",
+      "columns": [
+        "id", "user_id", "avatar_url", "phone", "country", "city",
+        "currency", "language", "updated_at"
+      ]
+    },
+    "invitations": {
+      "description": "Admin-managed invitations for account access",
+      "columns": [
+        "id", "email", "token", "invited_by", "role", "message", "status",
+        "created_at", "expires_at", "accepted_at"
+      ]
+    }
+  },
+  "notes": "The eesti.chat portal stores account data, optional profile preferences, and chat history in the eesti schema."
+}
