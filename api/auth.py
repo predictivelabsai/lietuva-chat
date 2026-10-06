@@ -8,9 +8,11 @@ import hashlib
 import json
 import time
 import base64
+import secrets
 
 
-JWT_SECRET = os.environ.get("JWT_SECRET", os.environ.get("APP_SECRET", "lietuva-chat-app-2026"))
+# Never a fixed fallback: an unset or empty secret gets a random one per process.
+JWT_SECRET = os.environ.get("JWT_SECRET") or os.environ.get("APP_SECRET") or secrets.token_hex(32)
 JWT_EXPIRY_HOURS = 72
 
 

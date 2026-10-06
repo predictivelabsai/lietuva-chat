@@ -1,5 +1,14 @@
 # Change Log
 
+## v1.1.2 — 2026-10-06
+
+**Remove the guessable fallback for the API's token-signing secret.**
+
+- `api/auth.py` no longer falls back to a fixed string when `JWT_SECRET` and `APP_SECRET` are unset. An empty value counts as unset too, so tokens are never signed with an empty key. The fallback is now a random key per process, as `main.py` already does for sessions.
+- `.env.example` no longer ships `APP_SECRET=change-me`. It explains how to generate a real secret.
+- `tests/test_auth_secret.py` forges tokens with the old strings and an empty key, and checks they are rejected.
+- Deploy: set `APP_SECRET` (or `JWT_SECRET`) in production, or API logins reset on every restart.
+
 ## v1.1.1 — 2026-10-06
 
 **Rebrand the UI to lietuva.chat: a white, conversation-first site with a Lithuanian heritage identity (woven-sash palette, Palemonas headlines, saulė mark) and liquid-glass details.**
