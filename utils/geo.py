@@ -66,7 +66,7 @@ def _is_private(ip: str) -> bool:
 def _http_get_text(url: str) -> str | None:
     try:
         req = urllib.request.Request(
-            url, headers={"User-Agent": "eesti.chat-geo/1.0 (+https://eesti.chat)"}, method="GET")
+            url, headers={"User-Agent": "lietuva.chat-geo/1.0 (+https://lietuva.chat)"}, method="GET")
         with urllib.request.urlopen(req, timeout=_TIMEOUT) as resp:
             return resp.read().decode("utf-8", errors="replace").strip()
     except Exception as e:

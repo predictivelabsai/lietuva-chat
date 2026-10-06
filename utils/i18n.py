@@ -1,6 +1,6 @@
 """Language support: session-based language with IP detection.
 
-English (en) and Estonian (et) live inline below; the other UI languages
+English (en) and one additional language (et) live inline below; the other UI languages
 (ru, de, fr, sv, lv, fi, lt) are supplied as JSON files in ``locales/`` and
 merged in at import by ``_merge_locales()``. Anything still missing for a
 language falls back to English via ``t()``.
@@ -30,7 +30,7 @@ SUPPORTED_LANGS = set(LANGUAGES.keys())
 # IP-country → UI language. A visitor from each language's country defaults to
 # that language; everyone else defaults to English.
 COUNTRY_LANG: dict[str, str] = {
-    "ee": "et",   # Estonia
+    "ee": "et",   # country code EE
     "ru": "ru",   # Russia
     "de": "de",   # Germany
     "at": "de",   # Austria
@@ -111,38 +111,6 @@ def js_translations(lang: str = DEFAULT_LANG) -> dict[str, str]:
     return {k.removeprefix("js_"): t(k, lang) for k in js_keys}
 
 
-def thinking_words(lang: str = DEFAULT_LANG) -> list[str]:
-    """Playful 'thinking' synonyms rotated in the working indicator (never the
-    underlying tool name). Falls back to English."""
-    return THINKING_WORDS.get(lang) or THINKING_WORDS["en"]
-
-
-# ---------------------------------------------------------------------------
-# "Thinking" synonyms rotated in the working indicator (per language)
-# ---------------------------------------------------------------------------
-
-THINKING_WORDS: dict[str, list[str]] = {
-    "en": ["Thinking", "Pondering", "Contemplating", "Ruminating", "Mulling it over",
-           "Reflecting", "Deliberating", "Considering", "Reasoning", "Cogitating"],
-    "et": ["Mõtleb", "Juurdleb", "Mõtiskleb", "Kaalub", "Arutleb",
-           "Nuputab", "Süveneb", "Analüüsib", "Mõlgutab", "Peab aru"],
-    "ru": ["Думает", "Размышляет", "Обдумывает", "Рассуждает", "Анализирует",
-           "Прикидывает", "Взвешивает", "Соображает", "Вникает", "Осмысляет"],
-    "de": ["Denkt nach", "Überlegt", "Grübelt", "Sinniert", "Erwägt",
-           "Reflektiert", "Wägt ab", "Analysiert", "Tüftelt", "Brütet"],
-    "fr": ["Réfléchit", "Médite", "Rumine", "Analyse", "Cogite",
-           "Délibère", "Examine", "Raisonne", "Considère", "Planche"],
-    "sv": ["Tänker", "Funderar", "Begrundar", "Överväger", "Grubblar",
-           "Resonerar", "Analyserar", "Reflekterar", "Väger", "Klurar"],
-    "fi": ["Ajattelee", "Pohtii", "Miettii", "Harkitsee", "Puntaroi",
-           "Tuumii", "Järkeilee", "Analysoi", "Syventyy", "Mietiskelee"],
-    "lv": ["Domā", "Pārdomā", "Apsver", "Analizē", "Prāto",
-           "Spriež", "Izsver", "Pēta", "Apcer", "Gudro"],
-    "lt": ["Mąsto", "Svarsto", "Apmąsto", "Analizuoja", "Galvoja",
-           "Dūmoja", "Sveria", "Gilinasi", "Protauja", "Narplioja"],
-}
-
-
 # ---------------------------------------------------------------------------
 # Translation catalog  (en + et; other languages fall back to en)
 # ---------------------------------------------------------------------------
@@ -155,88 +123,234 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "nav_topics": {"en": "Topics", "et": "Teemad"},
     "nav_about": {"en": "About", "et": "Meist"},
     "nav_contact": {"en": "Contact", "et": "Kontakt"},
-    "nav_open_app": {"en": "Ask eesti.chat", "et": "Küsi eesti.chat"},
+    "nav_open_app": {"en": "Ask lietuva.chat", "et": "Küsi lietuva.chat"},
     "nav_login": {"en": "Log in", "et": "Logi sisse"},
     "nav_logout": {"en": "Log out", "et": "Logi välja"},
 
     # -- Hero --
+    "home_greeting": {"en": "Labas.", "lt": "Labas."},
+    "home_sub": {
+        "en": "Ask anything about living, working and dealing with the state in Lithuania.",
+        "lt": "Klauskite apie gyvenimą, darbą ir reikalus su valstybe Lietuvoje.",
+    },
+    "home_independent": {
+        "en": "Independent service · not affiliated with the Government of Lithuania",
+        "lt": "Nepriklausoma paslauga · nesusijusi su Lietuvos Vyriausybe",
+    },
+    "home_try": {"en": "Try", "lt": "Pabandykite"},
+    "home_prev": {"en": "Previous", "lt": "Ankstesnis"},
+    "home_next": {"en": "Next", "lt": "Kitas"},
+    "home_pause": {"en": "Pause", "lt": "Pristabdyti"},
+    "home_play": {"en": "Play", "lt": "Paleisti"},
+    "home_sources": {"en": "Answers from", "lt": "Atsakymai iš"},
+    "menu": {"en": "Menu", "lt": "Meniu"},
+    "menu_close": {"en": "Close", "lt": "Uždaryti"},
+    "menu_ask_about": {"en": "Ask about", "lt": "Klauskite apie"},
+    "menu_service": {"en": "lietuva.chat", "lt": "lietuva.chat"},
+    "menu_sign_in": {"en": "Sign in", "lt": "Prisijungti"},
+    "life_01": {"en": "Moving here", "lt": "Atsikraustymas"},
+    "life_01_q": {"en": "How do I declare my place of residence in Vilnius?", "lt": "Kaip deklaruoti gyvenamąją vietą Vilniuje?"},
+    "life_02": {"en": "Work and taxes", "lt": "Darbas ir mokesčiai"},
+    "life_02_q": {"en": "What taxes are deducted from a Lithuanian salary?", "lt": "Kokie mokesčiai išskaičiuojami iš atlyginimo?"},
+    "life_03": {"en": "Family and health", "lt": "Šeima ir sveikata"},
+    "life_03_q": {"en": "How do I get compulsory health insurance?", "lt": "Kaip gauti privalomąjį sveikatos draudimą?"},
+    "life_04": {"en": "Starting a company", "lt": "Įmonės steigimas"},
+    "life_04_q": {"en": "How do I register a UAB online?", "lt": "Kaip įsteigti UAB internetu?"},
+    "life_05": {"en": "Coming home", "lt": "Grįžimas namo"},
+    "life_05_q": {"en": "I am moving back to Lithuania. Where do I start?", "lt": "Grįžtu gyventi į Lietuvą. Nuo ko pradėti?"},
+    "info_01": {"en": "What you can ask", "lt": "Ko galite klausti"},
+    "info_01_title": {"en": "Everyday questions, answered from the source.", "lt": "Kasdieniai klausimai su atsakymais iš šaltinio."},
+    "ask_residence": {"en": "Residence and permits", "lt": "Gyvenamoji vieta ir leidimai"},
+    "ask_residence_q": {"en": "Do I need a temporary residence permit to work here?", "lt": "Ar man reikia leidimo laikinai gyventi, kad galėčiau čia dirbti?"},
+    "ask_tax": {"en": "Taxes and Sodra", "lt": "Mokesčiai ir „Sodra“"},
+    "ask_tax_q": {"en": "How much is withheld from my gross salary?", "lt": "Kiek išskaičiuojama iš mano atlyginimo „ant popieriaus“?"},
+    "ask_health": {"en": "Health insurance", "lt": "Sveikatos draudimas"},
+    "ask_health_q": {"en": "Am I covered by compulsory health insurance?", "lt": "Ar esu apdraustas privalomuoju sveikatos draudimu?"},
+    "ask_family": {"en": "Family", "lt": "Šeima"},
+    "ask_family_q": {"en": "How do I register my child's birth?", "lt": "Kaip įregistruoti vaiko gimimą?"},
+    "ask_business": {"en": "Business", "lt": "Verslas"},
+    "ask_business_q": {"en": "Should I open an MB or a UAB?", "lt": "Steigti MB ar UAB?"},
+    "ask_abroad": {"en": "Lithuanians abroad", "lt": "Lietuviai užsienyje"},
+    "ask_abroad_q": {"en": "How do I vote in Lithuanian elections from abroad?", "lt": "Kaip balsuoti Lietuvos rinkimuose iš užsienio?"},
+    "info_02": {"en": "How it answers", "lt": "Kaip atsako"},
+    "info_02_title": {"en": "Plain language in, official sources out.", "lt": "Klausiate paprastai, atsakymas – iš oficialių šaltinių."},
+    "how_a": {"en": "Describe your situation", "lt": "Apibūdinkite savo situaciją"},
+    "how_a_body": {"en": "Write it the way you would explain it to a friend, in your own language. No forms, no agency names to know in advance.", "lt": "Rašykite taip, kaip paaiškintumėte draugui, savo kalba. Nereikia formų ir nereikia iš anksto žinoti, kuri institucija atsakinga."},
+    "how_b": {"en": "It reads the responsible agency", "lt": "Skaito atsakingos institucijos puslapius"},
+    "how_b_body": {"en": "A specialist assistant looks up the agency's own pages, not forums or blogs, and puts together the parts that apply to you.", "lt": "Specializuotas asistentas ieško pačios institucijos puslapiuose, ne forumuose ar tinklaraščiuose, ir atrenka tai, kas tinka jums."},
+    "how_c": {"en": "You see where it came from", "lt": "Matote, iš kur atsakymas"},
+    "how_c_body": {"en": "Every answer links to its sources, so you can check each step before you act.", "lt": "Kiekvienas atsakymas turi nuorodas į šaltinius, todėl galite viską patikrinti prieš veikdami."},
+    "demo_q": {"en": "I just moved to Vilnius. How do I declare my residence?", "lt": "Ką tik persikėliau į Vilnių. Kaip deklaruoti gyvenamąją vietą?"},
+    "demo_a": {"en": "Declaring your place of residence is handled by your municipality and can be done online through the e-government gateway. Here is what to prepare before you start.", "lt": "Gyvenamąją vietą deklaruoja savivaldybė, tai galima padaryti ir internetu per Elektroninius valdžios vartus. Štai ką paruošti prieš pradedant."},
+    "info_03": {"en": "Who it is for", "lt": "Kam skirta"},
+    "info_03_title": {"en": "One place to ask, wherever you are starting from.", "lt": "Viena vieta klausti, nuo ko bepradėtumėte."},
+    "who_res": {"en": "Residents", "lt": "Gyventojams"},
+    "who_res_body": {"en": "Taxes, benefits, health insurance and everyday paperwork, without hunting across a dozen agency websites.", "lt": "Mokesčiai, išmokos, sveikatos draudimas ir kasdieniai dokumentai be klaidžiojimo po dešimtis institucijų svetainių."},
+    "who_new": {"en": "Newcomers", "lt": "Atvykstantiems"},
+    "who_new_body": {"en": "Permits, registration, work and banking, explained in plain language before your first appointment.", "lt": "Leidimai, registracija, darbas ir bankai, paaiškinti paprastai dar prieš pirmąjį vizitą."},
+    "who_abroad": {"en": "Lithuanians abroad", "lt": "Lietuviams užsienyje"},
+    "who_abroad_body": {"en": "Citizenship, voting from abroad, documents and coming home, with the consular pages that apply.", "lt": "Pilietybė, balsavimas iš užsienio, dokumentai ir grįžimas namo, su atitinkamais konsuliniais puslapiais."},
+    "info_04": {"en": "Where answers come from", "lt": "Iš kur atsakymai"},
+    "info_04_title": {"en": "We read official public sources. We are not them.", "lt": "Remiamės oficialiais viešais šaltiniais. Bet nesame jų dalis."},
+    "info_04_body": {"en": "lietuva.chat is an independent service. Answers are AI-generated and can be incomplete or out of date, so confirm details with the agency before you act.", "lt": "lietuva.chat yra nepriklausoma paslauga. Atsakymus generuoja dirbtinis intelektas, jie gali būti neišsamūs ar pasenę, todėl prieš veikdami pasitikslinkite institucijoje."},
+    "src_epaslaugos": {"en": "E-government gateway", "lt": "Elektroniniai valdžios vartai"},
+    "src_migracija": {"en": "Migration Department, MIGRIS", "lt": "Migracijos departamentas, MIGRIS"},
+    "src_vmi": {"en": "State Tax Inspectorate", "lt": "Valstybinė mokesčių inspekcija"},
+    "src_sodra": {"en": "State Social Insurance Fund", "lt": "Valstybinio socialinio draudimo fondo valdyba"},
+    "src_vlk": {"en": "National Health Insurance Fund", "lt": "Valstybinė ligonių kasa"},
+    "src_rc": {"en": "Centre of Registers", "lt": "Registrų centras"},
+    "src_etar": {"en": "Register of Legal Acts", "lt": "Teisės aktų registras"},
+    "src_urm": {"en": "Ministry of Foreign Affairs, Global Lithuania", "lt": "Užsienio reikalų ministerija, Globali Lietuva"},
+    "closing": {"en": "Ask your first question.", "lt": "Užduokite pirmąjį klausimą."},
+    "closing_cta": {"en": "Start asking", "lt": "Pradėti"},
+    "header_cta": {"en": "Ask lietuva.chat", "lt": "Klausti"},
+    "home_eyebrow": {"en": "Labas · independent AI assistant", "lt": "Labas · nepriklausomas DI asistentas"},
+    "home_title": {"en": "Ask anything about life in Lithuania.", "lt": "Klauskite apie gyvenimą Lietuvoje."},
+    "home_lede": {"en": "Permits, taxes, Sodra, health insurance, business and coming home. Plain answers with links to the official source.", "lt": "Leidimai, mokesčiai, „Sodra“, sveikatos draudimas, verslas ir grįžimas namo. Aiškūs atsakymai su nuorodomis į oficialų šaltinį."},
+    "home_placeholder": {"en": "Ask a question…", "lt": "Užduokite klausimą…"},
+    "home_reading": {"en": "Reading", "lt": "Skaitoma"},
+    "life_01_a": {"en": "You can declare your place of residence at your local ward office (seniūnija) or online through epaslaugos.lt. Bring your ID document, and if you rent, the owner needs to give consent.", "lt": "Gyvenamąją vietą galite deklaruoti seniūnijoje arba internetu per epaslaugos.lt. Reikės asmens dokumento, o jei nuomojatės – savininko sutikimo."},
+    "life_02_a": {"en": "Your employer withholds personal income tax and your social insurance contributions, including health insurance, before paying you. You can check what was declared for you in Mano VMI and your Sodra account.", "lt": "Darbdavys prieš išmokėdamas atlyginimą išskaičiuoja gyventojų pajamų mokestį ir socialinio draudimo įmokas, įskaitant sveikatos draudimą. Ką už jus deklaravo, galite pasitikrinti „Mano VMI“ ir „Sodros“ paskyroje."},
+    "life_03_a": {"en": "If you work in Lithuania, contributions are usually paid for you. You can check your insurance status on the National Health Insurance Fund's site, then register with a primary care clinic.", "lt": "Jei dirbate Lietuvoje, įmokos paprastai mokamos už jus. Draudimo statusą galite pasitikrinti Valstybinės ligonių kasos svetainėje, o tada prisirašyti prie pirminės sveikatos priežiūros įstaigos."},
+    "life_04_a": {"en": "A UAB can be registered online through the Centre of Registers' self-service, signing with a qualified e-signature. Prepare the articles of association first, and optionally reserve the company name.", "lt": "UAB galima įsteigti internetu per Registrų centro savitarną, pasirašant kvalifikuotu el. parašu. Pirmiausia paruoškite įstatus, o pavadinimą galite iš anksto rezervuoti."},
+    "life_05_a": {"en": "Start with the Global Lithuania pages of the Ministry of Foreign Affairs. They gather what returning citizens need: documents, declaring residence, social insurance and finding work.", "lt": "Pradėkite nuo Užsienio reikalų ministerijos „Globali Lietuva“ puslapių. Ten surinkta, ko reikia grįžtantiems: dokumentai, gyvenamosios vietos deklaravimas, socialinis draudimas ir darbo paieška."},
+    "tick_1": {"en": "Where do I exchange my driving licence?", "lt": "Kur pasikeisti vairuotojo pažymėjimą?"},
+    "tick_2": {"en": "How do I get Smart-ID?", "lt": "Kaip gauti „Smart-ID“?"},
+    "tick_3": {"en": "Can I use my European health insurance card here?", "lt": "Ar galiu čia naudotis Europos sveikatos draudimo kortele?"},
+    "tick_4": {"en": "How do I enrol my child in kindergarten?", "lt": "Kaip užregistruoti vaiką į darželį?"},
+    "tick_5": {"en": "What is an individual activity certificate?", "lt": "Kas yra individualios veiklos pažyma?"},
+    "tick_6": {"en": "How do I register a car bought abroad?", "lt": "Kaip įregistruoti užsienyje pirktą automobilį?"},
+    "tick_7": {"en": "When is the annual income declaration due?", "lt": "Iki kada reikia pateikti metinę pajamų deklaraciją?"},
+    "tick_8": {"en": "How do I get a Lithuanian personal code?", "lt": "Kaip gauti Lietuvos asmens kodą?"},
+    "phrase_label": {"en": "Say it in Lithuanian", "lt": "Pasakykite lietuviškai"},
+    "phrase_1_meaning": {"en": "hello", "lt": "pasisveikinimas"},
+    "phrase_2_meaning": {"en": "thank you", "lt": "padėka"},
+    "phrase_3_meaning": {"en": "welcome", "lt": "sutikimas atvykus"},
+    "how_scroll_hint": {"en": "Scroll to follow one question through", "lt": "Slinkite ir sekite vieno klausimo kelią"},
+    "statement": {"en": "Ask in your own words. It finds the agency, reads today's official page, and answers with the link, so you can check every step yourself.", "lt": "Klauskite savais žodžiais. Jis suranda instituciją, perskaito šiandienos oficialų puslapį ir atsako su nuoroda, kad kiekvieną žingsnį galėtumėte pasitikrinti patys."},
+    "bento_label": {"en": "Under the hood", "lt": "Kaip tai veikia"},
+    "bento_title": {"en": "Built on official sources, not on guesses.", "lt": "Remiamasi oficialiais šaltiniais, ne spėjimais."},
+    "bento_sources": {"en": "official Lithuanian domains it searches", "lt": "oficialių Lietuvos domenų, kuriuose ieško"},
+    "bento_agents": {"en": "specialist assistants, one per part of life", "lt": "specializuoti asistentai, po vieną gyvenimo sričiai"},
+    "bento_langs": {"en": "interface languages", "lt": "sąsajos kalbų"},
+    "bento_cite": {"en": "Every answer links its sources", "lt": "Kiekvienas atsakymas su šaltiniais"},
+    "bento_cite_body": {"en": "You see which page each step came from before you act on it.", "lt": "Prieš veikdami matote, iš kurio puslapio kilo kiekvienas žingsnis."},
+    "bento_independent": {"en": "Independent", "lt": "Nepriklausoma"},
+    "bento_independent_body": {"en": "Not a government service, and never presented as one. No ads.", "lt": "Tai ne valstybės paslauga ir niekada taip nepristatoma. Be reklamos."},
+    "home_question": {"en": "What do you need to sort out in Lithuania?", "lt": "Ką reikia susitvarkyti Lietuvoje?"},
+    "story_1": {"en": "Ask in your|own words.", "lt": "Klauskite|savais žodžiais."},
+    "story_2": {"en": "It reads the|responsible agency.", "lt": "Jis skaito|atsakingos institucijos puslapius."},
+    "story_3": {"en": "You get the answer,|with the link.", "lt": "Gaunate atsakymą|su nuoroda."},
+    "moments_title": {"en": "For the moments that need paperwork.", "lt": "Akimirkoms, kai reikia tvarkyti dokumentus."},
+    "close_placeholder": {"en": "Ask your first question…", "lt": "Užduokite pirmąjį klausimą…"},
+    "ask_cta": {"en": "Ask", "lt": "Klausti"},
+    "chat_onboard_title": {"en": "Before you start", "lt": "Prieš pradedant"},
+    "chat_onboard_1": {"en": "Ask about life in Lithuania: permits, taxes, Sodra, health, family, business or coming home.", "lt": "Klauskite apie gyvenimą Lietuvoje: leidimus, mokesčius, „Sodrą“, sveikatą, šeimą, verslą ar grįžimą namo."},
+    "chat_onboard_2": {"en": "Answers are written by AI from official websites. Always check the source link before you act.", "lt": "Atsakymus rašo dirbtinis intelektas pagal oficialias svetaines. Prieš veikdami visada patikrinkite šaltinio nuorodą."},
+    "chat_onboard_3": {"en": "Don't type personal codes or passwords. lietuva.chat is independent, not a government service.", "lt": "Neįveskite asmens kodų ar slaptažodžių. lietuva.chat yra nepriklausoma paslauga, ne valstybės."},
+    "chat_ai_notice": {"en": "You are chatting with an AI assistant. Check the source link before you act.", "lt": "Jūs bendraujate su dirbtinio intelekto asistentu. Prieš veikdami patikrinkite šaltinio nuorodą."},
+    "chat_topics": {"en": "Topics", "lt": "Temos"},
+    "chat_official_sites": {"en": "Official websites", "lt": "Oficialios svetainės"},
+    "chat_text_size": {"en": "Text size", "lt": "Teksto dydis"},
+    "chat_share_label": {"en": "Share", "lt": "Dalintis"},
+    "chat_copy_label": {"en": "Copy chat", "lt": "Kopijuoti"},
+    "chat_results_label": {"en": "Tables", "lt": "Lentelės"},
+    "chat_new_plain": {"en": "New chat", "lt": "Naujas pokalbis"},
+    "chat_speak": {"en": "Speak", "lt": "Kalbėti"},
+    "js_status_understanding": {"en": "Understanding your question", "lt": "Suprantu jūsų klausimą"},
+    "js_status_searching": {"en": "Searching official websites", "lt": "Ieškau oficialiose svetainėse"},
+    "js_status_writing": {"en": "Writing your answer", "lt": "Rašau atsakymą"},
+    "js_sources": {"en": "Sources", "lt": "Šaltiniai"},
+    "js_sources_note": {"en": "Check these official pages before you act.", "lt": "Prieš veikdami patikrinkite šiuos oficialius puslapius."},
+    "js_copy": {"en": "Copy", "lt": "Kopijuoti"},
+    "js_copied": {"en": "Copied", "lt": "Nukopijuota"},
+    "js_listen": {"en": "Listen", "lt": "Klausytis"},
+    "js_stop": {"en": "Stop", "lt": "Sustabdyti"},
+    "js_helpful": {"en": "Was this helpful?", "lt": "Ar tai padėjo?"},
+    "js_yes": {"en": "Yes", "lt": "Taip"},
+    "js_no": {"en": "No", "lt": "Ne"},
+    "js_listening": {"en": "Listening… speak now", "lt": "Klausau… kalbėkite"},
+    "js_followups_label": {"en": "You could also ask", "lt": "Taip pat galite paklausti"},
+    "footer_sources": {"en": "Official sources", "lt": "Oficialūs šaltiniai"},
+    "footer_delete": {"en": "Delete account", "lt": "Ištrinti paskyrą"},
+    "footer_changelog": {"en": "Changelog", "lt": "Pakeitimų žurnalas"},
     "hero_h1": {
-        "en": "The AI front door to Estonia.",
-        "et": "Tehisintellektil põhinev uks Eestisse.",
+        "en": "The AI front door to Lithuania.",
+        "et": "Tehisintellektil põhinev uks Leetu.",
     },
     "hero_h2": {
-        "en": "Ask anything about e-Residency, digital ID, taxes, moving, and public services.",
-        "et": "Küsi kõike e-residentsuse, digi-ID, maksude, kolimise ja avalike teenuste kohta.",
+        "en": "Ask anything about business, digital ID, taxes, moving, and public services.",
+        "et": "Küsi kõike ettevõtluse, digi-ID, maksude, kolimise ja avalike teenuste kohta.",
     },
     "hero_body": {
-        "en": "eesti.chat is a conversational portal to the world's most advanced digital society. "
-              "Ask in plain language. Get clear answers from official Estonian government sources, "
+        "en": "lietuva.chat is a conversational portal to everyday life in Lithuania. "
+              "Ask in plain language. Get clear answers from official Lithuanian sources, "
               "with links to check each step.",
-        "et": "eesti.chat on vestluspõhine värav maailma arenenuimasse digiühiskonda. "
-              "Küsi tavakeeles. Saa selged vastused Eesti riigi ametlikest allikatest ja lingid, "
+        "et": "lietuva.chat on vestluspõhine värav igapäevaellu Leedus. "
+              "Küsi tavakeeles. Saa selged vastused Leedu ametlikest allikatest ja lingid, "
               "mille abil iga sammu kontrollida.",
     },
     "hero_cta_start": {"en": "Ask a question", "et": "Esita küsimus"},
     "hero_cta_explore": {"en": "Explore topics", "et": "Vaata teemasid"},
 
     "home_statement": {
-        "en": "Answers are [[AI-generated]]. They come only from [[official Estonian government sources]], are [[free of ads]], and are always shown with [[links]].",
-        "et": "Vastused on [[tehisintellekti loodud]]. Need pärinevad ainult [[Eesti riigi ametlikest allikatest]], on [[reklaamivabad]] ja alati koos [[linkidega]].",
+        "en": "Answers are [[AI-generated]]. They come only from [[official Lithuanian sources]], are [[free of ads]], and are always shown with [[links]].",
+        "et": "Vastused on [[tehisintellekti loodud]]. Need pärinevad ainult [[Leedu ametlikest allikatest]], on [[reklaamivabad]] ja alati koos [[linkidega]].",
     },
 
     # -- Stats (numbers hardcoded in template; only labels translated) --
-    "stat_services": {"en": "Public services available online", "et": "Avalikud teenused veebis"},
-    "stat_xroad": {"en": "X-Tee in use since", "et": "X-tee kasutusel alates"},
-    "stat_eres": {"en": "e-Residency since", "et": "e-residentsus alates"},
-    "stat_signatures": {"en": "GDP saved by e-signatures", "et": "SKP-st säästavad e-allkirjad"},
+    "stat_services": {"en": "Public services explained", "et": "Avalikud teenused selgelt"},
+    "stat_xroad": {"en": "Official sources linked", "et": "Ametlikud allikad viidatud"},
+    "stat_eres": {"en": "Company forms covered", "et": "Ettevõttevormid kaetud"},
+    "stat_signatures": {"en": "Digital signing covered", "et": "Digiallkirjastamine kaetud"},
 
     # -- Features --
     "feat_ask": {"en": "Ask, don't navigate", "et": "Küsi, ära otsi"},
     "feat_ask_body": {
         "en": "Skip the maze of agency websites. Describe what you need in your own words and the "
-              "right specialist assistant answers about e-Residency, tax, digital ID, moving, or public services.",
+              "right specialist assistant answers about business, tax, digital ID, moving, or public services.",
         "et": "Jäta ametiasutuste veebilehtede rägastik vahele. Kirjelda oma sõnadega, mida vajad, "
-              "ja õige eriabiline vastab e-residentsuse, maksude, digi-ID, kolimise või avalike teenuste kohta.",
+              "ja õige eriabiline vastab ettevõtluse, maksude, digi-ID, kolimise või avalike teenuste kohta.",
     },
     "feat_ask_link": {"en": "Start a conversation", "et": "Alusta vestlust"},
     "feat_sources": {"en": "Grounded in official sources", "et": "Põhineb ametlikel allikatel"},
     "feat_sources_body": {
-        "en": "Every answer uses live search across official domains, including eesti.ee, ria.ee, "
-              "e-resident.gov.ee, emta.ee, and politsei.ee. It cites the sources so you can check them.",
-        "et": "Iga vastus põhineb reaalajas otsingul ametlikel domeenidel, sealhulgas eesti.ee, ria.ee, "
-              "e-resident.gov.ee, emta.ee ja politsei.ee. Allikaviited aitavad neid kontrollida.",
+        "en": "Every answer uses live search across official domains, including epaslaugos.lt, migracija.lt, "
+              "vmi.lt, sodra.lt, and registrucentras.lt. It cites the sources so you can check them.",
+        "et": "Iga vastus põhineb reaalajas otsingul ametlikel domeenidel, sealhulgas epaslaugos.lt, migracija.lt, "
+              "vmi.lt, sodra.lt ja registrucentras.lt. Allikaviited aitavad neid kontrollida.",
     },
     "feat_sources_link": {"en": "See how it works", "et": "Vaata, kuidas see töötab"},
-    "feat_estonia": {"en": "Built on e-Estonia", "et": "Ehitatud e-Eestile"},
-    "feat_estonia_body": {
-        "en": "It adds a conversational layer to Estonia's mature digital state: X-Tee data exchange, "
-              "e-ID, digital signatures, and the once-only principle already power 99% of services.",
-        "et": "See lisab vestluskihi Eesti küpsele digiriigile: X-tee andmevahetus, e-ID, digiallkirjad "
-              "ja kord-ainult põhimõte toimivad juba 99% teenuste alusena.",
+    "feat_lithuania": {"en": "Built for Lithuania", "et": "Loodud Leedu jaoks"},
+    "feat_lithuania_body": {
+        "en": "It adds a conversational layer to Lithuania's public services: one assistant finds the right "
+              "agency, reads its current guidance, and puts together what applies to you.",
+        "et": "See lisab vestluskihi Leedu avalikele teenustele: üks abiline leiab õige ametiasutuse, "
+              "loeb kehtivat juhendit ja koondab sinu olukorra jaoks vajaliku.",
     },
-    "feat_estonia_link": {"en": "About Estonia", "et": "Eestist lähemalt"},
+    "feat_lithuania_link": {"en": "About Lithuania", "et": "Leedust lähemalt"},
 
     # -- Topics / agents section --
     "topics_title": {"en": "Six specialist assistants", "et": "Kuus eriabilist"},
     "topics_subtitle": {
-        "en": "Each assistant focuses on one part of life in Estonia and uses official sources.",
-        "et": "Iga abiline keskendub ühele Eestiga seotud teemale ja vastab ametlike allikate põhjal.",
+        "en": "Each assistant focuses on one part of life in Lithuania and uses official sources.",
+        "et": "Iga abiline keskendub ühele Leeduga seotud teemale ja vastab ametlike allikate põhjal.",
     },
 
     # -- How It Works --
-    "how_title": {"en": "How eesti.chat works", "et": "Kuidas eesti.chat töötab"},
+    "how_title": {"en": "How lietuva.chat works", "et": "Kuidas lietuva.chat töötab"},
     "how_01_title": {"en": "Ask", "et": "Küsi"},
     "how_01_body": {
-        "en": "Type your question in any of our languages. \"How do I apply for e-Residency?\", "
+        "en": "Type your question in any of our languages. \"How do I register a UAB?\", "
               "\"What tax do I pay as a sole trader?\" No forms, no jargon.",
-        "et": "Kirjuta oma küsimus ükskõik millises meie keeles. Näiteks: „Kuidas taotleda e-residentsust?“ "
-              "või „Millist maksu maksan FIE-na?“. Sa ei vaja vorme ega ametikeelt.",
+        "et": "Kirjuta oma küsimus ükskõik millises meie keeles. Näiteks: „Kuidas asutada UAB-i?“ "
+              "või „Millist maksu maksan füüsilisest isikust ettevõtjana?“. Sa ei vaja vorme ega ametikeelt.",
     },
     "how_02_title": {"en": "We search official sources", "et": "Otsime ametlikest allikatest"},
     "how_02_body": {
-        "en": "The right assistant searches official Estonian government sites in real time, reads the "
+        "en": "The right assistant searches official Lithuanian sites in real time, reads the "
               "current guidance, and brings together the parts that apply to you.",
-        "et": "Õige abiline otsib reaalajas Eesti riigi ametlikelt veebilehtedelt, loeb kehtivat "
+        "et": "Õige abiline otsib reaalajas Leedu ametlikelt veebilehtedelt, loeb kehtivat "
               "juhendit ja koondab sinu olukorra jaoks vajaliku teabe.",
     },
     "how_03_title": {"en": "Answer with sources", "et": "Vastus koos allikatega"},
@@ -246,20 +360,20 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     },
 
     # -- CTA --
-    "cta_headline": {"en": "Everything Estonia, one conversation away.", "et": "Kogu Eesti ühe vestluse kaugusel."},
+    "cta_headline": {"en": "Everything Lithuania, one conversation away.", "et": "Kogu Leedu ühe vestluse kaugusel."},
     "cta_body": {
-        "en": "Ask eesti.chat about starting an EU company as an e-resident or renewing your ID card. "
+        "en": "Ask lietuva.chat about starting a company, filing your taxes, or renewing your ID card. "
               "The answers come from official sources.",
-        "et": "Küsi eesti.chatilt EL-i ettevõtte asutamise või ID-kaardi uuendamise kohta. "
+        "et": "Küsi lietuva.chatilt ettevõtte asutamise, maksude deklareerimise või ID-kaardi uuendamise kohta. "
               "Vastused põhinevad ametlikel allikatel.",
     },
 
     # -- Footer --
     "footer_desc": {
-        "en": "A conversational AI portal to Estonia. We help residents and people elsewhere find, "
-              "understand, and use Estonian public services. Answers are based on official sources.",
-        "et": "Vestluspõhine tehisintellektiportaal Eestisse. Aitame elanikel ja mujal elavatel inimestel "
-              "leida, mõista ja kasutada Eesti avalikke teenuseid. Vastused põhinevad ametlikel allikatel.",
+        "en": "A conversational AI portal to Lithuania. We help residents, newcomers, and Lithuanians "
+              "abroad find, understand, and use Lithuanian public services. Answers are based on official sources.",
+        "et": "Vestluspõhine tehisintellektiportaal Leetu. Aitame elanikel, saabujatel ja välismaal elavatel "
+              "leedulastel leida, mõista ja kasutada Leedu avalikke teenuseid. Vastused põhinevad ametlikel allikatel.",
     },
     "footer_platform": {"en": "Portal", "et": "Portaal"},
     "footer_resources": {"en": "Resources", "et": "Ressursid"},
@@ -267,8 +381,8 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "footer_terms": {"en": "Terms of service", "et": "Kasutustingimused"},
     "footer_privacy": {"en": "Privacy policy", "et": "Privaatsuspoliitika"},
     "footer_copyright": {
-        "en": "© 2026 eesti.chat. An independent project, not an official government service.",
-        "et": "© 2026 eesti.chat. Sõltumatu projekt, mitte ametlik riiklik teenus.",
+        "en": "© 2026 lietuva.chat. An independent project, not a government service.",
+        "et": "© 2026 lietuva.chat. Sõltumatu projekt, mitte riiklik teenus.",
     },
     "footer_disclaimer": {
         "en": "Answers are AI-generated from public sources and may be incomplete or out of date. "
@@ -281,16 +395,16 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "chat_new": {"en": "+ New chat", "et": "+ Uus vestlus"},
     "chat_history": {"en": "History", "et": "Ajalugu"},
     "chat_agents": {"en": "Assistants", "et": "Abilised"},
-    "chat_welcome_title": {"en": "Ask eesti.chat", "et": "Küsi eesti.chat"},
+    "chat_welcome_title": {"en": "Ask lietuva.chat", "et": "Küsi lietuva.chat"},
     "chat_welcome_body": {
-        "en": "Ask about e-Residency, digital ID, taxes, moving to Estonia, or any public service. "
+        "en": "Ask about business, digital ID, taxes, moving to Lithuania, or any public service. "
               "Each answer includes links to official sources.",
-        "et": "Küsi e-residentsuse, digi-ID, maksude, Eestisse kolimise või ükskõik millise avaliku "
+        "et": "Küsi ettevõtluse, digi-ID, maksude, Leetu kolimise või ükskõik millise avaliku "
               "teenuse kohta. Iga vastus sisaldab linke ametlikele allikatele.",
     },
     "chat_placeholder": {
-        "en": "Ask about e-Residency, taxes, digital ID, moving to Estonia...",
-        "et": "Küsi e-residentsuse, maksude, digi-ID, Eestisse kolimise kohta...",
+        "en": "Ask about business, taxes, digital ID, moving to Lithuania...",
+        "et": "Küsi ettevõtluse, maksude, digi-ID, Leetu kolimise kohta...",
     },
     "chat_no_sessions": {"en": "No conversations yet", "et": "Vestlusi pole veel"},
     "chat_copy": {"en": "Copy", "et": "Kopeeri"},
@@ -333,34 +447,34 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
 
     # -- Default suggestion prompts (welcome screen chips) --
     "js_sug1": {
-        "en": "How do I apply for e-Residency and what does it cost?",
-        "et": "Kuidas taotleda e-residentsust ja kui palju see maksab?",
+        "en": "How do I declare my place of residence in Lithuania?",
+        "et": "Kuidas Leedus elukohta registreerida?",
     },
     "js_sug2": {
-        "en": "How do I register an OÜ online?",
-        "et": "Kuidas registreerida OÜ internetis?",
+        "en": "How do I register a UAB online?",
+        "et": "Kuidas UAB-i internetis registreerida?",
     },
     "js_sug3": {
-        "en": "How does Estonia's corporate income tax work?",
-        "et": "Kuidas toimib Eesti ettevõtte tulumaks?",
+        "en": "How are salaries taxed in Lithuania?",
+        "et": "Kuidas Leedus palka maksustatakse?",
     },
     "js_sug4": {
-        "en": "How do I set up Smart-ID or Mobiil-ID?",
-        "et": "Kuidas seadistada Smart-ID või Mobiil-ID?",
+        "en": "How do I set up Smart-ID or Mobile-ID?",
+        "et": "Kuidas seadistada Smart-ID või Mobile-ID?",
     },
     "js_sug5": {
-        "en": "How do I get a residence permit to work in Estonia?",
-        "et": "Kuidas saada elamisluba Eestis töötamiseks?",
+        "en": "How do I get a residence permit to work in Lithuania?",
+        "et": "Kuidas saada elamisluba Leedus töötamiseks?",
     },
 }
 
 # -- Agent translations --
 AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
     "eresidency": {
-        "name": {"en": "e-Residency & company", "et": "e-residentsus ja ettevõte"},
+        "name": {"en": "Business & company", "et": "Ettevõtlus ja ettevõte"},
         "one_liner": {
-            "en": "Apply for e-Residency and start or run an EU company from anywhere.",
-            "et": "Taotle e-residentsust ning asuta või juhi EL-i ettevõtet kõikjalt.",
+            "en": "Starting or running a company in Lithuania: UAB, MB, and individual activity.",
+            "et": "Ettevõtte asutamine või juhtimine Leedus: UAB, MB ja füüsilisest isikust ettevõtja.",
         },
     },
     "moving": {
@@ -373,15 +487,15 @@ AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
     "tax": {
         "name": {"en": "Taxes & finance", "et": "Maksud ja rahandus"},
         "one_liner": {
-            "en": "Income tax, VAT, and filing through the e-Tax Board.",
-            "et": "Tulumaks, käibemaks ja deklareerimine e-maksuametis.",
+            "en": "Income tax, VAT, and filing through Mano VMI.",
+            "et": "Tulumaks, käibemaks ja deklareerimine Mano VMI kaudu.",
         },
     },
     "digital": {
         "name": {"en": "Digital ID & e-services", "et": "Digi-ID ja e-teenused"},
         "one_liner": {
-            "en": "e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Tee.",
-            "et": "e-ID, Smart-ID, Mobiil-ID, digiallkirjad ja X-tee.",
+            "en": "Smart-ID, Mobile-ID, ID card, and digital signatures.",
+            "et": "Smart-ID, Mobile-ID, ID-kaart ja digiallkirjad.",
         },
     },
     "services": {
@@ -392,20 +506,20 @@ AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
         },
     },
     "explore": {
-        "name": {"en": "Discover Estonia", "et": "Avasta Eesti"},
+        "name": {"en": "Discover Lithuania", "et": "Avasta Leedu"},
         "one_liner": {
-            "en": "The e-Estonia story, digital society, culture, and why Estonia.",
-            "et": "e-Eesti lugu, digiühiskond, kultuur ja miks Eesti.",
+            "en": "History, culture, digital society, and life in Lithuania.",
+            "et": "Ajalugu, kultuur, digiühiskond ja elu Leedus.",
         },
     },
 }
 
 # -- Category translations --
 CATEGORY_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
-    "business": {"name": {"en": "e-Residency & business", "et": "e-residentsus ja ettevõtlus"}},
-    "living": {"name": {"en": "Living in Estonia", "et": "Elamine Eestis"}},
+    "business": {"name": {"en": "Business & company", "et": "Ettevõtlus ja ettevõte"}},
+    "living": {"name": {"en": "Living in Lithuania", "et": "Elamine Leedus"}},
     "digital": {"name": {"en": "Digital society", "et": "Digiühiskond"}},
-    "discover": {"name": {"en": "Discover Estonia", "et": "Avasta Eesti"}},
+    "discover": {"name": {"en": "Discover Lithuania", "et": "Avasta Leedu"}},
 }
 
 

@@ -1,4 +1,4 @@
-/* eesti.chat -- chat client (SSE streaming, 3-pane interactions). */
+/* lietuva.chat -- chat client (SSE streaming, 3-pane interactions). */
 
 (() => {
     const $ = (sel) => document.querySelector(sel);
@@ -12,10 +12,6 @@
     const AGENT_NAMES = readJsonScript("agent-names-data") || {};
     const AGENT_PREFIX_MAP = readJsonScript("agent-prefix-map") || {};
     const I18N = readJsonScript("i18n-data") || {};
-    const THINKING_WORDS = (function () {
-        const w = readJsonScript("thinking-words-data");
-        return (Array.isArray(w) && w.length) ? w : ["Thinking"];
-    })();
 
     function readJsonScript(id) {
         const el = document.getElementById(id);
@@ -51,7 +47,7 @@
             const hdr = document.createElement("div");
             hdr.className = "msg-agent";
             const nice = AGENT_NAMES[agentSlug] || agentSlug;
-            hdr.innerHTML = `<svg class="msg-agent-icon" width="20" height="20" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 58V22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16Z" fill="#0030DE"/><path d="M19 32h26a13 13 0 1 0-4.6 10" fill="none" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round"/></svg><span class="msg-agent-label">${nice}</span>`;
+            hdr.innerHTML = `<svg class="msg-agent-icon" width="20" height="20" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 58V22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16Z" fill="#1E5B3F"/><path d="M28.5 14v24a8.5 8.5 0 0 0 8.5 8.5" fill="none" stroke="#FFFFFF" stroke-width="9.5" stroke-linecap="round"/></svg><span class="msg-agent-label">${nice}</span>`;
             wrap.appendChild(hdr);
         }
         const bubble = document.createElement("div");
@@ -63,26 +59,8 @@
         return bubble;
     }
 
-    const _thumbsUpSvg = '<svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 10v11M4 10h3v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2ZM7 10l4-7a3 3 0 0 1 3 3v4h5a2 2 0 0 1 1.9 2.6l-2 7A2 2 0 0 1 17 21H7"/></svg>';
-    const _thumbsDownSvg = '<svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 14V3M4 14h3v-11H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2ZM7 14l4 7a3 3 0 0 0 3-3v-4h5a2 2 0 0 0 1.9-2.6l-2-7A2 2 0 0 0 17 3H7"/></svg>';
-
     function i18n(key, fallback) {
         return I18N[key] || fallback;
-    }
-
-    function addFeedbackControls(wrap, content, agentSlug) {
-        if (!wrap || wrap.querySelector(".feedback-row")) return;
-        const row = document.createElement("div");
-        row.className = "feedback-row";
-        row.dataset.content = content || "";
-        row.dataset.agentSlug = agentSlug || "";
-        row.innerHTML = `
-            <button type="button" class="feedback-btn feedback-up" data-rating="up" aria-label="${i18n("chat_fb_up", "Helpful")}">${_thumbsUpSvg}</button>
-            <button type="button" class="feedback-btn feedback-down" data-rating="down" aria-label="${i18n("chat_fb_down", "Not helpful")}">${_thumbsDownSvg}</button>
-            <span class="feedback-note" style="display:none">${i18n("chat_fb_thanks", "Feedback noted")}</span>
-        `;
-        wrap.appendChild(row);
-        bindFeedbackRow(row);
     }
 
     function bindFeedbackRow(row) {
@@ -121,10 +99,6 @@
                 });
             });
         });
-    }
-
-    function bindFeedbackControls() {
-        $$(".feedback-row").forEach(bindFeedbackRow);
     }
 
     function addRetryControl(wrap) {
@@ -175,7 +149,10 @@
     }
 
     function renderMarkdownLite(text) {
-        if (window.marked) return marked.parse(text);
+        // Model output can echo text from searched web pages, so the HTML is always sanitised.
+        if (window.marked && window.DOMPurify) {
+            return DOMPurify.sanitize(marked.parse(text), { ADD_ATTR: ["target"] });
+        }
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
             .replace(/\n/g, "<br>");
     }
@@ -215,7 +192,7 @@
                 const blob = new Blob([tableToCSV(table)], { type: "text/csv" });
                 const a = document.createElement("a");
                 a.href = URL.createObjectURL(blob);
-                a.download = "eesti-chat-data.csv";
+                a.download = "lietuva-chat-data.csv";
                 a.click();
                 URL.revokeObjectURL(a.href);
             };
@@ -225,36 +202,27 @@
         });
     }
 
-    // -- Thinking indicator --
+    // -- Working status: plain words for each phase, plus elapsed seconds --
     let thinker = null;
     function showThinking(bubble) {
         if (!bubble) return;
-        thinker = {
-            started: Date.now(),
-            tool: null,
-            el: document.createElement("div"),
-            timerId: null,
-        };
+        thinker = { started: Date.now(), label: i18n("status_understanding", "Understanding your question"), el: document.createElement("div"), timerId: null };
         thinker.el.className = "thinking-indicator";
-        thinker.wordStart = Math.floor(Math.random() * THINKING_WORDS.length);
-        const first = THINKING_WORDS[thinker.wordStart % THINKING_WORDS.length];
-        thinker.el.innerHTML = `<span class="dot"></span><span class="label">${first}... <span class="secs">0s</span></span>`;
+        thinker.el.setAttribute("role", "status");
+        thinker.el.innerHTML = '<span class="dot"></span><span class="label"></span><span class="secs"></span>';
         bubble.parentElement.insertBefore(thinker.el, bubble);
+        updateThinking();
         thinker.timerId = setInterval(updateThinking, 500);
     }
     function updateThinking() {
         if (!thinker) return;
-        const elapsed = Date.now() - thinker.started;
-        const secs = Math.floor(elapsed / 1000);
-        // Rotate through playful "thinking" synonyms (~every 2.2s); never surface
-        // the underlying tool (e.g. web_search) to the user.
-        const idx = (thinker.wordStart + Math.floor(elapsed / 2200)) % THINKING_WORDS.length;
-        const word = THINKING_WORDS[idx] || "Thinking";
-        thinker.el.querySelector(".label").innerHTML = `${word}... <span class="secs">${secs}s</span>`;
+        thinker.el.querySelector(".label").textContent = thinker.label + "…";
+        thinker.el.querySelector(".secs").textContent = Math.floor((Date.now() - thinker.started) / 1000) + "s";
     }
-    function setThinkingTool(name) {
+    function setThinkingTool(name, args) {
         if (!thinker) return;
-        thinker.tool = name;
+        const query = args && (args.query || args.q);
+        thinker.label = i18n("status_searching", "Searching official websites") + (query ? ": “" + String(query).slice(0, 60) + "”" : "");
         updateThinking();
     }
     function hideThinking() {
@@ -263,6 +231,143 @@
         if (thinker.el && thinker.el.parentElement) thinker.el.parentElement.removeChild(thinker.el);
         thinker = null;
     }
+
+    // -- Under every answer: Sources, then Copy / Listen / Was this helpful? --
+    const AGENCY_NAMES = {
+        "epaslaugos.lt": "E-government gateway", "migracija.lt": "Migration Department (MIGRIS)",
+        "migracija.lrv.lt": "Migration Department", "vmi.lt": "State Tax Inspectorate (VMI)", "sodra.lt": "Sodra",
+        "ligoniukasa.lrv.lt": "National Health Insurance Fund", "vlk.lt": "National Health Insurance Fund",
+        "registrucentras.lt": "Centre of Registers", "e-tar.lt": "Register of Legal Acts (e-TAR)",
+        "globalilietuva.urm.lt": "Global Lithuania", "keliauk.urm.lt": "Consular information", "urm.lt": "Ministry of Foreign Affairs",
+        "uzt.lt": "Employment Service", "vrk.lt": "Central Electoral Commission", "lrs.lt": "Seimas",
+        "vilnius.lt": "Vilnius City Municipality", "kaunas.lt": "Kaunas City Municipality", "klaipeda.lt": "Klaipėda City Municipality",
+    };
+    function sourceLinks(content) {
+        const seen = new Set(), out = [];
+        const re = /https?:\/\/[^\s)\]>"']+/g;
+        let m;
+        while ((m = re.exec(content || "")) && out.length < 6) {
+            let url;
+            try { url = new URL(m[0].replace(/[.,;:]+$/, "")); } catch (e) { continue; }
+            if (url.protocol !== "https:" && url.protocol !== "http:") continue;
+            const host = url.hostname.replace(/^www\./, "");
+            if (seen.has(host)) continue;
+            seen.add(host);
+            out.push({ href: url.href, host: host, name: AGENCY_NAMES[host] || host });
+        }
+        return out;
+    }
+    function addSources(wrap, content) {
+        const links = sourceLinks(content);
+        if (!links.length || wrap.querySelector(".msg-sources")) return;
+        const box = document.createElement("div");
+        box.className = "msg-sources";
+        const title = document.createElement("p");
+        title.className = "msg-sources-title";
+        title.textContent = i18n("sources", "Sources");
+        const list = document.createElement("ol");
+        links.forEach(l => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = l.href; a.target = "_blank"; a.rel = "noopener noreferrer";
+            a.textContent = l.name;
+            const host = document.createElement("span");
+            host.textContent = l.host;
+            a.appendChild(host);
+            li.appendChild(a);
+            list.appendChild(li);
+        });
+        const note = document.createElement("p");
+        note.className = "msg-sources-note";
+        note.textContent = i18n("sources_note", "Check these official pages before you act.");
+        box.append(title, list, note);
+        wrap.appendChild(box);
+    }
+    function actionButton(label, onClick) {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "msg-action"; b.textContent = label;
+        b.addEventListener("click", () => onClick(b));
+        return b;
+    }
+    function addActions(wrap, content, agentSlug) {
+        if (!wrap || wrap.querySelector(".msg-actions")) return;
+        addSources(wrap, content);
+        const bubble = wrap.querySelector(".msg-bubble");
+        const row = document.createElement("div");
+        row.className = "msg-actions";
+        row.appendChild(actionButton(i18n("copy", "Copy"), (b) => {
+            _copyToClipboard(bubble ? bubble.innerText : content, () => {
+                b.textContent = i18n("copied", "Copied");
+                setTimeout(() => { b.textContent = i18n("copy", "Copy"); }, 1600);
+            });
+        }));
+        if ("speechSynthesis" in window) {
+            row.appendChild(actionButton(i18n("listen", "Listen"), (b) => {
+                if (speechSynthesis.speaking) { speechSynthesis.cancel(); b.textContent = i18n("listen", "Listen"); return; }
+                const u = new SpeechSynthesisUtterance(bubble ? bubble.innerText : content);
+                u.lang = speechLang();
+                u.onend = () => { b.textContent = i18n("listen", "Listen"); };
+                b.textContent = i18n("stop", "Stop");
+                speechSynthesis.speak(u);
+            }));
+        }
+        const fb = document.createElement("span");
+        fb.className = "feedback-row";
+        fb.dataset.content = content || "";
+        fb.dataset.agentSlug = agentSlug || "";
+        fb.innerHTML = '<span class="feedback-q"></span>'
+            + '<button type="button" class="feedback-btn msg-action" data-rating="up"></button>'
+            + '<button type="button" class="feedback-btn msg-action" data-rating="down"></button>'
+            + '<span class="feedback-note" style="display:none"></span>';
+        fb.querySelector(".feedback-q").textContent = i18n("helpful", "Was this helpful?");
+        fb.querySelector('[data-rating="up"]').textContent = i18n("yes", "Yes");
+        fb.querySelector('[data-rating="down"]').textContent = i18n("no", "No");
+        fb.querySelector(".feedback-note").textContent = i18n("chat_fb_thanks", "Thank you");
+        row.appendChild(fb);
+        wrap.appendChild(row);
+        bindFeedbackRow(fb);
+    }
+    function speechLang() {
+        const form = $(".chat-form");
+        const code = (form && form.dataset.lang) || "en";
+        return ({ lt: "lt-LT", en: "en-GB", ru: "ru-RU", de: "de-DE", fr: "fr-FR", sv: "sv-SE", lv: "lv-LV", fi: "fi-FI", et: "et-EE" })[code] || "en-GB";
+    }
+
+    // -- Text size: A / A+ / A++, remembered on this device --
+    window.setTextSize = (size) => {
+        document.documentElement.dataset.textSize = size;
+        $$(".size-btn").forEach(b => b.setAttribute("aria-pressed", b.dataset.size === size ? "true" : "false"));
+        try { localStorage.setItem("lc-text-size", size); } catch (e) {}
+    };
+    (function initTextSize() {
+        let size = "m";
+        try { size = localStorage.getItem("lc-text-size") || "m"; } catch (e) {}
+        window.setTextSize(size);
+    })();
+
+    // -- Voice input (only where the browser supports it) --
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognizer = null;
+    if (Recognition && $("#mic-btn")) $("#mic-btn").hidden = false;
+    window.toggleVoice = () => {
+        const mic = $("#mic-btn"), ta = $("#chat-input");
+        if (!Recognition || !mic || !ta) return;
+        if (recognizer) { recognizer.stop(); return; }
+        recognizer = new Recognition();
+        recognizer.lang = speechLang();
+        recognizer.interimResults = true;
+        const before = ta.value;
+        mic.classList.add("listening");
+        ta.placeholder = i18n("listening", "Listening… speak now");
+        recognizer.onresult = (e) => {
+            const text = Array.from(e.results).map(r => r[0].transcript).join("");
+            ta.value = (before ? before + " " : "") + text;
+            autoResize(ta);
+        };
+        recognizer.onend = () => { mic.classList.remove("listening"); recognizer = null; ta.focus(); };
+        recognizer.onerror = () => { mic.classList.remove("listening"); recognizer = null; };
+        recognizer.start();
+    };
 
     // -- Sample cards --
     window.updateSampleCards = (slug) => {
@@ -274,11 +379,11 @@
             prompts = [I18N.sug1, I18N.sug2, I18N.sug3, I18N.sug4, I18N.sug5].filter(Boolean);
             if (!prompts.length) {
                 prompts = [
-                    "How do I apply for e-Residency and what does it cost?",
-                    "How do I register an OÜ company online?",
-                    "How does Estonia's corporate income tax work?",
-                    "How do I set up Smart-ID or Mobiil-ID?",
-                    "How do I get a residence permit to work in Estonia?",
+                    "How do I get a temporary residence permit to work in Lithuania?",
+                    "How do I register a UAB company online?",
+                    "What Sodra contributions does a self-employed person pay?",
+                    "How do I log in to epaslaugos.lt with Smart-ID?",
+                    "How do I declare my residence after moving to Vilnius?",
                 ];
             }
         }
@@ -303,9 +408,9 @@
         const d = [I18N.sug1, I18N.sug2, I18N.sug3, I18N.sug4, I18N.sug5].filter(Boolean);
         if (d.length) return d.slice(0, 4);
         return [
-            "How do I apply for e-Residency?",
-            "How does Estonia's corporate income tax work?",
-            "How do I set up Smart-ID or Mobiil-ID?",
+            "How do I get a residence permit in Lithuania?",
+            "What Sodra contributions does a self-employed person pay?",
+            "How do I log in to epaslaugos.lt with Smart-ID?",
         ];
     }
     window.renderFollowups = (items) => {
@@ -314,6 +419,10 @@
         let list = Array.isArray(items) ? items.filter(Boolean) : [];
         if (!list.length) list = followupDefaults();   // never leave the user stuck
         host.innerHTML = "";
+        const label = document.createElement("span");
+        label.className = "followups-label";
+        label.textContent = i18n("followups_label", "You could also ask");
+        host.appendChild(label);
         list.slice(0, 4).forEach(p => {
             const b = document.createElement("button");
             b.type = "button";
@@ -433,7 +542,7 @@
                             bubble.innerHTML = renderMarkdownLite(accumulated);
                             scrollMessagesBottom();
                         } else if (type === "tool_start") {
-                            setThinkingTool(payload.name);
+                            setThinkingTool(payload.name, payload.args);
                             appendToolLog(bubble || addBubble("assistant", "", currentAgentSlug || ""), payload.name, payload.args);
                         } else if (type === "tool_end") {
                             // noop
@@ -456,7 +565,7 @@
                                 const tl = bubble.parentElement && bubble.parentElement.querySelector(".tool-log");
                                 if (tl && !document.body.classList.contains("show-trace")) tl.remove();
                                 enhanceTables(bubble);
-                                addFeedbackControls(bubble.parentElement, accumulated, currentAgentSlug);
+                                addActions(bubble.parentElement, accumulated, currentAgentSlug);
                             }
                             // Ensure chips are present immediately; a trailing
                             // "suggestions" event will replace them with context-sensitive ones.
@@ -667,7 +776,7 @@
         const msgs = document.querySelectorAll(".msg");
         const lines = [];
         msgs.forEach(m => {
-            const role = m.classList.contains("msg-user") ? "You" : "eesti.chat";
+            const role = m.classList.contains("msg-user") ? "You" : "lietuva.chat";
             const bubble = m.querySelector(".msg-bubble");
             if (bubble) lines.push(`${role}: ${bubble.textContent.trim()}`);
         });
@@ -699,8 +808,15 @@
             .catch(() => {});
     };
 
+    document.querySelectorAll(".msg-assistant .msg-bubble").forEach(b => {
+        if (!b.dataset.rendered) { b.innerHTML = renderMarkdownLite(b.textContent); b.dataset.rendered = "1"; }
+    });
     document.querySelectorAll(".msg-bubble").forEach(b => enhanceTables(b));
-    bindFeedbackControls();
+    document.querySelectorAll(".msg-assistant > .feedback-row").forEach(old => {
+        const wrap = old.parentElement, content = old.dataset.content || "", slug = old.dataset.agentSlug || "";
+        old.remove();
+        addActions(wrap, content, slug);
+    });
 
     window.toggleLangDropdown = (ev) => {
         ev.stopPropagation();
@@ -730,6 +846,7 @@
     window.retryFailedTurn = retryFailedTurn;
     window.renderMarkdownLite = renderMarkdownLite;
     window.enhanceTables = enhanceTables;
+    window.addActions = addActions;
     primeQuestionFromURL();
 
 })();

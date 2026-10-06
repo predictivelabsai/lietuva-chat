@@ -28,9 +28,9 @@ def privacy_page():
                 _legal_section(
                     'Who we are',
                     _paragraph(
-                        'eesti.chat is operated by Predictive Labs Ltd (company number 14857334), '
+                        'lietuva.chat is operated by Predictive Labs Ltd (company number 14857334), '
                         '155 Minories Street, Suite 275, London, EC3N 1AD, United Kingdom. '
-                        'For privacy questions, contact info@eesti.chat.'
+                        'For privacy questions, contact info@lietuva.chat.'
                     ),
                 ),
                 _legal_section(
@@ -47,19 +47,19 @@ def privacy_page():
                     'How we use information',
                     _paragraph(
                         'We use this information to create and secure your account; provide AI guidance '
-                        'about Estonian public services; remember your choices; '
+                        'about Lithuanian public services; remember your choices; '
                         'send requested service messages; respond to support requests; prevent abuse; '
-                        'and improve the reliability and safety of eesti.chat.'
+                        'and improve the reliability and safety of lietuva.chat.'
                     ),
                 ),
                 _legal_section(
                     'AI and service providers',
                     _paragraph(
                         'Prompts and relevant conversation context may be sent to contracted AI service '
-                        'providers, including OpenAI or xAI, to generate eesti.chat responses. Google processes '
+                        'providers, including OpenAI or xAI, to generate lietuva.chat responses. Google processes '
                         'information when you use Google Sign-In, and Postmark processes contact details '
                         'needed to deliver transactional email. Hosting, database and security providers '
-                        'process information on our behalf to operate eesti.chat.'
+                        'process information on our behalf to operate lietuva.chat.'
                     ),
                     _paragraph(
                         'We do not sell personal information. We may disclose information when required by '
@@ -72,7 +72,7 @@ def privacy_page():
                     _paragraph(
                         'Where UK or European data-protection law applies, we process information to provide '
                         'the service you request, based on our legitimate interests in operating and securing '
-                        'eesti.chat, to comply with legal obligations, and with consent where required. Some '
+                        'lietuva.chat, to comply with legal obligations, and with consent where required. Some '
                         'providers may process information outside your country; we use contractual and other '
                         'lawful safeguards where required.'
                     ),
@@ -81,7 +81,7 @@ def privacy_page():
                     'Retention and deletion',
                     _paragraph(
                         'We retain account information and saved content while your account is active and as '
-                        'needed to provide eesti.chat, meet legal obligations, resolve disputes and prevent abuse. '
+                        'needed to provide lietuva.chat, meet legal obligations, resolve disputes and prevent abuse. '
                         'You can permanently delete your account and associated saved data from Profile & '
                         'Preferences in the app. You can also request deletion on our account-deletion page. '
                         'Residual copies may remain in protected backups until their normal rotation.'
@@ -95,7 +95,7 @@ def privacy_page():
                         'You can update profile information in the app and control optional notification '
                         'preferences. Depending on where you live, you may have rights to access, correct, '
                         'delete, restrict or object to processing, request portability, or complain to a '
-                        'data-protection authority. Contact info@eesti.chat to exercise these rights.'
+                        'data-protection authority. Contact info@lietuva.chat to exercise these rights.'
                     ),
                 ),
                 _legal_section(
@@ -103,14 +103,14 @@ def privacy_page():
                     _paragraph(
                         'We use technical and organisational safeguards designed to protect information, '
                         'including encrypted network connections and access controls. No online service is '
-                        'completely secure. eesti.chat is intended for adults aged 18 and over and is not directed '
+                        'completely secure. lietuva.chat is intended for adults aged 18 and over and is not directed '
                         'to children.'
                     ),
                 ),
                 _legal_section(
                     'Changes to this policy',
                     _paragraph(
-                        'We may update this policy as eesti.chat or legal requirements change. We will publish '
+                        'We may update this policy as lietuva.chat or legal requirements change. We will publish '
                         'the updated version here and revise the date above.'
                     ),
                 ),
@@ -125,7 +125,7 @@ def delete_account_page():
     return Div(
         Section(
             Div(
-                H1('Delete your eesti.chat account', cls='public-page-title'),
+                H1('Delete your lietuva.chat account', cls='public-page-title'),
                 P('Permanently remove your account and associated saved data.', cls='public-page-intro'),
                 cls='portal-container public-hero-content',
             ),
@@ -135,18 +135,18 @@ def delete_account_page():
             Div(
                 H2('Delete in the app', cls='public-subtitle'),
                 Ol(
-                    Li('Open eesti.chat and sign in.'),
+                    Li('Open lietuva.chat and sign in.'),
                     Li('Open the menu and select Profile.'),
                     Li('Scroll to Delete account and confirm permanent deletion.'),
                     cls='legal-list legal-list-ordered',
                 ),
                 H2('Request deletion without the app', cls='public-subtitle'),
                 _paragraph(
-                    'Email us from the address registered to your eesti.chat account. We will verify the request '
+                    'Email us from the address registered to your lietuva.chat account. We will verify the request '
                     'before deleting the account and associated chat history and profile preferences.'
                 ),
                 A('Email an account-deletion request',
-                  href='mailto:info@eesti.chat?subject=eesti.chat%20account%20deletion%20request',
+                  href='mailto:info@lietuva.chat?subject=lietuva.chat%20account%20deletion%20request',
                   cls='public-button public-button-primary'),
                 P('We may retain information required by law and residual copies in protected backups until normal rotation.',
                   cls='legal-note'),

@@ -8,15 +8,15 @@ web
 
 ## Users
 
-People in Estonia and people planning to move, work, study, start a company, or use public services in Estonia. They use the portal when they need a plain-language answer and a direct path to authoritative Estonian sources.
+Residents of Lithuania, newcomers planning to move, work, study or start a company there, and Lithuanians abroad (citizenship, voting, returning home). They use the service when they need a plain-language answer and a direct path to authoritative Lithuanian sources.
 
 ## Product Purpose
 
-eesti.chat is a conversational front door to Estonian public services. It routes questions to specialist assistants, searches official sources, and returns a clear answer with links so people can verify the guidance.
+lietuva.chat is an independent conversational assistant for Lithuanian public services. It routes questions to specialist assistants, searches official sources, and returns a clear answer with links so people can verify the guidance.
 
 ## Positioning
 
-The product combines a single conversational entry point with specialist routing and live grounding in official Estonian domains.
+The product combines a single conversational entry point with specialist routing and live grounding in official Lithuanian domains. It is independent: not a government service, never presented as official.
 
 ## Operating Context
 
@@ -25,14 +25,14 @@ The public site introduces the service and its topics. The /app workspace suppor
 ## Capabilities and Constraints
 
 - FastHTML renders the public pages and chat workspace.
-- Specialist LangGraph agents cover e-Residency, moving, taxes, digital identity, services, and discovery.
-- Chat responses use official Estonian sources and expose source links.
-- English and Estonian are supported through the existing language switcher.
+- Specialist LangGraph agents cover business and companies, moving, taxes, digital identity, public services, and discovering Lithuania (including Lithuanians abroad).
+- Chat responses use official Lithuanian sources and expose source links.
+- Lithuanian and English are first-class; other languages come through the language switcher.
 - Existing routes, SSE streaming, sharing, authentication, i18n strings, and mobile pane behavior must remain functional.
 
 ## Brand Commitments
 
-The name is eesti.chat. The visual direction follows the user-supplied Brand Estonia-derived palette and Aino type family. The wordmark stays lowercase with the `.chat` suffix in Estonian blue, paired with the talking-stone mark. The identity is original. It does not use or imitate the official Brand Estonia logo system.
+The name is lietuva.chat. The visual direction is a white, Vercel-style interface with Lithuanian heritage accents: the woven-sash palette (sash green leading, with red, yellow, blue and violet), Palemonas headlines and the green talking-stone mark. The wordmark stays lowercase with the `.chat` suffix in green, paired with the saulė mark. It is an independent service and must not use state symbols (Vytis, flag) or imitate government sites.
 
 ## Evidence on Hand
 

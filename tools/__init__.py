@@ -1,4 +1,4 @@
-"""Tools available to eesti.chat agents."""
+"""Tools available to lietuva.chat agents."""
 
 from tools.search import web_search
 

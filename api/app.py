@@ -1,4 +1,4 @@
-"""FastAPI application for the eesti.chat API.
+"""FastAPI application for the lietuva.chat API.
 
 Mounted at /api/v1 by main.py and also runnable standalone with
 ``python -m api.app``.
@@ -44,8 +44,8 @@ log = logging.getLogger(__name__)
 def create_app(root_path: str = "") -> FastAPI:
     """Build the API. The /api/v1 prefix is supplied by main.py's mount."""
     api = FastAPI(
-        title="eesti.chat API",
-        description="API for eesti.chat — AI guidance for Estonian public services",
+        title="lietuva.chat API",
+        description="API for lietuva.chat — AI guidance for Lithuanian public services",
         version="1.0.0",
         root_path=root_path,
         docs_url="/docs",
@@ -333,7 +333,7 @@ def create_app(root_path: str = "") -> FastAPI:
             if body.lang != "en":
                 lang_directive = f"\nUser language: {body.lang} ({lang_info['name']}). Respond in {lang_info['name']}."
             system = (
-                "You are an eesti.chat assistant for Estonian public services. "
+                "You are an lietuva.chat assistant for Lithuanian public services. "
                 "Respond helpfully and concisely."
             )
             lc_messages = [SystemMessage(content=system + lang_directive)]

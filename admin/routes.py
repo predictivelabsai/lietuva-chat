@@ -44,32 +44,32 @@ def _require_admin(sess):
 ADMIN_CSS = """
 .admin-wrap { max-width:900px; margin:0 auto; padding:32px 24px; }
 .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; }
-.admin-header h1 { font-family:'AinoHeadline',Verdana,sans-serif; font-size:28px; color:#0F172A; margin:0; }
-.admin-card { background:#fff; border:1px solid #E5E5E5; border-radius:8px; padding:24px; margin-bottom:24px; }
-.admin-card h2 { font-size:16px; font-weight:600; margin:0 0 16px; color:#1A1A1A; }
+.admin-header h1 { font-family:var(--font-display); font-size:28px; color:var(--ink); margin:0; }
+.admin-card { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:24px; margin-bottom:24px; }
+.admin-card h2 { font-size:16px; font-weight:600; margin:0 0 16px; color:var(--ink); }
 .admin-table { width:100%; border-collapse:collapse; font-size:13px; }
-.admin-table th { text-align:left; padding:8px 12px; border-bottom:2px solid #E5E5E5; color:#6B7280; font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
-.admin-table td { padding:8px 12px; border-bottom:1px solid #F3F4F6; color:#374151; }
-.admin-table tr:hover td { background:#F9FAFB; }
+.admin-table th { text-align:left; padding:8px 12px; border-bottom:2px solid var(--line); color:var(--ink-3); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+.admin-table td { padding:8px 12px; border-bottom:1px solid var(--bg-alt); color:var(--ink-2); }
+.admin-table tr:hover td { background:var(--bg-alt); }
 .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:500; }
 .badge-pending { background:#FEF3C7; color:#92400E; }
 .badge-accepted { background:#D1FAE5; color:#065F46; }
 .badge-expired { background:#FEE2E2; color:#991B1B; }
-.badge-admin { background:#1A1A1A; color:#fff; }
-.badge-user { background:#F3F4F6; color:#374151; }
+.badge-admin { background:var(--ink); color:var(--surface); }
+.badge-user { background:var(--bg-alt); color:var(--ink-2); }
 .invite-form { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; }
 .invite-form .field { display:flex; flex-direction:column; gap:4px; }
-.invite-form .field label { font-size:11px; color:#6B7280; font-weight:500; text-transform:uppercase; letter-spacing:0.3px; }
-.invite-form input, .invite-form textarea, .invite-form select { padding:8px 12px; border:1px solid #E5E5E5; border-radius:6px; font-size:13px; font-family:inherit; }
+.invite-form .field label { font-size:11px; color:var(--ink-3); font-weight:500; text-transform:uppercase; letter-spacing:0.3px; }
+.invite-form input, .invite-form textarea, .invite-form select { padding:8px 12px; border:1px solid var(--line); border-radius:6px; font-size:13px; font-family:inherit; }
 .invite-form textarea { resize:vertical; min-height:60px; }
-.btn-primary { padding:8px 20px; background:#1A1A1A; color:#fff; border:none; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; }
-.btn-primary:hover { background:#333; }
+.btn-primary { padding:8px 20px; background:var(--ink); color:var(--surface); border:none; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; }
+.btn-primary:hover { background:var(--ink-2); }
 .stat-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:16px; margin-bottom:24px; }
-.stat-box { background:#fff; border:1px solid #E5E5E5; border-radius:8px; padding:16px; text-align:center; }
-.stat-box .num { font-size:28px; font-weight:700; color:#1A1A1A; }
-.stat-box .label { font-size:11px; color:#6B7280; text-transform:uppercase; letter-spacing:0.5px; margin-top:4px; }
-.msg-ok { color:#16A34A; font-size:13px; margin-left:12px; }
-.msg-err { color:#DC2626; font-size:13px; margin-left:12px; }
+.stat-box { background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:16px; text-align:center; }
+.stat-box .num { font-size:28px; font-weight:700; color:var(--ink); }
+.stat-box .label { font-size:11px; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.5px; margin-top:4px; }
+.msg-ok { color:var(--success); font-size:13px; margin-left:12px; }
+.msg-err { color:var(--danger); font-size:13px; margin-left:12px; }
 """
 
 
@@ -135,12 +135,12 @@ def register_admin_routes(rt):
                 Td(str(u.created_at.strftime("%Y-%m-%d")) if u.created_at else "—"),
             ))
 
-        return Html(_head("Admin — eesti.chat"), Body(
+        return Html(_head("Admin — lietuva.chat"), Body(
             Style(NotStr(ADMIN_CSS)),
             Div(
                 Div(
-                    H1("eesti.chat Admin"),
-                    A("< Back to app", href="/app", cls="text-sm text-gray-500 no-underline hover:text-black"),
+                    H1("lietuva.chat Admin"),
+                    A("< Back to app", href="/app", cls="text-sm text-ink-3 no-underline hover:text-ink"),
                     cls="admin-header",
                 ),
 
@@ -158,7 +158,7 @@ def register_admin_routes(rt):
                     Form(
                         Div(
                             Div(Label("Email address"), Input(type="email", name="email", placeholder="user@example.com", required=True), cls="field"),
-                            Div(Label("Role"), NotStr('<select name="role" style="padding:8px 12px;border:1px solid #E5E5E5;border-radius:6px;font-size:13px;"><option value="user">User</option><option value="admin">Admin</option></select>'), cls="field"),
+                            Div(Label("Role"), NotStr('<select name="role" style="padding:8px 12px;border:1px solid var(--line);border-radius:6px;font-size:13px;"><option value="user">User</option><option value="admin">Admin</option></select>'), cls="field"),
                             cls="invite-form",
                             style="margin-bottom:12px;",
                         ),
@@ -183,7 +183,7 @@ def register_admin_routes(rt):
                     H2("Invitations"),
                     Table(
                         Thead(Tr(Th("Email"), Th("Invited By"), Th("Status"), Th("Role"), Th("Date"))),
-                        Tbody(*invite_rows) if invite_rows else Tbody(Tr(Td("No invitations yet", colspan="5", style="text-align:center;color:#9CA3AF;padding:24px;"))),
+                        Tbody(*invite_rows) if invite_rows else Tbody(Tr(Td("No invitations yet", colspan="5", style="text-align:center;color:var(--ink-3);padding:24px;"))),
                         cls="admin-table",
                     ),
                     cls="admin-card",
@@ -194,7 +194,7 @@ def register_admin_routes(rt):
                     H2("Users"),
                     Table(
                         Thead(Tr(Th("Email"), Th("Name"), Th("Role"), Th("Verified"), Th("Joined"))),
-                        Tbody(*user_rows) if user_rows else Tbody(Tr(Td("No users yet", colspan="5", style="text-align:center;color:#9CA3AF;padding:24px;"))),
+                        Tbody(*user_rows) if user_rows else Tbody(Tr(Td("No users yet", colspan="5", style="text-align:center;color:var(--ink-3);padding:24px;"))),
                         cls="admin-table",
                     ),
                     cls="admin-card",
@@ -228,7 +228,7 @@ async function sendInvite(e) {
     return false;
 }
 """)),
-            cls="bg-gray-50 font-sans min-h-screen",
+            cls="bg-bg-alt font-sans min-h-screen",
         ))
 
     @rt("/admin/invite", methods=["POST"])
@@ -303,51 +303,51 @@ async function sendInvite(e) {
             return Html(_head("Invitation"), Body(
                 Div(H2("Invalid invitation"),
                     P("This invitation link is no longer valid. Please ask for a new one."),
-                            A("Go to eesti.chat", href="/app", cls="text-black font-semibold"),
+                            A("Go to lietuva.chat", href="/app", cls="text-ink font-semibold"),
                     cls="max-w-md mx-auto mt-20 text-center"),
-                cls="bg-white font-sans min-h-screen",
+                cls="bg-surface font-sans min-h-screen",
             ))
 
-        inp = "w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
-        return Html(_head("Join eesti.chat"), Body(
+        inp = "w-full px-3 py-2 border border-line rounded-md text-sm"
+        return Html(_head("Join lietuva.chat"), Body(
             Div(
                 Div(
-                    NotStr('<span style="font-family:\'Aino\',Verdana,sans-serif;font-size:22px;font-weight:700;color:#0F172A;">eesti.chat</span>'),
+                    NotStr('<span style="font-family:var(--font-sans);font-size:22px;font-weight:700;color:var(--ink);">lietuva.chat</span>'),
                     style="margin-bottom:20px;",
                 ),
                 H2("Create your account", cls="text-xl font-bold mb-2"),
-                P(f"You've been invited to join eesti.chat.", cls="text-gray-500 text-sm mb-4"),
+                P(f"You've been invited to join lietuva.chat.", cls="text-ink-3 text-sm mb-4"),
                 Form(
                     Input(type="hidden", name="token", value=token),
                     Div(
-                        Label("Email", cls="text-xs text-gray-500 block mb-1"),
-                        Input(type="email", value=inv.email, disabled=True, cls=f"{inp} bg-gray-50"),
+                        Label("Email", cls="text-xs text-ink-3 block mb-1"),
+                        Input(type="email", value=inv.email, disabled=True, cls=f"{inp} bg-bg-alt"),
                         cls="mb-3",
                     ),
                     Div(
-                        Label("Your name", cls="text-xs text-gray-500 block mb-1"),
+                        Label("Your name", cls="text-xs text-ink-3 block mb-1"),
                         Input(type="text", name="name", placeholder="Your name", cls=inp, required=True),
                         cls="mb-3",
                     ),
                     Div(
-                        Label("Password", cls="text-xs text-gray-500 block mb-1"),
+                        Label("Password", cls="text-xs text-ink-3 block mb-1"),
                         Input(type="password", name="password", placeholder="Min 6 characters", cls=inp, required=True),
                         cls="mb-3",
                     ),
                     Div(
-                        Label("Confirm password", cls="text-xs text-gray-500 block mb-1"),
+                        Label("Confirm password", cls="text-xs text-ink-3 block mb-1"),
                         Input(type="password", name="password_confirm", placeholder="Confirm password", cls=inp, required=True),
                         cls="mb-4",
                     ),
-                    Button("Join eesti.chat", type="submit",
-                           cls="w-full py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none font-semibold"),
+                    Button("Join lietuva.chat", type="submit",
+                           cls="w-full py-2 bg-ink text-surface rounded-md text-sm cursor-pointer border-none font-semibold"),
                     Div(id="invite-error", cls="text-red-500 text-sm mt-2"),
                     method="POST",
                     action=f"/auth/invite/{token}/accept",
                 ),
-                cls="max-w-sm mx-auto mt-16 p-6 bg-white rounded-lg border border-gray-200",
+                cls="max-w-sm mx-auto mt-16 p-6 bg-surface rounded-lg border border-line",
             ),
-            cls="bg-gray-50 font-sans min-h-screen",
+            cls="bg-bg-alt font-sans min-h-screen",
         ))
 
     @rt("/auth/invite/{token}/accept", methods=["POST"])

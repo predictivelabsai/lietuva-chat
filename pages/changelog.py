@@ -13,7 +13,7 @@ def changelog_page():
         Section(
             Div(
                 H1("Changelog", cls="public-page-title"),
-                P("What's new in eesti.chat.", cls="public-page-intro"),
+                P("What's new in lietuva.chat.", cls="public-page-intro"),
                 cls="portal-container public-hero-content",
             ),
             cls="public-page-hero",

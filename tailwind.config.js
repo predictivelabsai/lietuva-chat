@@ -1,5 +1,5 @@
 /**
- * Static Tailwind build configuration for eesti.chat.
+ * Static Tailwind build configuration for lietuva.chat.
  * Regenerate with: npx -y tailwindcss@3 -c tailwind.config.js -i tailwind.input.css -o static/tw.css --minify
  */
 module.exports = {
@@ -15,21 +15,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blue: '#0030DE',
-        'blue-deep': '#000087',
-        'blue-ice': '#CEE2FD',
+        accent: 'var(--accent)',
+        'accent-soft': 'var(--accent-soft)',
         ink: {
-          DEFAULT: '#0F172A',
-          2: '#3D4B5E',
-          3: '#64748B',
+          DEFAULT: 'var(--ink)',
+          2: 'var(--ink-2)',
+          3: 'var(--ink-3)',
         },
-        line: '#CBD5E1',
-        'bg-alt': '#F1F5F9',
-        surface: '#FFFFFF',
+        line: 'var(--line)',
+        'bg-alt': 'var(--bg-alt)',
+        surface: 'var(--surface)',
       },
       fontFamily: {
-        display: ['AinoHeadline', 'Verdana', 'system-ui', 'sans-serif'],
-        sans: ['Aino', 'Verdana', 'system-ui', 'sans-serif'],
+        display: ['Geist', 'system-ui', 'sans-serif'],
+        sans: ['Geist', 'system-ui', 'sans-serif'],
+        mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
       },
     },
   },

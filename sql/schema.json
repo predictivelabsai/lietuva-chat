@@ -1,5 +1,5 @@
 {
-  "schema": "eesti",
+  "schema": "lietuva",
   "tables": {
     "chat_users": {
       "description": "Accounts used for authentication and chat ownership",
@@ -35,5 +35,5 @@
       ]
     }
   },
-  "notes": "The eesti.chat portal stores account data, optional profile preferences, and chat history in the eesti schema."
+  "notes": "The lietuva.chat portal stores account data, optional profile preferences, and chat history in the lietuva schema."
 }

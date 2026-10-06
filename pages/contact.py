@@ -9,7 +9,7 @@ def contact_page(name='', email='', message='', error=''):
         Section(
             Div(
                 H1('Contact us', cls='public-page-title'),
-                P('Questions or feedback about eesti.chat? Send us a message. '
+                P('Questions or feedback about lietuva.chat? Send us a message. '
                   'For official matters, contact the relevant government authority.',
                   cls='public-page-intro'),
                 cls='portal-container public-hero-content'

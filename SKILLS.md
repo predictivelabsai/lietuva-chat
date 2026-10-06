@@ -1,6 +1,6 @@
-# eesti.chat development guide
+# lietuva.chat development guide
 
-eesti.chat is a FastHTML application that gives people a conversational front door to Estonian public services. Specialist LangGraph agents use the `tools/search.py` Exa integration to ground answers in official Estonian sources.
+lietuva.chat is a FastHTML application that gives people an independent conversational assistant for Lithuanian public services. Specialist LangGraph agents use the `tools/search.py` Exa integration to ground answers in official Estonian sources.
 
 ## Local development
 
@@ -81,10 +81,10 @@ For Coolify, deploy this repository as a Docker application using `Dockerfile`, 
 
 ## Database
 
-`DB_URL` is optional for anonymous, non-persisted chat. When configured, `init_db()` creates the `eesti` schema and the account, chat session, message, profile, and invitation tables. `sql/schema.sql` is the corresponding reference schema and `sql/schema.json` documents those tables.
+`DB_URL` is optional for anonymous, non-persisted chat. When configured, `init_db()` creates the `lietuva` schema (override with `DB_SCHEMA`) and the account, chat session, message, profile, and invitation tables. `sql/schema.sql` is the corresponding reference schema and `sql/schema.json` documents those tables.
 
 Do not put secrets in source control. Keep `.env` and deployment credentials in the environment or the platform's secret store.
 
 ## Product behavior
 
-The public chat supports English and the language choices exposed by the language switcher. Agents should use official `.ee` sources for factual or procedural answers and include the source links in their response. Keep prompts and user-facing copy aligned with Estonia's public-service portal; avoid introducing unrelated product domains or unsupported claims.
+The public chat supports English and the language choices exposed by the language switcher. Agents should use official Lithuanian sources (the allowlist in `tools/search.py`) for factual or procedural answers and include the source links in their response. Keep prompts and user-facing copy aligned with Lithuanian public services and the independent (non-government) positioning; avoid introducing unrelated product domains or unsupported claims.

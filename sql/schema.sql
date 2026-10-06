@@ -1,9 +1,9 @@
--- eesti.chat database schema
+-- lietuva.chat database schema
 -- Target: PostgreSQL 14+
 
-CREATE SCHEMA IF NOT EXISTS eesti;
+CREATE SCHEMA IF NOT EXISTS lietuva;
 
-CREATE TABLE IF NOT EXISTS eesti.chat_users (
+CREATE TABLE IF NOT EXISTS lietuva.chat_users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255),
@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS eesti.chat_users (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS eesti.chat_sessions (
+CREATE TABLE IF NOT EXISTS lietuva.chat_sessions (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES eesti.chat_users(id),
+    user_id INTEGER REFERENCES lietuva.chat_users(id),
     title VARCHAR(255) DEFAULT 'New chat',
     agent_slug VARCHAR(100),
     share_token VARCHAR(64),
@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS eesti.chat_sessions (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS eesti.chat_messages (
+CREATE TABLE IF NOT EXISTS lietuva.chat_messages (
     id SERIAL PRIMARY KEY,
-    session_id INTEGER REFERENCES eesti.chat_sessions(id),
+    session_id INTEGER REFERENCES lietuva.chat_sessions(id),
     role VARCHAR(20) NOT NULL,
     content TEXT NOT NULL,
     agent_slug VARCHAR(100),
@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS eesti.chat_messages (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS eesti.user_profiles (
+CREATE TABLE IF NOT EXISTS lietuva.user_profiles (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES eesti.chat_users(id) ON DELETE CASCADE UNIQUE,
+    user_id INTEGER NOT NULL REFERENCES lietuva.chat_users(id) ON DELETE CASCADE UNIQUE,
     avatar_url VARCHAR(500),
     phone VARCHAR(30),
     country VARCHAR(5),
@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS eesti.user_profiles (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS eesti.invitations (
+CREATE TABLE IF NOT EXISTS lietuva.invitations (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     token VARCHAR(64) UNIQUE NOT NULL,
-    invited_by INTEGER REFERENCES eesti.chat_users(id),
+    invited_by INTEGER REFERENCES lietuva.chat_users(id),
     role VARCHAR(20) DEFAULT 'user',
     message TEXT,
     status VARCHAR(20) DEFAULT 'pending',
@@ -61,6 +61,6 @@ CREATE TABLE IF NOT EXISTS eesti.invitations (
     accepted_at TIMESTAMPTZ
 );
 
-CREATE INDEX IF NOT EXISTS idx_chat_sessions_user ON eesti.chat_sessions(user_id);
-CREATE INDEX IF NOT EXISTS idx_chat_messages_session ON eesti.chat_messages(session_id);
-CREATE INDEX IF NOT EXISTS idx_user_profiles_user ON eesti.user_profiles(user_id);
+CREATE INDEX IF NOT EXISTS idx_chat_sessions_user ON lietuva.chat_sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_chat_messages_session ON lietuva.chat_messages(session_id);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_user ON lietuva.user_profiles(user_id);

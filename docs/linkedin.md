@@ -1,22 +1,21 @@
-# 🇺🇸 ➡️ 🇪🇪 The US just built an AI front door to government. We built one for Estonia.
+# 🇺🇸 ➡️ 🇱🇹 The US built an AI front door to government. We built one for Lithuania.
 
-This week the United States launched **america.gov** — an AI-powered "front door" to the federal government. At Tuesday's launch event, **Elon Musk** and **NVIDIA's Jensen Huang** joined President Trump and VP JD Vance to unveil it. ▶️ https://youtu.be/Gf-KssYwepc?t=134
+On 29 September the United States launched **America.gov**: ask the federal government a question in plain language and an AI points you to the right agency. No account, no ads.
 
-The idea is simple and powerful: instead of hunting through dozens of agency websites, you just **ask in plain language** and an AI points you to the right service. It's free, ad-free, and needs no account.
+It's a good idea, and every country should have one. Lithuania doesn't yet. So we built an independent one.
 
-Honestly? Credit to the US for shipping this. It's a genuinely good idea — and one **every country should copy.**
+Meet **lietuva.chat**, an AI assistant for living, working and dealing with the state in Lithuania.
 
-So we asked: what would this look like for **Estonia**, already the world's most advanced digital society?
+Ask about residence permits, taxes and Sodra, health insurance, starting a UAB, or moving back home from abroad. A specialist assistant reads the responsible agency's own pages (epaslaugos.lt, migracija.lt, vmi.lt, sodra.lt, the Health Insurance Fund, the Centre of Registers, e-TAR) and answers with links so you can check every step.
 
-Meet **eesti.chat** — an AI front door to Estonia. 🇪🇪
+It's built for three groups that today juggle a dozen agency websites:
+• residents sorting out everyday paperwork
+• newcomers before their first appointment
+• Lithuanians abroad: citizenship, voting, documents and coming home
 
-Ask about e-Residency, digital ID, taxes, moving, or public services, and get a clear answer **grounded in official .ee sources**, with links to verify every step. Six specialist assistants, English + Estonian, citing eesti.ee, e-resident.gov.ee, emta.ee, ria.ee and more.
+It's **independent and open source**, not a government service. The look is rooted in Lithuanian heritage: the sash-woven saulė, sash colours and Palemonas, the Lithuanian Language Commission's typeface.
 
-It's an **independent, open-source project** — inspired by america.gov and the US State Department's ShareAmerica, reimagined for e-Estonia.
+🔗 Try it: https://lietuva.chat
+⭐ Fork it: https://github.com/predictivelabsai/lietuva-chat
 
-The US built the front door. Estonia already built the digital state behind it (X-Road, e-ID, once-only). The AI layer on top? That's a step **any government can take.**
-
-🔗 Try it: https://eesti.chat
-⭐ Clone / fork it: https://github.com/predictivelabsai/eesti-chat
-
-#eEstonia #AI #GovTech #eResidency #DigitalGovernment #OpenSource #Estonia
+#Lithuania #Lietuva #AI #GovTech #DigitalGovernment #OpenSource

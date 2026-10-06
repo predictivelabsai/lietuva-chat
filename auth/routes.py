@@ -27,8 +27,8 @@ from db import SCHEMA
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
-# Base public URL of the deployment, e.g. https://eesti.chat
-SERVICE_URL = os.getenv("SERVICE_URL", "https://eesti.chat").rstrip("/")
+# Base public URL of the deployment, e.g. https://lietuva.chat
+SERVICE_URL = os.getenv("SERVICE_URL", "https://lietuva.chat").rstrip("/")
 GOOGLE_REDIRECT_URI = SERVICE_URL + "/auth/google/callback"
 
 
@@ -102,7 +102,7 @@ def register_auth_routes(rt):
                 return Html(_head("Verification"), Body(
                     Div(H2("Invalid or expired link"), P("Please register again."),
                         cls="max-w-md mx-auto mt-20 text-center"),
-                    cls="bg-white font-sans",
+                    cls="bg-surface font-sans",
                 ))
             db.execute(text(f"""
                 UPDATE {SCHEMA}.chat_users
@@ -194,9 +194,9 @@ def register_auth_routes(rt):
         if not row:
             return Html(_head("Reset Password"), Body(
                 Div(H2("Invalid or expired link"), P("Please request a new reset link."),
-                    A("Back to login", href="/app", cls="text-black font-semibold"),
+                    A("Back to login", href="/app", cls="text-ink font-semibold"),
                     cls="max-w-md mx-auto mt-20 text-center"),
-                cls="bg-white font-sans",
+                cls="bg-surface font-sans",
             ))
 
         return Html(_head("Reset Password"), Body(
@@ -204,19 +204,19 @@ def register_auth_routes(rt):
                 H2("Set new password", cls="text-xl font-bold mb-4"),
                 Form(
                     Input(type="password", name="password", placeholder="New password (min 6 chars)",
-                          cls="w-full px-3 py-2 border border-gray-200 rounded-md text-sm mb-3", required=True),
+                          cls="w-full px-3 py-2 border border-line rounded-md text-sm mb-3", required=True),
                     Input(type="password", name="password_confirm", placeholder="Confirm password",
-                          cls="w-full px-3 py-2 border border-gray-200 rounded-md text-sm mb-4", required=True),
+                          cls="w-full px-3 py-2 border border-line rounded-md text-sm mb-4", required=True),
                     Button("Reset Password", type="submit",
-                           cls="w-full py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none"),
+                           cls="w-full py-2 bg-ink text-surface rounded-md text-sm cursor-pointer border-none"),
                     id="reset-form",
                     method="POST",
                     action=f"/auth/reset/{token}/submit",
                 ),
                 Div(id="reset-error", cls="text-red-500 text-sm mt-2"),
-                cls="max-w-sm mx-auto mt-20 p-6 bg-white rounded-lg border border-gray-200",
+                cls="max-w-sm mx-auto mt-20 p-6 bg-surface rounded-lg border border-line",
             ),
-            cls="bg-gray-50 font-sans min-h-screen",
+            cls="bg-bg-alt font-sans min-h-screen",
         ))
 
     @rt("/auth/reset/{token}/submit", methods=["POST"])
@@ -328,8 +328,8 @@ def register_auth_routes(rt):
         p_lang = prefs.language if prefs else "en"
         p_phone = prefs.phone if prefs else ""
 
-        inp = "w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
-        lbl = "text-xs text-gray-500 block mb-1"
+        inp = "w-full px-3 py-2 border border-line rounded-md text-sm"
+        lbl = "text-xs text-ink-3 block mb-1"
         half = "flex-1"
 
         def _select(name, options, selected):
@@ -339,15 +339,15 @@ def register_auth_routes(rt):
 
         return Html(_head("Profile & Preferences"), Body(
             Div(
-                A("< Back to chat", href="/app", cls="text-sm text-gray-500 mb-4 block no-underline hover:text-black"),
+                A("< Back to chat", href="/app", cls="text-sm text-ink-3 mb-4 block no-underline hover:text-ink"),
 
                 # ─── Account ────
                 H2("Account", cls="text-xl font-bold mb-1"),
-                P("Your account details and password.", cls="text-xs text-gray-400 mb-4"),
+                P("Your account details and password.", cls="text-xs text-ink-3 mb-4"),
                 Form(
                     Div(
                         Div(Label("Name", cls=lbl), Input(type="text", name="name", value=name, placeholder="Your name", cls=inp), cls=half),
-                        Div(Label("Email", cls=lbl), Input(type="email", value=user_email, disabled=True, cls=f"{inp} bg-gray-50"), cls=half),
+                        Div(Label("Email", cls=lbl), Input(type="email", value=user_email, disabled=True, cls=f"{inp} bg-bg-alt"), cls=half),
                         cls="flex gap-3 mb-3",
                     ),
                     Div(
@@ -370,7 +370,7 @@ def register_auth_routes(rt):
                         cls="flex gap-3 mb-4",
                     ),
                     Div(
-                        Button("Save Account", type="submit", cls="px-5 py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none"),
+                        Button("Save Account", type="submit", cls="px-5 py-2 bg-ink text-surface rounded-md text-sm cursor-pointer border-none"),
                         Span(id="profile-msg", cls="text-sm ml-3"),
                         cls="flex items-center",
                     ),
@@ -387,13 +387,13 @@ async function submitProfile(e) {
     var resp = await fetch('/app/profile', { method:'POST', body: new FormData(form) });
     var data = await resp.json();
     var msg = document.getElementById('profile-msg');
-    msg.style.color = data.ok ? '#16A34A' : '#DC2626';
+    msg.style.color = data.ok ? 'var(--success)' : 'var(--danger)';
     msg.textContent = data.ok ? 'Saved!' : (data.error || 'Error');
     setTimeout(function(){ msg.textContent = ''; }, 3000);
     return false;
 }
 """)),
-            cls="bg-white font-sans min-h-screen",
+            cls="bg-surface font-sans min-h-screen",
         ))
 
     @rt("/app/profile", methods=["POST"])

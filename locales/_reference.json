@@ -21,8 +21,8 @@
       "et": "Kontakt"
     },
     "nav_open_app": {
-      "en": "Ask eesti.chat",
-      "et": "Küsi eesti.chat"
+      "en": "Ask lietuva.chat",
+      "et": "Küsi lietuva.chat"
     },
     "nav_login": {
       "en": "Log in",
@@ -33,16 +33,16 @@
       "et": "Logi välja"
     },
     "hero_h1": {
-      "en": "The AI front door to Estonia.",
-      "et": "Tehisintellektil põhinev uks Eestisse."
+      "en": "The AI front door to Lithuania.",
+      "et": "Tehisintellektil põhinev uks Leetu."
     },
     "hero_h2": {
-      "en": "Ask anything about e-Residency, digital ID, taxes, moving, and public services.",
-      "et": "Küsi kõike e-residentsuse, digi-ID, maksude, kolimise ja avalike teenuste kohta."
+      "en": "Ask anything about business, digital ID, taxes, moving, and public services.",
+      "et": "Küsi kõike ettevõtluse, digi-ID, maksude, kolimise ja avalike teenuste kohta."
     },
     "hero_body": {
-      "en": "eesti.chat is a conversational portal to the world's most advanced digital society. Ask in plain language. Get clear answers from official Estonian government sources, with links to check each step.",
-      "et": "eesti.chat on vestluspõhine värav maailma arenenuimasse digiühiskonda. Küsi tavakeeles. Saa selged vastused Eesti riigi ametlikest allikatest ja lingid, mille abil iga sammu kontrollida."
+      "en": "lietuva.chat is a conversational portal to everyday life in Lithuania. Ask in plain language. Get clear answers from official Lithuanian sources, with links to check each step.",
+      "et": "lietuva.chat on vestluspõhine värav igapäevaellu Leedus. Küsi tavakeeles. Saa selged vastused Leedu ametlikest allikatest ja lingid, mille abil iga sammu kontrollida."
     },
     "hero_cta_start": {
       "en": "Ask a question",
@@ -53,32 +53,32 @@
       "et": "Vaata teemasid"
     },
     "home_statement": {
-      "en": "Answers are [[AI-generated]]. They come only from [[official Estonian government sources]], are [[free of ads]], and are always shown with [[links]].",
-      "et": "Vastused on [[tehisintellekti loodud]]. Need pärinevad ainult [[Eesti riigi ametlikest allikatest]], on [[reklaamivabad]] ja alati koos [[linkidega]]."
+      "en": "Answers are [[AI-generated]]. They come only from [[official Lithuanian sources]], are [[free of ads]], and are always shown with [[links]].",
+      "et": "Vastused on [[tehisintellekti loodud]]. Need pärinevad ainult [[Leedu ametlikest allikatest]], on [[reklaamivabad]] ja alati koos [[linkidega]]."
     },
     "stat_services": {
-      "en": "Public services available online",
-      "et": "Avalikud teenused veebis"
+      "en": "Public services explained",
+      "et": "Avalikud teenused selgelt"
     },
     "stat_xroad": {
-      "en": "X-Tee in use since",
-      "et": "X-tee kasutusel alates"
+      "en": "Official sources linked",
+      "et": "Ametlikud allikad viidatud"
     },
     "stat_eres": {
-      "en": "e-Residency since",
-      "et": "e-residentsus alates"
+      "en": "Company forms covered",
+      "et": "Ettevõttevormid kaetud"
     },
     "stat_signatures": {
-      "en": "GDP saved by e-signatures",
-      "et": "SKP-st säästavad e-allkirjad"
+      "en": "Digital signing covered",
+      "et": "Digiallkirjastamine kaetud"
     },
     "feat_ask": {
       "en": "Ask, don't navigate",
       "et": "Küsi, ära otsi"
     },
     "feat_ask_body": {
-      "en": "Skip the maze of agency websites. Describe what you need in your own words and the right specialist assistant answers about e-Residency, tax, digital ID, moving, or public services.",
-      "et": "Jäta ametiasutuste veebilehtede rägastik vahele. Kirjelda oma sõnadega, mida vajad, ja õige eriabiline vastab e-residentsuse, maksude, digi-ID, kolimise või avalike teenuste kohta."
+      "en": "Skip the maze of agency websites. Describe what you need in your own words and the right specialist assistant answers about business, tax, digital ID, moving, or public services.",
+      "et": "Jäta ametiasutuste veebilehtede rägastik vahele. Kirjelda oma sõnadega, mida vajad, ja õige eriabiline vastab ettevõtluse, maksude, digi-ID, kolimise või avalike teenuste kohta."
     },
     "feat_ask_link": {
       "en": "Start a conversation",
@@ -89,52 +89,52 @@
       "et": "Põhineb ametlikel allikatel"
     },
     "feat_sources_body": {
-      "en": "Every answer uses live search across official domains, including eesti.ee, ria.ee, e-resident.gov.ee, emta.ee, and politsei.ee. It cites the sources so you can check them.",
-      "et": "Iga vastus põhineb reaalajas otsingul ametlikel domeenidel, sealhulgas eesti.ee, ria.ee, e-resident.gov.ee, emta.ee ja politsei.ee. Allikaviited aitavad neid kontrollida."
+      "en": "Every answer uses live search across official domains, including epaslaugos.lt, migracija.lt, vmi.lt, sodra.lt, and registrucentras.lt. It cites the sources so you can check them.",
+      "et": "Iga vastus põhineb reaalajas otsingul ametlikel domeenidel, sealhulgas epaslaugos.lt, migracija.lt, vmi.lt, sodra.lt ja registrucentras.lt. Allikaviited aitavad neid kontrollida."
     },
     "feat_sources_link": {
       "en": "See how it works",
       "et": "Vaata, kuidas see töötab"
     },
-    "feat_estonia": {
-      "en": "Built on e-Estonia",
-      "et": "Ehitatud e-Eestile"
+    "feat_lithuania": {
+      "en": "Built for Lithuania",
+      "et": "Loodud Leedu jaoks"
     },
-    "feat_estonia_body": {
-      "en": "It adds a conversational layer to Estonia's mature digital state: X-Tee data exchange, e-ID, digital signatures, and the once-only principle already power 99% of services.",
-      "et": "See lisab vestluskihi Eesti küpsele digiriigile: X-tee andmevahetus, e-ID, digiallkirjad ja kord-ainult põhimõte toimivad juba 99% teenuste alusena."
+    "feat_lithuania_body": {
+      "en": "It adds a conversational layer to Lithuania's public services: one assistant finds the right agency, reads its current guidance, and puts together what applies to you.",
+      "et": "See lisab vestluskihi Leedu avalikele teenustele: üks abiline leiab õige ametiasutuse, loeb kehtivat juhendit ja koondab sinu olukorra jaoks vajaliku."
     },
-    "feat_estonia_link": {
-      "en": "About Estonia",
-      "et": "Eestist lähemalt"
+    "feat_lithuania_link": {
+      "en": "About Lithuania",
+      "et": "Leedust lähemalt"
     },
     "topics_title": {
       "en": "Six specialist assistants",
       "et": "Kuus eriabilist"
     },
     "topics_subtitle": {
-      "en": "Each assistant focuses on one part of life in Estonia and uses official sources.",
-      "et": "Iga abiline keskendub ühele Eestiga seotud teemale ja vastab ametlike allikate põhjal."
+      "en": "Each assistant focuses on one part of life in Lithuania and uses official sources.",
+      "et": "Iga abiline keskendub ühele Leeduga seotud teemale ja vastab ametlike allikate põhjal."
     },
     "how_title": {
-      "en": "How eesti.chat works",
-      "et": "Kuidas eesti.chat töötab"
+      "en": "How lietuva.chat works",
+      "et": "Kuidas lietuva.chat töötab"
     },
     "how_01_title": {
       "en": "Ask",
       "et": "Küsi"
     },
     "how_01_body": {
-      "en": "Type your question in any of our languages. \"How do I apply for e-Residency?\", \"What tax do I pay as a sole trader?\" No forms, no jargon.",
-      "et": "Kirjuta oma küsimus ükskõik millises meie keeles. Näiteks: „Kuidas taotleda e-residentsust?“ või „Millist maksu maksan FIE-na?“. Sa ei vaja vorme ega ametikeelt."
+      "en": "Type your question in any of our languages. \"How do I register a UAB?\", \"What tax do I pay as a sole trader?\" No forms, no jargon.",
+      "et": "Kirjuta oma küsimus ükskõik millises meie keeles. Näiteks: „Kuidas asutada UAB-i?“ või „Millist maksu maksan füüsilisest isikust ettevõtjana?“. Sa ei vaja vorme ega ametikeelt."
     },
     "how_02_title": {
       "en": "We search official sources",
       "et": "Otsime ametlikest allikatest"
     },
     "how_02_body": {
-      "en": "The right assistant searches official Estonian government sites in real time, reads the current guidance, and brings together the parts that apply to you.",
-      "et": "Õige abiline otsib reaalajas Eesti riigi ametlikelt veebilehtedelt, loeb kehtivat juhendit ja koondab sinu olukorra jaoks vajaliku teabe."
+      "en": "The right assistant searches official Lithuanian sites in real time, reads the current guidance, and brings together the parts that apply to you.",
+      "et": "Õige abiline otsib reaalajas Leedu ametlikelt veebilehtedelt, loeb kehtivat juhendit ja koondab sinu olukorra jaoks vajaliku teabe."
     },
     "how_03_title": {
       "en": "Answer with sources",
@@ -145,16 +145,16 @@
       "et": "Saad selge vastuse koos linkidega ametlikele lehtedele, et saaksid iga sammu ise kontrollida."
     },
     "cta_headline": {
-      "en": "Everything Estonia, one conversation away.",
-      "et": "Kogu Eesti ühe vestluse kaugusel."
+      "en": "Everything Lithuania, one conversation away.",
+      "et": "Kogu Leedu ühe vestluse kaugusel."
     },
     "cta_body": {
-      "en": "Ask eesti.chat about starting an EU company as an e-resident or renewing your ID card. The answers come from official sources.",
-      "et": "Küsi eesti.chatilt EL-i ettevõtte asutamise või ID-kaardi uuendamise kohta. Vastused põhinevad ametlikel allikatel."
+      "en": "Ask lietuva.chat about starting a company, filing your taxes, or renewing your ID card. The answers come from official sources.",
+      "et": "Küsi lietuva.chatilt ettevõtte asutamise, maksude deklareerimise või ID-kaardi uuendamise kohta. Vastused põhinevad ametlikel allikatel."
     },
     "footer_desc": {
-      "en": "A conversational AI portal to Estonia. We help residents and people elsewhere find, understand, and use Estonian public services. Answers are based on official sources.",
-      "et": "Vestluspõhine tehisintellektiportaal Eestisse. Aitame elanikel ja mujal elavatel inimestel leida, mõista ja kasutada Eesti avalikke teenuseid. Vastused põhinevad ametlikel allikatel."
+      "en": "A conversational AI portal to Lithuania. We help residents, newcomers, and Lithuanians abroad find, understand, and use Lithuanian public services. Answers are based on official sources.",
+      "et": "Vestluspõhine tehisintellektiportaal Leetu. Aitame elanikel, saabujatel ja välismaal elavatel leedulastel leida, mõista ja kasutada Leedu avalikke teenuseid. Vastused põhinevad ametlikel allikatel."
     },
     "footer_platform": {
       "en": "Portal",
@@ -177,8 +177,8 @@
       "et": "Privaatsuspoliitika"
     },
     "footer_copyright": {
-      "en": "© 2026 eesti.chat. An independent project, not an official government service.",
-      "et": "© 2026 eesti.chat. Sõltumatu projekt, mitte ametlik riiklik teenus."
+      "en": "© 2026 lietuva.chat. An independent project, not a government service.",
+      "et": "© 2026 lietuva.chat. Sõltumatu projekt, mitte riiklik teenus."
     },
     "footer_disclaimer": {
       "en": "Answers are AI-generated from public sources and may be incomplete or out of date. Always verify with the official source before acting. Not legal advice.",
@@ -197,16 +197,16 @@
       "et": "Abilised"
     },
     "chat_welcome_title": {
-      "en": "Ask eesti.chat",
-      "et": "Küsi eesti.chat"
+      "en": "Ask lietuva.chat",
+      "et": "Küsi lietuva.chat"
     },
     "chat_welcome_body": {
-      "en": "Ask about e-Residency, digital ID, taxes, moving to Estonia, or any public service. Each answer includes links to official sources.",
-      "et": "Küsi e-residentsuse, digi-ID, maksude, Eestisse kolimise või ükskõik millise avaliku teenuse kohta. Iga vastus sisaldab linke ametlikele allikatele."
+      "en": "Ask about business, digital ID, taxes, moving to Lithuania, or any public service. Each answer includes links to official sources.",
+      "et": "Küsi ettevõtluse, digi-ID, maksude, Leetu kolimise või ükskõik millise avaliku teenuse kohta. Iga vastus sisaldab linke ametlikele allikatele."
     },
     "chat_placeholder": {
-      "en": "Ask about e-Residency, taxes, digital ID, moving to Estonia...",
-      "et": "Küsi e-residentsuse, maksude, digi-ID, Eestisse kolimise kohta..."
+      "en": "Ask about business, taxes, digital ID, moving to Lithuania...",
+      "et": "Küsi ettevõtluse, maksude, digi-ID, Leetu kolimise kohta..."
     },
     "chat_no_sessions": {
       "en": "No conversations yet",
@@ -289,35 +289,35 @@
       "et": "Kopeeritud!"
     },
     "js_sug1": {
-      "en": "How do I apply for e-Residency and what does it cost?",
-      "et": "Kuidas taotleda e-residentsust ja kui palju see maksab?"
+      "en": "How do I declare my place of residence in Lithuania?",
+      "et": "Kuidas Leedus elukohta registreerida?"
     },
     "js_sug2": {
-      "en": "How do I register an OÜ online?",
-      "et": "Kuidas registreerida OÜ internetis?"
+      "en": "How do I register a UAB online?",
+      "et": "Kuidas UAB-i internetis registreerida?"
     },
     "js_sug3": {
-      "en": "How does Estonia's corporate income tax work?",
-      "et": "Kuidas toimib Eesti ettevõtte tulumaks?"
+      "en": "How are salaries taxed in Lithuania?",
+      "et": "Kuidas Leedus palka maksustatakse?"
     },
     "js_sug4": {
-      "en": "How do I set up Smart-ID or Mobiil-ID?",
-      "et": "Kuidas seadistada Smart-ID või Mobiil-ID?"
+      "en": "How do I set up Smart-ID or Mobile-ID?",
+      "et": "Kuidas seadistada Smart-ID või Mobile-ID?"
     },
     "js_sug5": {
-      "en": "How do I get a residence permit to work in Estonia?",
-      "et": "Kuidas saada elamisluba Eestis töötamiseks?"
+      "en": "How do I get a residence permit to work in Lithuania?",
+      "et": "Kuidas saada elamisluba Leedus töötamiseks?"
     }
   },
   "agents": {
     "eresidency": {
       "name": {
-        "en": "e-Residency & company",
-        "et": "e-residentsus ja ettevõte"
+        "en": "Business & company",
+        "et": "Ettevõtlus ja ettevõte"
       },
       "one_liner": {
-        "en": "Apply for e-Residency and start or run an EU company from anywhere.",
-        "et": "Taotle e-residentsust ning asuta või juhi EL-i ettevõtet kõikjalt."
+        "en": "Starting or running a company in Lithuania: UAB, MB, and individual activity.",
+        "et": "Ettevõtte asutamine või juhtimine Leedus: UAB, MB ja füüsilisest isikust ettevõtja."
       }
     },
     "moving": {
@@ -336,8 +336,8 @@
         "et": "Maksud ja rahandus"
       },
       "one_liner": {
-        "en": "Income tax, VAT, and filing through the e-Tax Board.",
-        "et": "Tulumaks, käibemaks ja deklareerimine e-maksuametis."
+        "en": "Income tax, VAT, and filing through Mano VMI.",
+        "et": "Tulumaks, käibemaks ja deklareerimine Mano VMI kaudu."
       }
     },
     "digital": {
@@ -346,8 +346,8 @@
         "et": "Digi-ID ja e-teenused"
       },
       "one_liner": {
-        "en": "e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Tee.",
-        "et": "e-ID, Smart-ID, Mobiil-ID, digiallkirjad ja X-tee."
+        "en": "Smart-ID, Mobile-ID, ID card, and digital signatures.",
+        "et": "Smart-ID, Mobile-ID, ID-kaart ja digiallkirjad."
       }
     },
     "services": {
@@ -362,31 +362,31 @@
     },
     "explore": {
       "name": {
-        "en": "Discover Estonia",
-        "et": "Avasta Eesti"
+        "en": "Discover Lithuania",
+        "et": "Avasta Leedu"
       },
       "one_liner": {
-        "en": "The e-Estonia story, digital society, culture, and why Estonia.",
-        "et": "e-Eesti lugu, digiühiskond, kultuur ja miks Eesti."
+        "en": "History, culture, digital society, and life in Lithuania.",
+        "et": "Ajalugu, kultuur, digiühiskond ja elu Leedus."
       }
     }
   },
   "categories": {
     "business": {
-      "en": "e-Residency & business",
-      "et": "e-residentsus ja ettevõtlus"
+      "en": "Business & company",
+      "et": "Ettevõtlus ja ettevõte"
     },
     "living": {
-      "en": "Living in Estonia",
-      "et": "Elamine Eestis"
+      "en": "Living in Lithuania",
+      "et": "Elamine Leedus"
     },
     "digital": {
       "en": "Digital society",
       "et": "Digiühiskond"
     },
     "discover": {
-      "en": "Discover Estonia",
-      "et": "Avasta Eesti"
+      "en": "Discover Lithuania",
+      "et": "Avasta Leedu"
     }
   }
 }

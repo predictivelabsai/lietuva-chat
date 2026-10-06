@@ -12,7 +12,7 @@ import bcrypt
 
 from utils.email import send_email
 
-BASE_URL = os.getenv("SERVICE_URL", "https://eesti.chat").rstrip("/")
+BASE_URL = os.getenv("SERVICE_URL", "https://lietuva.chat").rstrip("/")
 
 
 def hash_password(password: str) -> str:
@@ -32,11 +32,11 @@ def send_verification_email(email: str, token: str, name: str = ""):
     greeting = f"Hi {name}," if name else "Hi,"
     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#F1F5F9;font-family:'Aino',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:-apple-system,'Segoe UI',Arial,sans-serif;">
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 16px;">
-      Welcome to eesti.chat
+      Welcome to lietuva.chat
     </h1>
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 16px;">
       {greeting}
@@ -57,7 +57,7 @@ def send_verification_email(email: str, token: str, name: str = ""):
 
     send_email(
         to=email,
-        subject="Verify your eesti.chat account",
+        subject="Verify your lietuva.chat account",
         html_body=html,
         text_body=f"{greeting}\n\nVerify your email: {verify_url}\n\nIf you didn't create an account, ignore this.",
         tag="verify",
@@ -76,47 +76,47 @@ def send_invite_email(email: str, token: str, inviter_name: str = "", message: s
     invited_by = f" by {inviter_name}" if inviter_name else ""
     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#F1F5F9;font-family:'Aino',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:-apple-system,'Segoe UI',Arial,sans-serif;">
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <div style="margin:0 0 24px;">
-      <span style="font-family:'Aino',Arial,sans-serif;font-size:22px;font-weight:700;color:#0F172A;">eesti.chat</span>
+      <span style="font-family:-apple-system,'Segoe UI',Arial,sans-serif;font-size:22px;font-weight:700;color:#1C1917;">lietuva.chat</span>
     </div>
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 12px;">
-      You're invited to join eesti.chat
+      You're invited to join lietuva.chat
     </h1>
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 16px;">
-      You've been invited{invited_by} to join eesti.chat — an AI portal for Estonia's public services.
+      You've been invited{invited_by} to join lietuva.chat — an independent AI assistant for Lithuania's public services.
     </p>
     {personal_msg}
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 8px;">
-      With eesti.chat you can:
+      With lietuva.chat you can:
     </p>
     <ul style="color:#4B5563;font-size:14px;line-height:1.8;margin:0 0 24px;padding-left:20px;">
-      <li>Ask specialist assistants about Estonian public services</li>
-      <li>Get answers grounded in official Estonian sources</li>
+      <li>Ask specialist assistants about Lithuanian public services</li>
+      <li>Get answers grounded in official Lithuanian sources</li>
       <li>Save and share useful conversations</li>
     </ul>
     <a href="{join_url}"
        style="display:inline-block;background:#1A1A1A;color:#fff;padding:14px 32px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;letter-spacing:0.3px;">
-      Join eesti.chat
+      Join lietuva.chat
     </a>
     <p style="color:#9CA3AF;font-size:12px;margin:24px 0 0;">
       If you weren't expecting this, you can safely ignore this email.
     </p>
   </div>
   <p style="text-align:center;color:#9CA3AF;font-size:11px;margin:16px 0 0;">
-    eesti.chat &middot; AI portal for Estonia
+    lietuva.chat &middot; independent AI assistant for Lithuania
   </p>
 </div>
 </body></html>"""
 
     send_email(
         to=email,
-        subject=f"You're invited to join eesti.chat",
+        subject=f"You're invited to join lietuva.chat",
         html_body=html,
         text_body=(
-            f"You've been invited{invited_by} to join eesti.chat!\n\n"
+            f"You've been invited{invited_by} to join lietuva.chat!\n\n"
             f"{('Message: ' + message + chr(10) + chr(10)) if message else ''}"
             f"Join here: {join_url}\n\n"
             f"If you weren't expecting this, you can safely ignore this email."
@@ -129,7 +129,7 @@ def send_reset_email(email: str, token: str):
     reset_url = f"{BASE_URL}/auth/reset/{token}"
     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#F1F5F9;font-family:'Aino',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:-apple-system,'Segoe UI',Arial,sans-serif;">
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 16px;">
@@ -151,7 +151,7 @@ def send_reset_email(email: str, token: str):
 
     send_email(
         to=email,
-        subject="Reset your eesti.chat password",
+        subject="Reset your lietuva.chat password",
         html_body=html,
         text_body=f"Reset your password: {reset_url}\n\nThis link expires in 1 hour.",
         tag="reset",

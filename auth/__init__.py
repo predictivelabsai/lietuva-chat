@@ -1,1 +1,1 @@
-"""Authentication module for eesti.chat."""
+"""Authentication module for lietuva.chat."""

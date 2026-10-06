@@ -1,6 +1,6 @@
-# eesti.chat
+# lietuva.chat
 
-Conversational AI portal to Estonia (e-Residency, taxes, digital ID, moving, services).
+Independent conversational AI assistant for Lithuania (residence, taxes and Sodra, health insurance, business, digital ID, services, Lithuanians abroad). Cloned from eesti.chat.
 Python: FastHTML UI, LangGraph + xAI Grok/OpenAI, Exa grounding, optional PostgreSQL.
 
 ## Global workflow

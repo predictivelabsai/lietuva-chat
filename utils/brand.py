@@ -1,4 +1,4 @@
-"""eesti.chat brand assets: the talking-stone mark, wordmark and icon set.
+"""lietuva.chat brand assets: the talking-stone mark, wordmark and icon set.
 
 Icons are drawn on a 24 px grid with a 2 px round stroke; most leave one
 small opening in their outline. See static/brand/README.md for usage rules.
@@ -8,21 +8,22 @@ from __future__ import annotations
 
 from fasthtml.common import A, Link, Meta, NotStr, Span
 
-SITE_NAME = "eesti.chat"
-SITE_DESCRIPTION = ("Ask anything about Estonia: e-Residency, taxes, digital ID, moving and "
-                    "public services, answered with links to official sources.")
-OG_IMAGE = "https://eesti.chat/static/og-image.png"
+SITE_NAME = "lietuva.chat"
+SITE_DESCRIPTION = ("Ask anything about Lithuania: residence permits, taxes, Sodra, e-services, "
+                    "moving and diaspora questions, answered with links to official sources. "
+                    "Independent, not a government service.")
+OG_IMAGE = "https://lietuva.chat/static/og-image.png"
 
-BLUE = "#0030DE"
 WHITE = "#FFFFFF"
 INK = "#0F172A"
 
-# The stone: a 52 u block with 16 u radii and one square "speaker" corner
-# (bottom-left), drawn in a 64 u box.
+# The mark: a talking stone (rounded block, one square "speaker" corner bottom-left) holding a
+# geometric white l, drawn like eesti.chat's e, in sash green. Drawn in a 64 u box.
+GREEN = "#1E5B3F"
 STONE_D = "M6 58V22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16Z"
-E_D = "M20 32h24a12 12 0 1 0-4.3 9.2"
-# Heavier e for 16-32 px renderings.
-E_SMALL_D = "M19 32h26a13 13 0 1 0-4.6 10"
+L_D = "M29 15v23a8 8 0 0 0 8 8"
+# Heavier l for 16-20 px renderings.
+L_SMALL_D = "M28.5 14v24a8.5 8.5 0 0 0 8.5 8.5"
 
 ICONS: dict[str, str] = {
     # Specialist topics
@@ -80,18 +81,18 @@ def brand_head():
         Link(rel="icon", href="/static/favicon.ico", sizes="48x48"),
         Link(rel="icon", href="/static/favicon.svg", type="image/svg+xml"),
         Link(rel="apple-touch-icon", href="/static/apple-touch-icon.png"),
-        Link(rel="mask-icon", href="/static/safari-pinned-tab.svg", color=BLUE),
+        Link(rel="mask-icon", href="/static/safari-pinned-tab.svg", color=GREEN),
         Link(rel="manifest", href="/static/manifest.json"),
-        Meta(name="theme-color", content=BLUE),
+        Meta(name="theme-color", content=GREEN),
         Meta(name="description", content=SITE_DESCRIPTION),
         Meta(property="og:site_name", content=SITE_NAME),
         Meta(property="og:type", content="website"),
-        Meta(property="og:title", content="eesti.chat · Ask anything about Estonia"),
+        Meta(property="og:title", content="lietuva.chat · Ask anything about Lithuania"),
         Meta(property="og:description", content=SITE_DESCRIPTION),
         Meta(property="og:image", content=OG_IMAGE),
         Meta(property="og:image:width", content="1200"),
         Meta(property="og:image:height", content="630"),
-        Meta(property="og:image:alt", content="eesti.chat — Ask anything about Estonia."),
+        Meta(property="og:image:alt", content="lietuva.chat — Ask anything about Lithuania."),
         Meta(name="twitter:card", content="summary_large_image"),
         Meta(name="twitter:image", content=OG_IMAGE),
     )
@@ -111,13 +112,13 @@ def Icon(name: str, size: int = 20, cls: str = "icon", stroke: float = 2):
 
 
 def mark_svg(size: int = 32, cls: str = "brand-mark", reversed_: bool = False) -> str:
-    """The stone mark. Primary: blue stone, white e. Reversed: white stone, blue e."""
-    stone, e = (WHITE, BLUE) if reversed_ else (BLUE, WHITE)
-    e_d, e_w = (E_SMALL_D, 7.5) if size <= 20 else (E_D, 6)
+    """The stone mark. Primary: green stone, white l. Reversed: white stone, green l."""
+    stone, glyph = (WHITE, GREEN) if reversed_ else (GREEN, WHITE)
+    l_d, l_w = (L_SMALL_D, 9.5) if size <= 20 else (L_D, 8)
     return (
         f'<svg class="{cls}" width="{size}" height="{size}" viewBox="6 6 52 52" '
         f'aria-hidden="true" focusable="false"><path d="{STONE_D}" fill="{stone}"/>'
-        f'<path d="{e_d}" fill="none" stroke="{e}" stroke-width="{e_w}" stroke-linecap="round"/></svg>'
+        f'<path d="{l_d}" fill="none" stroke="{glyph}" stroke-width="{l_w}" stroke-linecap="round"/></svg>'
     )
 
 
@@ -127,7 +128,7 @@ def Mark(size: int = 32, cls: str = "brand-mark", reversed_: bool = False):
 
 def Wordmark(href: str = "/", cls: str = "", mark_size: int = 28, tag=A, **kw):
     """Horizontal lockup: mark + lowercase wordmark with .chat in blue."""
-    inner = (Mark(mark_size), Span("eesti", Span(".chat", cls="wordmark-suffix"), cls="wordmark-text"))
+    inner = (Mark(mark_size), Span("lietuva", Span(".chat", cls="wordmark-suffix"), cls="wordmark-text"))
     if tag is A:
-        return A(*inner, href=href, cls=f"wordmark {cls}".strip(), aria_label="eesti.chat", **kw)
+        return A(*inner, href=href, cls=f"wordmark {cls}".strip(), aria_label="lietuva.chat", **kw)
     return tag(*inner, cls=f"wordmark {cls}".strip(), **kw)

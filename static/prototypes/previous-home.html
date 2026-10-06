@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>lietuva.chat · AI assistant for Lithuania</title>
+    <link rel="canonical" href="https://localhost:5011/">
+    <meta charset="utf-8">
+    <link rel="icon" href="/static/favicon.ico" sizes="48x48">
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#1E5B3F">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#1E5B3F">
+    <meta name="description" content="Ask anything about Lithuania: residence permits, taxes, Sodra, e-services, moving and diaspora questions, answered with links to official sources. Independent, not a government service.">
+    <meta property="og:site_name" content="lietuva.chat">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="lietuva.chat · Ask anything about Lithuania">
+    <meta property="og:description" content="Ask anything about Lithuania: residence permits, taxes, Sodra, e-services, moving and diaspora questions, answered with links to official sources. Independent, not a government service.">
+    <meta property="og:image" content="https://lietuva.chat/static/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="lietuva.chat — Ask anything about Lithuania.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://lietuva.chat/static/og-image.png">
+    <style>
+        @font-face {
+          font-family: 'Geist';
+          src: url('/static/fonts/Geist.woff2') format('woff2');
+          font-weight: 100 900;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Geist';
+          src: url('/static/fonts/Geist-Italic.woff2') format('woff2');
+          font-weight: 100 900;
+          font-style: italic;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Palemonas';
+          src: url('/static/fonts/Palemonas-Regular.otf') format('opentype');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Palemonas';
+          src: url('/static/fonts/Palemonas-Italic.otf') format('opentype');
+          font-weight: 400;
+          font-style: italic;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Geist Mono';
+          src: url('/static/fonts/GeistMono.woff2') format('woff2');
+          font-weight: 100 900;
+          font-style: normal;
+          font-display: swap;
+        }
+        </style>
+    <meta name="color-scheme" content="light">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/tw.css">
+    <link rel="stylesheet" href="/static/prototypes/previous-home.css">
+  </head>
+  <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>    <div class="site-frame site-frame-home">
+      <header class="site-header">
+        <div class="site-nav">
+<a href="/" aria-label="lietuva.chat" class="wordmark"><svg class="brand-mark" width="28" height="28" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H22A16 16 0 0 1 6 42Z" fill="#1E5B3F"/><path d="M32 14 50 32 32 50 14 32Z" fill="#E8A317"/><path d="M32 24.5 39.5 32 32 39.5 24.5 32Z" fill="#1E5B3F"/><path d="M32 14V8M32 56v-6M14 32H8M56 32h-6" stroke="#E8A317" stroke-width="3.5" stroke-linecap="round"/></svg><span class="wordmark-text">lietuva<span class="wordmark-suffix">.chat</span></span></a>          <nav aria-label="Main" class="site-nav-links">
+<a href="/" aria-current="page" class="site-nav-link active">Home</a><a href="/app" class="site-nav-link">Ask AI</a><a href="/#topics" class="site-nav-link">Topics</a><a href="/about" class="site-nav-link">About</a><a href="/contact" class="site-nav-link">Contact</a>          </nav>
+          <div class="site-header-actions">
+            <div class="relative">
+<button type="button" aria-haspopup="true" aria-expanded="false" onclick="this.nextElementSibling.classList.toggle('hidden'); this.setAttribute('aria-expanded', this.nextElementSibling.classList.contains('hidden') ? 'false' : 'true')" class="lang-trigger"><span class="lang-trigger-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-en-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-en-clip)"><rect width="24" height="18" fill="#012169"/><path d="M0 0L24 18M24 0L0 18" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="butt"/><path d="M0 0L24 18M24 0L0 18" fill="none" stroke="#C8102E" stroke-width="1.4" stroke-linecap="butt"/><path d="M0 9H24M12 0V18" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="butt"/><path d="M0 9H24M12 0V18" fill="none" stroke="#C8102E" stroke-width="3" stroke-linecap="butt"/></g></svg></span><span class="lang-trigger-code">EN</span><svg class="lang-trigger-chevron" aria-hidden="true" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m2 3.5 3 3 3-3"/></svg></button>              <div class="hidden absolute right-0 top-full mt-1 bg-surface border border-line rounded shadow-sm z-50 py-1 min-w-[130px] flex flex-col">
+<a href="/set-lang/en" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline font-semibold text-ink"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-en-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-en-clip)"><rect width="24" height="18" fill="#012169"/><path d="M0 0L24 18M24 0L0 18" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="butt"/><path d="M0 0L24 18M24 0L0 18" fill="none" stroke="#C8102E" stroke-width="1.4" stroke-linecap="butt"/><path d="M0 9H24M12 0V18" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="butt"/><path d="M0 9H24M12 0V18" fill="none" stroke="#C8102E" stroke-width="3" stroke-linecap="butt"/></g></svg></span><span class="text-xs">English</span></a><a href="/set-lang/et" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-et-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-et-clip)"><rect width="24" height="6" fill="#0072CE"/><rect y="6" width="24" height="6" fill="#000000"/><rect y="12" width="24" height="6" fill="#FFFFFF"/></g></svg></span><span class="text-xs">Eesti</span></a><a href="/set-lang/ru" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-ru-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-ru-clip)"><rect width="24" height="6" fill="#FFFFFF"/><rect y="6" width="24" height="6" fill="#0039A6"/><rect y="12" width="24" height="6" fill="#D52B1E"/></g></svg></span><span class="text-xs">Русский</span></a><a href="/set-lang/de" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-de-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-de-clip)"><rect width="24" height="6" fill="#000000"/><rect y="6" width="24" height="6" fill="#DD0000"/><rect y="12" width="24" height="6" fill="#FFCE00"/></g></svg></span><span class="text-xs">Deutsch</span></a><a href="/set-lang/fr" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-fr-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-fr-clip)"><rect width="8" height="18" fill="#0055A4"/><rect x="8" width="8" height="18" fill="#FFFFFF"/><rect x="16" width="8" height="18" fill="#EF4135"/></g></svg></span><span class="text-xs">Français</span></a><a href="/set-lang/sv" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-sv-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-sv-clip)"><rect width="24" height="18" fill="#006AA7"/><rect x="7" width="4" height="18" fill="#FECC02"/><rect y="7.25" width="24" height="3.5" fill="#FECC02"/></g></svg></span><span class="text-xs">Svenska</span></a><a href="/set-lang/lv" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-lv-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-lv-clip)"><rect width="24" height="18" fill="#9E3039"/><rect y="7" width="24" height="4" fill="#FFFFFF"/></g></svg></span><span class="text-xs">Latviešu</span></a><a href="/set-lang/fi" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-fi-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-fi-clip)"><rect width="24" height="18" fill="#FFFFFF"/><rect x="7" width="4.5" height="18" fill="#002F6C"/><rect y="7.25" width="24" height="3.5" fill="#002F6C"/></g></svg></span><span class="text-xs">Suomi</span></a><a href="/set-lang/lt" class="lang-option flex items-center gap-1 px-3 py-1.5 text-sm text-ink-3 hover:bg-bg-alt hover:text-accent transition-colors no-underline"><span class="mr-2 lang-dd-flag"><svg width="20" height="15" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><defs><clipPath id="flag-lt-clip"><rect width="24" height="18" rx="2.5"/></clipPath></defs><g clip-path="url(#flag-lt-clip)"><rect width="24" height="6" fill="#FDB913"/><rect y="6" width="24" height="6" fill="#008A44"/><rect y="12" width="24" height="6" fill="#C1272D"/></g></svg></span><span class="text-xs">Lietuvių</span></a>              </div>
+            </div>
+<a href="/app" class="site-nav-cta">Ask lietuva.chat</a><button type="button" aria-controls="site-menu" aria-expanded="false" onclick="openMenu(this)" class="menu-pill site-nav-menu">Menu</button>          </div>
+        </div>
+      </header>
+<main id="main-content" class="site-main site-main-home">        <section class="home">
+          <div class="home-grid">
+            <div class="home-copy">
+              <p class="home-eyebrow">
+<span class="home-eyebrow-dot"></span>Labas · independent AI assistant              </p>
+              <h1 class="home-title">
+Ask anything about life in <em class="home-title-accent">Lithuania.</em>              </h1>
+              <p class="home-lede">Permits, taxes, Sodra, health insurance, business and coming home. Plain answers with links to the official source.</p>
+<form enctype="multipart/form-data" action="/app" method="get" role="search" class="home-composer"><label for="home-q" class="visually-hidden">Ask a question…</label>                <input type="text" name="q" autocomplete="off" placeholder="Ask a question…" id="home-q" class="home-composer-input">
+<button type="submit" aria-label="Ask a question" class="home-composer-send" title="Ask a question"><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button></form>              <div class="home-suggestions">
+<a href="/app?q=How%20do%20I%20register%20a%20UAB%20online%3F" class="home-suggestion">How do I register a UAB online?</a><a href="/app?q=What%20is%20an%20individual%20activity%20certificate%3F" class="home-suggestion">What is an individual activity certificate?</a><a href="/app?q=How%20do%20I%20get%20a%20Lithuanian%20personal%20code%3F" class="home-suggestion">How do I get a Lithuanian personal code?</a>              </div>
+            </div>
+            <div data-topic="1" data-script='[{"q": "How do I declare my place of residence in Vilnius?", "a": "You can declare your place of residence at your local ward office (seniūnija) or online through epaslaugos.lt. Bring your ID document, and if you rent, the owner needs to give consent.", "src": ["epaslaugos.lt", "migracija.lt"]}, {"q": "What taxes are deducted from a Lithuanian salary?", "a": "Your employer withholds personal income tax and your social insurance contributions, including health insurance, before paying you. You can check what was declared for you in Mano VMI and your Sodra account.", "src": ["vmi.lt", "sodra.lt"]}, {"q": "How do I get compulsory health insurance?", "a": "If you work in Lithuania, contributions are usually paid for you. You can check your insurance status on the National Health Insurance Fund&#39;s site, then register with a primary care clinic.", "src": ["ligoniukasa.lrv.lt"]}, {"q": "How do I register a UAB online?", "a": "A UAB can be registered online through the Centre of Registers&#39; self-service, signing with a qualified e-signature. Prepare the articles of association first, and optionally reserve the company name.", "src": ["registrucentras.lt"]}, {"q": "I am moving back to Lithuania. Where do I start?", "a": "Start with the Global Lithuania pages of the Ministry of Foreign Affairs. They gather what returning citizens need: documents, declaring residence, social insurance and finding work.", "src": ["globalilietuva.urm.lt"]}]' data-reading="Reading" class="demo-window">
+              <div class="demo-window-bar">
+<span class="demo-window-brand"><svg class="brand-mark" width="16" height="16" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H22A16 16 0 0 1 6 42Z" fill="#1E5B3F"/><path d="M32 14 50 32 32 50 14 32Z" fill="#E8A317"/><path d="M32 24.5 39.5 32 32 39.5 24.5 32Z" fill="#1E5B3F"/><path d="M32 14V8M32 56v-6M14 32H8M56 32h-6" stroke="#E8A317" stroke-width="4.5" stroke-linecap="round"/></svg>lietuva.chat</span><span class="demo-window-topic">Moving here</span>              </div>
+              <div aria-live="polite" class="demo-thread">
+                <p class="demo-q">How do I declare my place of residence in Vilnius?</p>
+                <p class="demo-reading">
+<span class="demo-dot"></span>Reading <span class="demo-reading-src">epaslaugos.lt · migracija.lt</span>                </p>
+                <p class="demo-a">You can declare your place of residence at your local ward office (seniūnija) or online through epaslaugos.lt. Bring your ID document, and if you rent, the owner needs to give consent.</p>
+                <div class="demo-chips">
+<span class="demo-chip">epaslaugos.lt</span><span class="demo-chip">migracija.lt</span>                </div>
+              </div>
+              <div class="demo-tabs">
+<button type="button" data-index="0" aria-pressed="true" class="demo-tab is-active"><span class="demo-tab-num">01</span>Moving here</button><button type="button" data-index="1" aria-pressed="false" class="demo-tab"><span class="demo-tab-num">02</span>Work and taxes</button><button type="button" data-index="2" aria-pressed="false" class="demo-tab"><span class="demo-tab-num">03</span>Family and health</button><button type="button" data-index="3" aria-pressed="false" class="demo-tab"><span class="demo-tab-num">04</span>Starting a company</button><button type="button" data-index="4" aria-pressed="false" class="demo-tab"><span class="demo-tab-num">05</span>Coming home</button>              </div>
+            </div>
+          </div>
+<script src="/static/home-demo.js?v=1.1.0" defer></script>        </section>
+        <div aria-hidden="true" class="juosta"></div>
+        <div aria-label="What you can ask" class="ticker">
+          <div class="ticker-track">
+<a href="/app?q=Where%20do%20I%20exchange%20my%20driving%20licence%3F" class="tick"><span class="tick-dot"></span>Where do I exchange my driving licence?</a><a href="/app?q=How%20do%20I%20get%20Smart-ID%3F" class="tick"><span class="tick-dot"></span>How do I get Smart-ID?</a><a href="/app?q=Can%20I%20use%20my%20European%20health%20insurance%20card%20here%3F" class="tick"><span class="tick-dot"></span>Can I use my European health insurance card here?</a><a href="/app?q=How%20do%20I%20enrol%20my%20child%20in%20kindergarten%3F" class="tick"><span class="tick-dot"></span>How do I enrol my child in kindergarten?</a><a href="/app?q=What%20is%20an%20individual%20activity%20certificate%3F" class="tick"><span class="tick-dot"></span>What is an individual activity certificate?</a><a href="/app?q=How%20do%20I%20register%20a%20car%20bought%20abroad%3F" class="tick"><span class="tick-dot"></span>How do I register a car bought abroad?</a><a href="/app?q=When%20is%20the%20annual%20income%20declaration%20due%3F" class="tick"><span class="tick-dot"></span>When is the annual income declaration due?</a><a href="/app?q=How%20do%20I%20get%20a%20Lithuanian%20personal%20code%3F" class="tick"><span class="tick-dot"></span>How do I get a Lithuanian personal code?</a><a href="/app?q=Where%20do%20I%20exchange%20my%20driving%20licence%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>Where do I exchange my driving licence?</a><a href="/app?q=How%20do%20I%20get%20Smart-ID%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>How do I get Smart-ID?</a><a href="/app?q=Can%20I%20use%20my%20European%20health%20insurance%20card%20here%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>Can I use my European health insurance card here?</a><a href="/app?q=How%20do%20I%20enrol%20my%20child%20in%20kindergarten%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>How do I enrol my child in kindergarten?</a><a href="/app?q=What%20is%20an%20individual%20activity%20certificate%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>What is an individual activity certificate?</a><a href="/app?q=How%20do%20I%20register%20a%20car%20bought%20abroad%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>How do I register a car bought abroad?</a><a href="/app?q=When%20is%20the%20annual%20income%20declaration%20due%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>When is the annual income declaration due?</a><a href="/app?q=How%20do%20I%20get%20a%20Lithuanian%20personal%20code%3F" tabindex="-1" aria-hidden="true" class="tick"><span class="tick-dot"></span>How do I get a Lithuanian personal code?</a>          </div>
+        </div>
+        <section class="statement">
+          <div class="portal-container">
+            <p class="statement-text">
+<span class="sw">Ask </span><span class="sw">in </span><span class="sw">your </span><span class="sw">own </span><span class="sw">words. </span><span class="sw">It </span><span class="sw">finds </span><span class="sw">the </span><span class="sw">agency, </span><span class="sw">reads </span><span class="sw">today's </span><span class="sw">official </span><span class="sw">page, </span><span class="sw">and </span><span class="sw">answers </span><span class="sw">with </span><span class="sw">the </span><span class="sw">link, </span><span class="sw">so </span><span class="sw">you </span><span class="sw">can </span><span class="sw">check </span><span class="sw">every </span><span class="sw">step </span><span class="sw">yourself. </span>            </p>
+          </div>
+        </section>
+        <section id="topics" class="info">
+          <div class="portal-container info-grid">
+            <p class="info-label">
+<span class="info-num">01</span>What you can ask            </p>
+            <div class="info-body">
+              <h2 class="info-title">Everyday questions, answered from the source.</h2>
+              <div class="qcards">
+<a href="/app?q=Do%20I%20need%20a%20temporary%20residence%20permit%20to%20work%20here%3F" class="qcard reveal"><span class="qcard-topic"><span class="card-dot"></span>Residence and permits</span><span class="qcard-q">Do I need a temporary residence permit to work here?</span><span class="qcard-go"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a><a href="/app?q=How%20much%20is%20withheld%20from%20my%20gross%20salary%3F" class="qcard reveal"><span class="qcard-topic"><span class="card-dot"></span>Taxes and Sodra</span><span class="qcard-q">How much is withheld from my gross salary?</span><span class="qcard-go"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a><a href="/app?q=Am%20I%20covered%20by%20compulsory%20health%20insurance%3F" class="qcard reveal"><span class="qcard-topic"><span class="card-dot"></span>Health insurance</span><span class="qcard-q">Am I covered by compulsory health insurance?</span><span class="qcard-go"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a><a href="/app?q=How%20do%20I%20register%20my%20child%27s%20birth%3F" class="qcard reveal"><span class="qcard-topic"><span class="card-dot"></span>Family</span><span class="qcard-q">How do I register my child's birth?</span><span class="qcard-go"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a><a href="/app?q=Should%20I%20open%20an%20MB%20or%20a%20UAB%3F" class="qcard reveal"><span class="qcard-topic"><span class="card-dot"></span>Business</span><span class="qcard-q">Should I open an MB or a UAB?</span><span class="qcard-go"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a><a href="/app?q=How%20do%20I%20vote%20in%20Lithuanian%20elections%20from%20abroad%3F" class="qcard reveal"><span class="qcard-topic"><span class="card-dot"></span>Lithuanians abroad</span><span class="qcard-q">How do I vote in Lithuanian elections from abroad?</span><span class="qcard-go"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>              </div>
+            </div>
+          </div>
+        </section>
+        <section class="info">
+          <div class="portal-container info-grid">
+            <p class="info-label">
+<span class="info-num">02</span>How it answers            </p>
+            <div class="info-body">
+              <h2 class="info-title">Plain language in, official sources out.</h2>
+              <div class="how-grid">
+                <div class="how-left">
+                  <ol class="how-steps">
+                    <li data-step="1" class="how-step">
+<span class="step-n">01</span>                      <h3 class="step-h">Describe your situation</h3>
+                      <p class="step-p">Write it the way you would explain it to a friend, in your own language. No forms, no agency names to know in advance.</p>
+                    </li>
+                    <li data-step="2" class="how-step">
+<span class="step-n">02</span>                      <h3 class="step-h">It reads the responsible agency</h3>
+                      <p class="step-p">A specialist assistant looks up the agency's own pages, not forums or blogs, and puts together the parts that apply to you.</p>
+                    </li>
+                    <li data-step="3" class="how-step">
+<span class="step-n">03</span>                      <h3 class="step-h">You see where it came from</h3>
+                      <p class="step-p">Every answer links to its sources, so you can check each step before you act.</p>
+                    </li>
+                  </ol>
+                  <p class="how-hint">Scroll to follow one question through</p>
+                </div>
+                <div class="how-right">
+                  <div aria-hidden="true" class="demo-card">
+                    <p class="demo-q">I just moved to Vilnius. How do I declare my residence?</p>
+                    <p class="demo-reading">
+<span class="demo-dot"></span>Reading <span class="demo-reading-src">epaslaugos.lt · vilnius.lt</span>                    </p>
+                    <p class="demo-a">Declaring your place of residence is handled by your municipality and can be done online through the e-government gateway. Here is what to prepare before you start.</p>
+                    <div class="demo-chips">
+<span class="demo-chip">epaslaugos.lt</span><span class="demo-chip">vilnius.lt</span>                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="bento">
+          <div class="portal-container">
+            <p class="bento-label">Under the hood</p>
+            <h2 class="bento-title">Built on official sources, not on guesses.</h2>
+            <div class="bento-grid">
+              <div class="bento-card bento-wide reveal">
+                <p class="bento-stat">
+<span data-count="29" class="bento-num">29</span>official Lithuanian domains it searches                </p>
+                <div aria-hidden="true" class="bento-domains">
+<span class="bento-domain">epaslaugos.lt</span><span class="bento-domain">lrv.lt</span><span class="bento-domain">migracija.lrv.lt</span><span class="bento-domain">ligoniukasa.lrv.lt</span><span class="bento-domain">socmin.lrv.lt</span><span class="bento-domain">vssa.lrv.lt</span><span class="bento-domain">vdai.lrv.lt</span><span class="bento-domain">vda.lrv.lt</span><span class="bento-domain">migracija.lt</span><span class="bento-domain">vmi.lt</span><span class="bento-domain">sodra.lt</span><span class="bento-domain">vlk.lt</span><span class="bento-domain">registrucentras.lt</span><span class="bento-domain">e-tar.lt</span>                </div>
+              </div>
+              <div class="bento-card bento-green reveal">
+                <p class="bento-stat">
+<span data-count="6" class="bento-num">6</span>specialist assistants, one per part of life                </p>
+                <div aria-hidden="true" class="bento-agents">
+<span class="bento-agent"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5M7 11a2 2 0 1 0 4 0a2 2 0 1 0-4 0M6 16.5c.6-1.5 1.7-2.2 3-2.2s2.4.7 3 2.2M14.5 10h3.5M14.5 13.5h2.5"/></svg></span><span class="bento-agent"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 11 12 4l8.5 7M6 9.5v2M6 14.5V20h12V9.5M10 20v-4.5h4V20"/></svg></span><span class="bento-agent"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 13v8l2-1.4 2 1.4 2-1.4 2 1.4 2-1.4 2 1.4V3H6v7M9.5 14.5l5-5M10 9.75h.01M14 14.25h.01"/></svg></span><span class="bento-agent"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 9 12 4l9 5M4.5 9.5h15M6.5 12v5M10.5 12v5M13.5 12v5M17.5 12v5M4 20h7M14 20h6"/></svg></span><span class="bento-agent"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 9.5V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20V4a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 17 4v2.5M10.5 18.5h3M9.5 11.5h.01M12 11.5h.01M14.5 11.5h.01"/></svg></span><span class="bento-agent"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-3.2-6.9M15.6 8.4l-2 5.2-5.2 2 2-5.2z"/></svg></span>                </div>
+              </div>
+              <div class="bento-card reveal">
+                <p class="bento-stat">
+<span data-count="9" class="bento-num">9</span>interface languages                </p>
+                <div aria-hidden="true" class="bento-hellos">
+<span class="bento-hello">Labas</span><span class="bento-hello">Hello</span><span class="bento-hello">Привет</span><span class="bento-hello">Hallo</span><span class="bento-hello">Bonjour</span><span class="bento-hello">Hej</span><span class="bento-hello">Sveiki</span><span class="bento-hello">Moi</span><span class="bento-hello">Tere</span>                </div>
+              </div>
+              <div class="bento-card bento-wide reveal">
+                <h3 class="bento-h">Every answer links its sources</h3>
+                <p class="bento-p">You see which page each step came from before you act on it.</p>
+                <div aria-hidden="true" class="bento-chips">
+<span>vmi.lt</span><span>sodra.lt</span><span>e-tar.lt</span>                </div>
+              </div>
+              <div class="bento-card bento-wide bento-ink reveal">
+<svg class="brand-mark" width="40" height="40" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H22A16 16 0 0 1 6 42Z" fill="#1E5B3F"/><path d="M32 14 50 32 32 50 14 32Z" fill="#E8A317"/><path d="M32 24.5 39.5 32 32 39.5 24.5 32Z" fill="#1E5B3F"/><path d="M32 14V8M32 56v-6M14 32H8M56 32h-6" stroke="#E8A317" stroke-width="3.5" stroke-linecap="round"/></svg>                <h3 class="bento-h">Independent</h3>
+                <p class="bento-p">Not a government service, and never presented as one. No ads.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="info">
+          <div class="portal-container info-grid">
+            <p class="info-label">
+<span class="info-num">03</span>Who it is for            </p>
+            <div class="info-body">
+              <h2 class="info-title">One place to ask, wherever you are starting from.</h2>
+              <div class="who-grid">
+                <div class="who-item reveal">
+                  <div aria-label="Say it in Lithuanian" class="phrase">
+<span class="phrase-word">Labas</span><span class="phrase-say">[LAH-bahs]</span><span class="phrase-meaning">hello</span>                  </div>
+                  <h3 class="who-h">Residents</h3>
+                  <p class="who-p">Taxes, benefits, health insurance and everyday paperwork, without hunting across a dozen agency websites.</p>
+                </div>
+                <div class="who-item reveal">
+                  <div aria-label="Say it in Lithuanian" class="phrase">
+<span class="phrase-word">Ačiū</span><span class="phrase-say">[AH-chyoo]</span><span class="phrase-meaning">thank you</span>                  </div>
+                  <h3 class="who-h">Newcomers</h3>
+                  <p class="who-p">Permits, registration, work and banking, explained in plain language before your first appointment.</p>
+                </div>
+                <div class="who-item reveal">
+                  <div aria-label="Say it in Lithuanian" class="phrase">
+<span class="phrase-word">Sveiki atvykę</span><span class="phrase-say">[SVAY-kee aht-VEE-keh]</span><span class="phrase-meaning">welcome</span>                  </div>
+                  <h3 class="who-h">Lithuanians abroad</h3>
+                  <p class="who-p">Citizenship, voting from abroad, documents and coming home, with the consular pages that apply.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="info">
+          <div class="portal-container info-grid">
+            <p class="info-label">
+<span class="info-num">04</span>Six specialist assistants            </p>
+            <div class="info-body">
+              <h2 class="info-title">Each assistant focuses on one part of life in Lithuania and uses official sources.</h2>
+              <div class="agent-rows">
+<a href="/app?q=business%3A" class="agent-row reveal"><span class="agent-row-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5M7 11a2 2 0 1 0 4 0a2 2 0 1 0-4 0M6 16.5c.6-1.5 1.7-2.2 3-2.2s2.4.7 3 2.2M14.5 10h3.5M14.5 13.5h2.5"/></svg></span><span class="agent-row-text"><span class="agent-row-name">Business &amp; company</span><span class="agent-row-copy">Starting or running a company in Lithuania: UAB, MB, and individual activity.</span></span></a><a href="/app?q=move%3A" class="agent-row reveal"><span class="agent-row-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 11 12 4l8.5 7M6 9.5v2M6 14.5V20h12V9.5M10 20v-4.5h4V20"/></svg></span><span class="agent-row-text"><span class="agent-row-name">Living &amp; moving</span><span class="agent-row-copy">Residence permits, visas, registering your address, and settling in.</span></span></a><a href="/app?q=tax%3A" class="agent-row reveal"><span class="agent-row-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 13v8l2-1.4 2 1.4 2-1.4 2 1.4 2-1.4 2 1.4V3H6v7M9.5 14.5l5-5M10 9.75h.01M14 14.25h.01"/></svg></span><span class="agent-row-text"><span class="agent-row-name">Taxes &amp; finance</span><span class="agent-row-copy">Income tax, VAT, and filing through Mano VMI.</span></span></a><a href="/app?q=gov%3A" class="agent-row reveal"><span class="agent-row-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 9 12 4l9 5M4.5 9.5h15M6.5 12v5M10.5 12v5M13.5 12v5M17.5 12v5M4 20h7M14 20h6"/></svg></span><span class="agent-row-text"><span class="agent-row-name">Public services</span><span class="agent-row-copy">Health, education, family benefits, voting, and everyday state services.</span></span></a><a href="/app?q=id%3A" class="agent-row reveal"><span class="agent-row-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 9.5V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20V4a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 17 4v2.5M10.5 18.5h3M9.5 11.5h.01M12 11.5h.01M14.5 11.5h.01"/></svg></span><span class="agent-row-text"><span class="agent-row-name">Digital ID &amp; e-services</span><span class="agent-row-copy">Smart-ID, Mobile-ID, ID card, and digital signatures.</span></span></a><a href="/app?q=lithuania%3A" class="agent-row reveal"><span class="agent-row-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-3.2-6.9M15.6 8.4l-2 5.2-5.2 2 2-5.2z"/></svg></span><span class="agent-row-text"><span class="agent-row-name">Discover Lithuania</span><span class="agent-row-copy">History, culture, digital society, and life in Lithuania.</span></span></a>              </div>
+              <p class="src-note">lietuva.chat is an independent service. Answers are AI-generated and can be incomplete or out of date, so confirm details with the agency before you act.</p>
+            </div>
+          </div>
+        </section>
+        <div aria-hidden="true" class="juosta"></div>
+        <section class="closing">
+          <div class="portal-container closing-inner">
+            <h2 class="closing-title">Ask your first question.</h2>
+<a href="#home-q" onclick="document.getElementById('home-q').focus()" class="public-button public-button-primary">Start asking<svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>          </div>
+        </section>
+<script src="/static/home-story.js?v=1.1.0" defer></script><script src="/static/home-motion.js?v=1.1.0" defer></script></main>      <footer class="site-footer">
+<span>Independent service · not affiliated with the Government of Lithuania</span><span class="site-footer-links"><a href="/privacy">Privacy policy</a><a href="/changelog">v1.1.0</a><a href="https://predictivelabs.ai" target="_blank" rel="noopener">Predictive Labs OÜ</a></span>      </footer>
+    </div>
+    <div role="dialog" aria-modal="true" aria-label="Menu" hidden id="site-menu" class="site-menu">
+      <div class="site-menu-inner">
+        <div class="site-menu-head">
+<a href="/" aria-label="lietuva.chat" class="wordmark"><svg class="brand-mark" width="28" height="28" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H22A16 16 0 0 1 6 42Z" fill="#1E5B3F"/><path d="M32 14 50 32 32 50 14 32Z" fill="#E8A317"/><path d="M32 24.5 39.5 32 32 39.5 24.5 32Z" fill="#1E5B3F"/><path d="M32 14V8M32 56v-6M14 32H8M56 32h-6" stroke="#E8A317" stroke-width="3.5" stroke-linecap="round"/></svg><span class="wordmark-text">lietuva<span class="wordmark-suffix">.chat</span></span></a><button type="button" onclick="closeMenu()" class="menu-pill">Close</button>        </div>
+        <div class="menu-body">
+          <nav class="menu-col">
+            <p class="menu-label">lietuva.chat</p>
+<a href="/" aria-current="page" class="menu-link active">Home</a><a href="/app" class="menu-link">Ask AI</a><a href="/about" class="menu-link">About</a><a href="/contact" class="menu-link">Contact</a>            <div class="menu-quiet">
+<a href="/privacy" class="menu-quiet-link">Privacy policy</a><a href="/changelog" class="menu-quiet-link">Changelog · v1.1.0</a><a href="/app" class="menu-quiet-link">Sign in</a>            </div>
+          </nav>
+          <nav class="menu-col">
+            <p class="menu-label">Ask about</p>
+<a href="/app?q=business:" class="menu-topic">Business &amp; company</a><a href="/app?q=move:" class="menu-topic">Living &amp; moving</a><a href="/app?q=tax:" class="menu-topic">Taxes &amp; finance</a><a href="/app?q=id:" class="menu-topic">Digital ID &amp; e-services</a><a href="/app?q=gov:" class="menu-topic">Public services</a><a href="/app?q=lithuania:" class="menu-topic">Discover Lithuania</a>          </nav>
+        </div>
+        <p class="menu-foot">Independent service · not affiliated with the Government of Lithuania</p>
+      </div>
+    </div>
+<script>
+function openMenu(btn) {
+    var m = document.getElementById('site-menu');
+    m.hidden = false; document.body.classList.add('menu-open');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    var first = m.querySelector('.menu-link'); if (first) first.focus();
+}
+function closeMenu() {
+    var m = document.getElementById('site-menu');
+    m.hidden = true; document.body.classList.remove('menu-open');
+    var b = document.querySelector('.site-nav-menu');
+    if (b) { b.setAttribute('aria-expanded', 'false'); b.focus(); }
+}
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !document.getElementById('site-menu').hidden) closeMenu();
+});
+(function () {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    function sync() { header.classList.toggle('is-glass', window.scrollY > 8); }
+    sync();
+    window.addEventListener('scroll', sync, { passive: true });
+})();
+document.addEventListener('click', function (e) {
+    var dd = e.target.closest('.relative');
+    document.querySelectorAll('.relative > div').forEach(function (d) {
+        if (d.parentElement !== dd) d.classList.add('hidden');
+    });
+});
+</script>  </body>
+</html>
