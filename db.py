@@ -58,7 +58,8 @@ def init_db():
         conn.commit()
     Base.metadata.create_all(bind=engine)
     _init_chat_tables()
-    _migrate_legacy_schema()
+    if os.environ.get("MIGRATE_LEGACY_CHAT") == "1":
+        _migrate_legacy_schema()
 
 
 def _init_chat_tables():
@@ -304,10 +305,14 @@ def _migrate_legacy_schema():
 
 
 def _seed_admin(conn):
-    """Create the default admin user if it doesn't exist."""
+    """Create an admin only when credentials are explicitly configured."""
     import bcrypt
-    admin_email = "carehero.admin@predictivelabs.co.uk"
-    admin_pw = "Autod2$2"
+    admin_email = os.environ.get("ADMIN_EMAIL", "").strip().lower()
+    admin_pw = os.environ.get("ADMIN_PASSWORD", "")
+    if not admin_email or not admin_pw:
+        return
+    if len(admin_pw) < 12:
+        raise ValueError("ADMIN_PASSWORD must be at least 12 characters")
     exists = conn.execute(
         text(f"SELECT 1 FROM {SCHEMA}.chat_users WHERE email = :email"),
         {"email": admin_email},

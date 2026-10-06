@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.1.3 — 2026-10-06
+
+**Require explicit credentials before creating an administrator account.**
+
+- Database startup no longer creates an admin with a password embedded in the source code.
+- Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` (at least 12 characters) to seed an admin in a new deployment.
+- Legacy `carhero` chat data is migrated only when `MIGRATE_LEGACY_CHAT=1` is set, so a fresh Lithuania deployment keeps its data separate.
+
 ## v1.1.2 — 2026-10-06
 
 **Remove the guessable fallback for the API's token-signing secret.**
