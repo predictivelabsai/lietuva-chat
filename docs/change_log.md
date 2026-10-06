@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.1.4 — 2026-10-06
+
+**Allow Coolify to run the container HTTP health check.**
+
+- Install `curl` in the Docker image so Coolify can probe `/health` on port 5011.
+
 ## v1.1.3 — 2026-10-06
 
 **Require explicit credentials before creating an administrator account.**
