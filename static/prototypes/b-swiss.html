@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype B · Swiss Brutal · lietuva.chat</title>
+<meta name="description" content="Prototype B: Swiss/brutalist editorial. Direction from ui-ux-pro-max (variance 8, motion 7): visible grid, sharp corners, large blocks, high contrast.">
+<style>
+@font-face { font-family: 'Geist'; src: url('/static/fonts/Geist.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('/static/fonts/GeistMono.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Palemonas'; src: url('/static/fonts/Palemonas-Regular.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Palemonas'; font-style: italic; src: url('/static/fonts/Palemonas-Italic.otf') format('opentype'); font-display: swap; }
+:root {
+  --ink: #111111; --paper: #FFFFFF; --rule: #111111; --mute: #5C5C5C;
+  --green: #1E5B3F; --yellow: #E8A317; --red: #A6262E;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --serif: 'Palemonas', Georgia, serif; --sans: 'Geist', system-ui, sans-serif; --mono: 'Geist Mono', ui-monospace, monospace;
+  --juosta: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='26' viewBox='0 0 52 26'%3E%3Cpath d='M0 13 13 0 26 13 13 26z' fill='%23A6262E'/%3E%3Cpath d='M26 13 39 0 52 13 39 26z' fill='%231E5B3F'/%3E%3Cpath d='M13 6 20 13 13 20 6 13z' fill='%23FFFFFF'/%3E%3Cpath d='M39 6 46 13 39 20 32 13z' fill='%23E8A317'/%3E%3C/svg%3E");
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.47 var(--sans); letter-spacing: -0.02em; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 0; }
+.mono { font: 12px/1.4 var(--mono); letter-spacing: 0; text-transform: uppercase; }
+.frame { border: 2px solid var(--rule); margin: 12px; }
+.row { display: grid; grid-template-columns: repeat(12, 1fr); border-bottom: 2px solid var(--rule); }
+.row:last-child { border-bottom: 0; }
+.cell { padding: 20px 24px; border-right: 2px solid var(--rule); }
+.cell:last-child { border-right: 0; }
+
+/* top bar */
+.top .cell { display: flex; align-items: center; min-height: 56px; }
+.brand { gap: 10px; font-weight: 700; font-size: 18px; letter-spacing: -0.04em; text-decoration: none; display: inline-flex; align-items: center; }
+.top a.nav { text-decoration: none; }
+.top a.nav:hover, .top a.nav:focus-visible { background: var(--ink); color: var(--paper); }
+.top a.nav { justify-content: center; }
+.ask-top { background: var(--green); color: #fff; justify-content: center; text-decoration: none; font-weight: 600; }
+.ask-top:hover { background: var(--ink); }
+
+/* hero: asymmetric 8 / 4 */
+.hero .main { grid-column: span 8; padding: clamp(40px, 7vw, 88px) 24px 40px; }
+.hero .side { grid-column: span 4; padding: 0; display: flex; flex-direction: column; }
+.hero h1 { margin: 24px 0 0; font: 400 clamp(56px, 9vw, 148px)/0.88 var(--serif); letter-spacing: -0.05em; }
+.hero h1 .hl { background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 92%, transparent 92%); }
+.hero h1 em { color: var(--green); }
+.composer { display: flex; margin-top: 44px; border: 2px solid var(--ink); }
+.composer input { flex: 1; min-width: 0; border: 0; outline: 0; padding: 18px 20px; font: 19px var(--sans); background: var(--paper); color: var(--ink); }
+.composer input::placeholder { color: var(--mute); }
+.composer button { border: 0; border-left: 2px solid var(--ink); padding: 0 28px; background: var(--ink); color: var(--paper); font: 600 15px var(--mono); text-transform: uppercase; cursor: pointer; transition: background-color 160ms ease; }
+.composer button:hover { background: var(--green); }
+.composer button:active { transform: scale(0.97); }
+.index { list-style: none; margin: 0; padding: 0; flex: 1; display: flex; flex-direction: column; }
+.index li { flex: 1; border-bottom: 2px solid var(--rule); }
+.index li:last-child { border-bottom: 0; }
+.index a { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px; height: 100%; min-height: 64px; padding: 14px 24px; text-decoration: none; transition: background-color 200ms var(--ease), color 200ms var(--ease); }
+.index a:hover, .index a:focus-visible { background: var(--ink); color: var(--paper); }
+.index .n { font: 12px var(--mono); }
+.index .t { font-weight: 600; font-size: 17px; }
+.index .go { font: 18px var(--mono); transition: transform 240ms var(--ease); }
+.index a:hover .go { transform: translateX(6px); }
+
+/* juosta band */
+.juosta { height: 30px; background: var(--juosta) repeat-x left center / 52px 26px; border-bottom: 2px solid var(--rule); animation: drift 40s linear infinite; }
+@keyframes drift { to { background-position: -520px center; } }
+
+/* how: three numbered columns */
+.how .cell { grid-column: span 4; padding: 36px 24px 44px; }
+.how .big { display: block; font: 400 clamp(72px, 9vw, 128px)/0.8 var(--serif); letter-spacing: -0.05em; color: var(--green); }
+.how h3 { margin: 24px 0 8px; font: 700 22px/1.15 var(--sans); letter-spacing: -0.03em; }
+.how p { margin: 0; color: var(--mute); }
+
+/* facts: big blocks */
+.facts .cell { grid-column: span 3; padding: 28px 24px; }
+.facts b { display: block; font: 400 clamp(56px, 6vw, 96px)/0.9 var(--serif); letter-spacing: -0.04em; }
+.facts .green { background: var(--green); color: #fff; }
+.facts .yellow { background: var(--yellow); }
+.facts .ink { background: var(--ink); color: var(--paper); }
+
+/* statement + footer */
+.statement .cell { grid-column: span 12; padding: clamp(48px, 8vw, 104px) 24px; }
+.statement p { max-width: 18em; margin: 0; font: 400 clamp(36px, 5vw, 72px)/1.02 var(--serif); letter-spacing: -0.035em; }
+.statement em { color: var(--green); }
+.foot .cell { grid-column: span 6; }
+
+/* motion: blocks wipe up as they enter (ui-ux-pro-max Standard tier, transform + opacity only) */
+.wipe { opacity: 0; transform: translateY(24px); transition: opacity 600ms var(--ease), transform 700ms var(--ease); }
+.wipe.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .wipe { opacity: 1; transform: none; } }
+@media (max-width: 900px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .hero h1 { font-size: clamp(44px, 13vw, 64px); }
+  .row > * { grid-column: auto !important; }
+  .cell, .hero .main, .hero .side, .how .cell, .facts .cell, .foot .cell { grid-column: auto; border-right: 0; border-bottom: 2px solid var(--rule); }
+  .top .nav { display: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="frame">
+  <header class="row top">
+    <div class="cell" style="grid-column: span 4"><a class="brand" href="/"><svg width="28" height="28" viewBox="6 6 52 52" aria-hidden="true"><path d="M6 22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H22A16 16 0 0 1 6 42Z" fill="#1E5B3F"/><path d="M32 14 50 32 32 50 14 32Z" fill="#E8A317"/><path d="M32 24.5 39.5 32 32 39.5 24.5 32Z" fill="#1E5B3F"/><path d="M32 14V8M32 56v-6M14 32H8M56 32h-6" stroke="#E8A317" stroke-width="3.5" stroke-linecap="round"/></svg>lietuva.chat</a></div>
+    <div class="cell mono" style="grid-column: span 3; color: var(--mute)">54.6872° N, 25.2797° E</div>
+    <a class="cell mono nav" href="#how" style="grid-column: span 1">How</a>
+    <a class="cell mono nav" href="/about" style="grid-column: span 2">About</a>
+    <a class="cell mono ask-top" href="/app" style="grid-column: span 2">Ask →</a>
+  </header>
+
+  <section class="row hero">
+    <div class="cell main">
+      <span class="mono">Independent AI assistant · not a government service</span>
+      <h1>Ask the <span class="hl">state</span><br>anything, <em>in&nbsp;Lithuania.</em></h1>
+      <form class="composer" action="/app" method="get" role="search">
+        <label for="q" style="position:absolute;left:-9999px">Your question</label>
+        <input id="q" name="q" autocomplete="off" placeholder="How do I declare my residence in Vilnius?">
+        <button type="submit">Ask →</button>
+      </form>
+    </div>
+    <nav class="cell side" aria-label="Assistants">
+      <ol class="index">
+        <li><a href="/app?q=business%3A"><span class="n">01</span><span class="t">Business & company</span><span class="go">→</span></a></li>
+        <li><a href="/app?q=move%3A"><span class="n">02</span><span class="t">Living & moving</span><span class="go">→</span></a></li>
+        <li><a href="/app?q=tax%3A"><span class="n">03</span><span class="t">Taxes & Sodra</span><span class="go">→</span></a></li>
+        <li><a href="/app?q=id%3A"><span class="n">04</span><span class="t">Digital ID</span><span class="go">→</span></a></li>
+        <li><a href="/app?q=gov%3A"><span class="n">05</span><span class="t">Public services</span><span class="go">→</span></a></li>
+        <li><a href="/app?q=lithuania%3A"><span class="n">06</span><span class="t">Lithuanians abroad</span><span class="go">→</span></a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <div class="juosta" aria-hidden="true"></div>
+
+  <section class="row how" id="how">
+    <div class="cell wipe"><span class="big">01</span><h3>You ask, plainly.</h3><p>In Lithuanian, English or your own language. No forms, no agency names to know first.</p></div>
+    <div class="cell wipe"><span class="big">02</span><h3>It reads the agency.</h3><p>The responsible institution's own pages: VMI, Sodra, MIGRIS, Registrų centras, e-TAR.</p></div>
+    <div class="cell wipe"><span class="big">03</span><h3>You get the link.</h3><p>Every step cites its source, so you can check before you act.</p></div>
+  </section>
+
+  <section class="row facts">
+    <div class="cell wipe"><b>29</b><span class="mono">official domains</span></div>
+    <div class="cell green wipe"><b>6</b><span class="mono">assistants</span></div>
+    <div class="cell yellow wipe"><b>9</b><span class="mono">languages</span></div>
+    <div class="cell ink wipe"><b>0</b><span class="mono">ads</span></div>
+  </section>
+
+  <section class="row statement">
+    <div class="cell"><p class="wipe">Independent. Never official. <em>Always with the source.</em></p></div>
+  </section>
+
+  <footer class="row foot">
+    <div class="cell mono">Prototype B · Swiss Brutal (ui-ux-pro-max: variance 8 / motion 7)</div>
+    <div class="cell mono" style="text-align:right"><a href="/">Current home</a> · <a href="/static/prototypes/a-gateway.html">Prototype A</a> · <a href="/static/prototypes/c-calm.html">Prototype C</a></div>
+  </footer>
+</div>
+<script>
+(function () {
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.wipe');
+  if (reduced || !('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var sibs = Array.from(e.target.parentNode.children).filter(function (c) { return c.classList.contains('wipe'); });
+      e.target.style.transitionDelay = (sibs.indexOf(e.target) * 80) + 'ms';
+      e.target.classList.add('in'); io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (e) { io.observe(e); });
+})();
+</script>
+</body>
+</html>

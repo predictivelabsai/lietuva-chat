@@ -1,1 +1,1 @@
-"""eesti.chat business assistants."""
+"""lietuva.chat business assistants."""

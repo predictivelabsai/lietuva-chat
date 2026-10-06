@@ -6,7 +6,7 @@ import json
 
 from fasthtml.common import (
     Div, Span, H1, H2, H3, H4, P, A, Button, Form, Input, Textarea,
-    Script, NotStr,
+    Script, NotStr, Details, Summary, Ul, Li,
 )
 from agents.registry import CATEGORIES, AGENTS, AGENTS_BY_SLUG
 from utils.i18n import t, agent_t, category_t, LANGUAGES, js_translations
@@ -48,7 +48,7 @@ def signin_overlay(lang: str = "en"):
             ),
             # Login form
             Div(
-                P("Sign in to your eesti.chat account", cls="auth-copy"),
+                P("Sign in to your lietuva.chat account", cls="auth-copy"),
                 A(
                     Span(NotStr('<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9s.348 1.452.957 2.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>'),
                      cls="google-btn-icon"),
@@ -77,7 +77,7 @@ def signin_overlay(lang: str = "en"):
             ),
             # Register form
             Div(
-                P("Create an eesti.chat account", cls="auth-copy"),
+                P("Create an lietuva.chat account", cls="auth-copy"),
                 Input(type="text", id="reg-name", placeholder="Name (optional)", aria_label="Name (optional)",
                       cls="auth-field"),
                 Input(type="email", id="reg-email", placeholder="Email", aria_label="Email",
@@ -142,33 +142,21 @@ def left_pane(user_email=None, sessions=None, current_sid="", current_agent_slug
             )
         )
 
-    agent_groups = []
-    for cat in CATEGORIES:
-        cat_agents = [a for a in AGENTS if a.category == cat["key"]]
-        items = []
-        for a in cat_agents:
-            items.append(
-                Button(
-                    Span(Icon(AGENT_ICONS.get(a.slug, "chat"), 16), cls="agent-icon"),
-                    Span(agent_t(a.slug, "name", lang), cls="agent-name"),
-                    cls=f"agent-item{' active' if a.slug == current_agent_slug else ''}",
-                    data_slug=a.slug,
-                    onclick=f"fillChat('{a.prefix} ')",
-                )
-            )
-        group_id = f"group-{cat['key']}"
-        agent_groups.append(Div(
-            Button(
-                Span(Icon(CATEGORY_ICONS.get(cat["key"], "chat"), 16), cls="cat-icon"),
-                Span(category_t(cat["key"], "name", lang), cls="cat-name"),
-                id=f"btn-{group_id}",
-                cls="cat-header",
-                aria_expanded="false",
-                aria_controls=group_id,
-                onclick=f"toggleGroup(event, '{group_id}')",
-            ),
-            Div(*items, id=group_id, cls="cat-agents"),
-        ))
+    topic_items = [
+        Button(
+            Span(Icon(AGENT_ICONS.get(a.slug, "chat"), 18), cls="agent-icon"),
+            Span(agent_t(a.slug, "name", lang), cls="agent-name"),
+            cls=f"agent-item{' active' if a.slug == current_agent_slug else ''}",
+            data_slug=a.slug,
+            onclick=f"fillChat('{a.prefix} ')",
+        )
+        for a in AGENTS
+    ]
+    official_sites = [
+        ("epaslaugos.lt", "https://www.epaslaugos.lt"), ("migracija.lt", "https://www.migracija.lt"),
+        ("vmi.lt", "https://www.vmi.lt"), ("sodra.lt", "https://www.sodra.lt"),
+        ("registrucentras.lt", "https://www.registrucentras.lt"), ("globalilietuva.urm.lt", "https://globalilietuva.urm.lt"),
+    ]
 
     auth_section = (
         Div(
@@ -194,24 +182,22 @@ def left_pane(user_email=None, sessions=None, current_sid="", current_agent_slug
             cls="history-section",
         ),
         Div(
-            H4(t("chat_agents", lang), cls="section-label"),
-            *agent_groups,
-            H4("Official links", cls="section-label"),
-            A("eesti.ee", href="https://www.eesti.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("eesti.ai", href="https://eesti.ai", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("e-resident.gov.ee", href="https://www.e-resident.gov.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("rik.ee (Registers)", href="https://www.rik.ee/en", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("emta.ee (Tax)", href="https://www.emta.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("ria.ee (Digital)", href="https://www.ria.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("err.ee (News)", href="https://www.err.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
-            A("visitestonia.com", href="https://visitestonia.com", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
+            H4(t("chat_topics", lang), cls="section-label"),
+            Div(*topic_items, cls="topic-list"),
+            Details(
+                Summary(t("chat_official_sites", lang), cls="section-label sites-summary"),
+                *[A(name, href=url, target="_blank", rel="noopener noreferrer", cls="workspace-link") for name, url in official_sites],
+                cls="sites",
+            ),
             cls="agents-section",
         ),
         Div(auth_section, cls="auth-section"),
         P(
             A(f"v{app_version()}", href="/changelog", cls="powered-by-link", title="Changelog"),
             " · Powered by ",
-            A("Predictive Labs OÜ", href="https://predictivelabs.ai", target="_blank",
+            A("Ravien", href="https://ravien.eu", target="_blank", rel="noopener noreferrer", cls="powered-by-link"),
+            " + ",
+            A("Predictive Labs", href="https://predictivelabs.ai", target="_blank",
               rel="noopener noreferrer", cls="powered-by-link"),
             cls="powered-by"),
         cls="left-pane",
@@ -257,39 +243,43 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
     welcome = Div(
         H1(t("chat_welcome_title", lang), cls="welcome-title"),
         P(t("chat_welcome_body", lang), cls="welcome-copy"),
+        Div(
+            P(Icon("info", 16), t("chat_onboard_title", lang), cls="onboard-title"),
+            Ul(Li(Icon("chat", 18), Span(t("chat_onboard_1", lang))),
+               Li(Icon("source", 18), Span(t("chat_onboard_2", lang))),
+               Li(Icon("warning", 18), Span(t("chat_onboard_3", lang))), cls="onboard-list"),
+            cls="onboard",
+        ),
         Div(id="sample-cards-row", cls="sample-cards-row"),
         id="welcome-hero",
         cls="welcome-hero",
         style="" if not messages else "display:none",
     )
 
-    header_title = current_agent.name if current_agent else "eesti.chat"
+    header_title = current_agent.name if current_agent else "lietuva.chat"
 
     return Div(
         Div(
             Div(
                 Button(Icon("menu", 20), cls="mobile-menu-btn", aria_expanded="false", aria_label="Open conversation list", onclick="toggleLeftPane()"),
-                A(Mark(20, cls="chat-header-logo"), href="/", aria_label="eesti.chat home"),
+                A(Mark(20, cls="chat-header-logo"), href="/", aria_label="lietuva.chat home"),
                 Span(header_title, id="current-agent-label", cls="chat-header-title"),
                 cls="chat-header-left",
             ),
             Div(
+                Div(
+                    *[Button(label, type="button", cls="size-btn", data_size=size, aria_pressed="false",
+                             aria_label=f"{t('chat_text_size', lang)} {label}", onclick=f"setTextSize('{size}')")
+                      for size, label in (("m", "A"), ("l", "A+"), ("xl", "A++"))],
+                    cls="size-switch", role="group", aria_label=t("chat_text_size", lang),
+                ),
                 _chat_lang_dropdown(lang),
-                Button(
-                    Icon("share", 16),
-                    id="share-chat-btn", onclick="shareChat()",
-                    cls="header-icon-btn", title=t("chat_share", lang), aria_label=t("chat_share", lang),
-                ),
-                Button(
-                    Icon("copy", 16),
-                    id="copy-chat-btn", onclick="copyChat()",
-                    cls="header-icon-btn", title=t("chat_copy", lang), aria_label=t("chat_copy", lang),
-                ),
-                Button(
-                    Icon("panel", 16),
-                    id="artifact-btn", onclick="toggleArtifactPane()",
-                    cls="header-icon-btn", title=t("chat_canvas", lang), aria_label=t("chat_canvas", lang),
-                ),
+                Button(Icon("share", 16), Span(t("chat_share_label", lang), cls="hdr-label"),
+                       id="share-chat-btn", onclick="shareChat()", cls="header-btn"),
+                Button(Icon("copy", 16), Span(t("chat_copy_label", lang), cls="hdr-label"),
+                       id="copy-chat-btn", onclick="copyChat()", cls="header-btn"),
+                Button(Icon("panel", 16), Span(t("chat_results_label", lang), cls="hdr-label"),
+                       id="artifact-btn", onclick="toggleArtifactPane()", cls="header-btn"),
                 cls="chat-header-actions",
             ),
             cls="chat-header",
@@ -303,13 +293,17 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
         Form(
             Textarea(
                 id="chat-input", name="msg", rows="1",
-                placeholder=t("chat_placeholder", lang),
+                placeholder=t("home_placeholder", lang), aria_label=t("home_placeholder", lang),
                 onkeydown="handleKey(event)", oninput="autoResize(this); onInputChange(this)",
             ),
+            Button(NotStr('<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3ZM5 11a7 7 0 0 0 14 0M12 18v3"/></svg>'),
+                   id="mic-btn", type="button", cls="mic-btn", hidden=True,
+                   aria_label=t("chat_speak", lang), title=t("chat_speak", lang), onclick="toggleVoice()"),
             Button(Icon("send", 20), id="send-btn", type="button", aria_label="Send message", onclick="sendMessage(event)",
                    cls="send-btn"),
-            cls="chat-form",
+            cls="chat-form", data_lang=lang,
         ),
+        P(t("chat_ai_notice", lang), cls="ai-notice"),
         # Always-present, context-sensitive suggestion chips under the composer
         # (starters by default; replaced with follow-ups after each answer).
         Div(id="followups", cls="followups", aria_label=t("chat_suggestions_label", lang)),

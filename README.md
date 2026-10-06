@@ -1,41 +1,37 @@
-# eesti.chat
+# lietuva.chat
 
-**A conversational AI portal to Estonia — the world's most advanced digital society.**
+**An independent AI assistant for living, working and dealing with the state in Lithuania.**
 
-![eesti.chat — the AI front door to Estonia](media/eesti-landing.gif)
+Ask a question in plain language about residence permits, taxes and Sodra, health insurance,
+starting a company, family matters or moving back home. A specialist assistant answers,
+grounded in **official Lithuanian sources**, with links so you can check each step.
 
-🔗 **Live:** [eesti.chat](https://eesti.chat)
+> lietuva.chat is an independent project. It is **not** a government service and is not
+> affiliated with the Government of Lithuania.
 
-eesti.chat is an AI "front door" to Estonia: ask a question in plain language about
-e-Residency, starting a company, taxes, digital identity, moving to Estonia, or any
-public service, and a specialist assistant answers — grounded in **official Estonian
-sources** and with links so you can verify every step.
+## Assistants
 
-> eesti.chat is an independent project. It is **not** an official government service.
-
-## The six specialist assistants
-
-| Assistant | Covers | Primary official sources |
-|---|---|---|
-| **e-Residency & Company** | apply for e-Residency, register/run an EU company remotely | e-resident.gov.ee, rik.ee, emta.ee |
-| **Living & Moving** | residence permits, visas, digital nomad visa, registering address | politsei.ee, eesti.ee |
-| **Taxes & Finance** | income tax, VAT, corporate distributed-profit tax, e-Tax filing | emta.ee |
-| **Digital ID & e-Services** | e-ID, Smart-ID, Mobiil-ID, digital signatures, X-Tee | ria.ee, id.ee |
-| **Public Services** | health, education, benefits, voting, documents | eesti.ee, tervisekassa.ee |
-| **Discover Estonia** | the e-Estonia story, culture, why Estonia (explainer) | e-estonia.com |
+| Assistant | Covers | Main sources |
+| --- | --- | --- |
+| **Business & company** | UAB, MB, individual activity, e-resident status | registrucentras.lt, vmi.lt, migracija.lt |
+| **Living & moving** | residence permits, MIGRIS, declaring residence, settling in | migracija.lt, epaslaugos.lt |
+| **Taxes & finance** | income tax (GPM), Sodra contributions, health insurance (PSD), declarations | vmi.lt, sodra.lt |
+| **Digital ID & e-services** | Smart-ID, Mobile-ID, ID card e-signature, epaslaugos.lt | epaslaugos.lt |
+| **Public services** | health (VLK), education, family benefits, voting, municipalities | ligoniukasa.lrv.lt, vrk.lt |
+| **Discover Lithuania** | Lithuania overview, culture, Lithuanians abroad | globalilietuva.urm.lt, lietuva.lt |
 
 A router dispatches each question by prefix → keyword heuristics → LLM fallback.
-Every assistant grounds factual answers with live **Exa** web search biased to official
-`.ee` domains, and cites its sources.
+Every assistant grounds factual answers with live **Exa** web search restricted to
+official Lithuanian domains (`tools/search.py`), and cites its sources.
 
 ## Stack
 
-- **FastHTML** — server-rendered UI (white / black / Estonia-blue theme)
-- **LangGraph** — multi-agent ReAct orchestration
-- **xAI Grok** — LLM (configurable to OpenAI via `LLM_PROVIDER`)
-- **Exa** — live web search grounding
-- **PostgreSQL** — chat history, users (optional; app runs without login)
-- English + Estonian content, more languages via the switcher
+- **FastHTML**: server-rendered UI (see `DESIGN.md`)
+- **LangGraph**: multi-agent ReAct orchestration
+- **xAI Grok**: LLM (configurable to OpenAI via `LLM_PROVIDER`)
+- **Exa**: live web search grounding
+- **PostgreSQL**: chat history and users (optional; the app runs without login)
+- Lithuanian and English content, more languages via the switcher
 
 ## Running locally
 

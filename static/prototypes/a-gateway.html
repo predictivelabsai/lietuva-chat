@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype A · Gateway · lietuva.chat</title>
+<meta name="description" content="Prototype A: audience gateway. Pattern from ui-ux-pro-max (Enterprise Gateway, Swiss minimal; variance 2, motion 3, density 2).">
+<style>
+@font-face { font-family: 'Geist'; src: url('/static/fonts/Geist.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('/static/fonts/GeistMono.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Palemonas'; src: url('/static/fonts/Palemonas-Regular.otf') format('opentype'); font-display: swap; }
+@font-face { font-family: 'Palemonas'; font-style: italic; src: url('/static/fonts/Palemonas-Italic.otf') format('opentype'); font-display: swap; }
+:root {
+  --green: #1E5B3F; --green-hover: #164A33; --green-soft: #E8F0EC; --yellow: #E8A317; --red: #A6262E; --blue: #4B5A8C;
+  --ink: #1D1D1F; --ink-2: #424245; --ink-3: #6E6E73; --line: #E5E5EA; --panel: #F5F5F7; --surface: #FFFFFF;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --serif: 'Palemonas', Georgia, serif; --sans: 'Geist', system-ui, sans-serif; --mono: 'Geist Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: 17px/1.47 var(--sans); letter-spacing: -0.022em; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: min(1080px, calc(100% - 48px)); margin-inline: auto; }
+.label { margin: 0 0 16px; color: var(--ink-3); font: 12px/1.3 var(--mono); letter-spacing: 0; text-transform: uppercase; }
+
+/* nav */
+nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.82); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0,0,0,.06); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; letter-spacing: -0.04em; text-decoration: none; }
+.brand b { color: var(--green); font-weight: 600; }
+nav ul { display: flex; gap: 28px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+nav ul a { color: var(--ink-2); text-decoration: none; }
+nav ul a:hover { color: var(--ink); }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 22px; border: 0; border-radius: 999px; background: var(--green); color: #fff; font: 400 17px/1 var(--sans); text-decoration: none; cursor: pointer; transition: background-color 160ms ease, transform 160ms ease; }
+.btn:hover { background: var(--green-hover); }
+.btn:active { transform: scale(0.95); }
+.btn-sm { min-height: 36px; padding: 0 16px; font-size: 14px; }
+
+/* hero: centred gateway */
+.hero { padding: clamp(72px, 12vh, 136px) 0 96px; text-align: center; }
+.hero h1 { max-width: 14em; margin: 0 auto; font: 400 clamp(44px, 6.4vw, 80px)/1 var(--serif); letter-spacing: -0.035em; text-wrap: balance; }
+.hero h1 em { color: var(--green); }
+.hero p.lede { max-width: 32em; margin: 20px auto 0; color: var(--ink-2); font-size: 19px; }
+.iam { display: inline-flex; gap: 4px; margin-top: 44px; padding: 4px; border-radius: 999px; background: var(--panel); }
+.iam-label { display: block; margin: 40px 0 12px; color: var(--ink-3); font: 12px var(--mono); text-transform: uppercase; }
+.iam input { position: absolute; opacity: 0; pointer-events: none; }
+.iam label { padding: 10px 20px; border-radius: 999px; color: var(--ink-2); font-size: 15px; cursor: pointer; transition: background-color 240ms var(--ease), color 240ms var(--ease), box-shadow 240ms var(--ease); }
+.iam input:checked + label { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.04); }
+.iam input:focus-visible + label { outline: 2px solid var(--green); outline-offset: 2px; }
+.composer { display: flex; align-items: center; width: min(680px, 100%); margin: 28px auto 0; padding: 6px 6px 6px 24px; border-radius: 999px; background: var(--surface); box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 8px 24px -12px rgba(0,0,0,.15); transition: box-shadow 200ms ease; }
+.composer:focus-within { box-shadow: 0 0 0 1px var(--green), 0 0 0 5px var(--green-soft); }
+.composer input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 17px var(--sans); padding: 12px 0; }
+.composer input::placeholder { color: var(--ink-3); }
+.composer button { width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--green); color: #fff; cursor: pointer; transition: transform 160ms ease; }
+.composer button:active { transform: scale(0.95); }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; align-content: flex-start; gap: 8px; min-height: 92px; margin-top: 18px; }
+.chip { padding: 8px 14px; border-radius: 999px; background: var(--panel); color: var(--ink-2); font-size: 14px; text-decoration: none; transition: background-color 200ms ease, color 200ms ease, opacity 300ms var(--ease), transform 300ms var(--ease); }
+.chip:hover { background: var(--green-soft); color: var(--green); }
+.chips.swap .chip { opacity: 0; transform: translateY(6px); }
+
+/* by role */
+.roles { padding: 96px 0; background: var(--panel); }
+.roles h2, .trust h2, .cta h2 { margin: 0 0 48px; font: 400 clamp(32px, 4vw, 44px)/1.08 var(--serif); letter-spacing: -0.03em; }
+.role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.role { padding: 28px; border-radius: 18px; background: var(--surface); }
+.role h3 { margin: 0 0 6px; font: 600 21px/1.2 var(--sans); letter-spacing: -0.03em; }
+.role > p { margin: 0 0 20px; color: var(--ink-3); font-size: 15px; }
+.role ol { margin: 0; padding: 0; list-style: none; counter-reset: t; }
+.role li { counter-increment: t; border-top: 1px solid var(--line); }
+.role li a { display: grid; grid-template-columns: 28px 1fr; gap: 8px; padding: 13px 0; font-size: 15px; text-decoration: none; transition: color 160ms ease; }
+.role li a::before { content: counter(t, decimal-leading-zero); color: var(--ink-3); font: 12px/1.9 var(--mono); }
+.role li a:hover { color: var(--green); }
+
+/* trust */
+.trust { padding: 96px 0; }
+.trust-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.trust-row div { padding: 24px 24px 24px 0; }
+.trust-row b { display: block; font: 400 44px/1 var(--serif); letter-spacing: -0.03em; color: var(--green); }
+.trust-row span { display: block; margin-top: 8px; color: var(--ink-2); font-size: 15px; }
+.agencies { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 40px; color: var(--ink-3); font: 13px var(--mono); }
+
+/* cta + footer */
+.cta { padding: 112px 0; background: var(--ink); color: #F5F5F7; text-align: center; }
+.cta h2 { margin-bottom: 28px; }
+.cta p { margin: 0 0 32px; color: #A1A1A6; }
+footer { padding: 28px 0; background: var(--panel); color: var(--ink-3); font: 12px var(--mono); }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* subtle motion (ui-ux-pro-max: Subtle tier, 8–16px rise, power1-out) */
+.rise { opacity: 0; transform: translateY(12px); transition: opacity 400ms var(--ease), transform 400ms var(--ease); }
+.rise.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } .rise { opacity: 1; transform: none; } html { scroll-behavior: auto; } }
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .role-grid, .trust-row { grid-template-columns: 1fr; }
+  .iam { flex-wrap: wrap; justify-content: center; border-radius: 22px; }
+}
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="/"><svg width="28" height="28" viewBox="6 6 52 52" aria-hidden="true"><path d="M6 22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H22A16 16 0 0 1 6 42Z" fill="#1E5B3F"/><path d="M32 14 50 32 32 50 14 32Z" fill="#E8A317"/><path d="M32 24.5 39.5 32 32 39.5 24.5 32Z" fill="#1E5B3F"/><path d="M32 14V8M32 56v-6M14 32H8M56 32h-6" stroke="#E8A317" stroke-width="3.5" stroke-linecap="round"/></svg><span>lietuva<b>.chat</b></span></a>
+    <ul><li><a href="#roles">Topics</a></li><li><a href="#trust">Sources</a></li><li><a href="/about">About</a></li></ul>
+    <a class="btn btn-sm" href="/app">Ask</a>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Life in Lithuania, <em>explained.</em></h1>
+      <p class="lede">Tell us who you are and ask in your own words. Answers come from the responsible agency, with the link.</p>
+      <span class="iam-label" id="iam-label">I am</span>
+      <div class="iam" role="radiogroup" aria-labelledby="iam-label">
+        <input type="radio" name="iam" id="iam-res" value="res" checked><label for="iam-res">Living here</label>
+        <input type="radio" name="iam" id="iam-new" value="new"><label for="iam-new">Moving here</label>
+        <input type="radio" name="iam" id="iam-abr" value="abr"><label for="iam-abr">Lithuanian abroad</label>
+      </div>
+      <form class="composer" action="/app" method="get" role="search">
+        <label for="q" class="sr" style="position:absolute;left:-9999px">Your question</label>
+        <input id="q" name="q" autocomplete="off" placeholder="Ask a question…">
+        <button type="submit" aria-label="Ask"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+      </form>
+      <div class="chips" id="chips" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="roles" id="roles">
+    <div class="wrap">
+      <p class="label">By situation</p>
+      <h2 class="rise">Start from where you are.</h2>
+      <div class="role-grid">
+        <article class="role rise"><h3>Living here</h3><p>Everyday paperwork and the state.</p><ol>
+          <li><a href="/app?q=How%20much%20is%20withheld%20from%20my%20gross%20salary%3F">Salary deductions and Sodra</a></li>
+          <li><a href="/app?q=When%20is%20the%20annual%20income%20declaration%20due%3F">Annual income declaration</a></li>
+          <li><a href="/app?q=How%20do%20I%20register%20my%20child%27s%20birth%3F">Registering a birth</a></li>
+          <li><a href="/app?q=How%20do%20I%20enrol%20my%20child%20in%20kindergarten%3F">Kindergarten places</a></li></ol></article>
+        <article class="role rise"><h3>Moving here</h3><p>Before and after your first appointment.</p><ol>
+          <li><a href="/app?q=Do%20I%20need%20a%20temporary%20residence%20permit%20to%20work%20here%3F">Residence permit to work</a></li>
+          <li><a href="/app?q=How%20do%20I%20declare%20my%20place%20of%20residence%20in%20Vilnius%3F">Declaring your residence</a></li>
+          <li><a href="/app?q=How%20do%20I%20get%20a%20Lithuanian%20personal%20code%3F">Getting a personal code</a></li>
+          <li><a href="/app?q=Where%20do%20I%20exchange%20my%20driving%20licence%3F">Exchanging a driving licence</a></li></ol></article>
+        <article class="role rise"><h3>Lithuanian abroad</h3><p>Citizenship, voting and coming home.</p><ol>
+          <li><a href="/app?q=How%20do%20I%20vote%20in%20Lithuanian%20elections%20from%20abroad%3F">Voting from abroad</a></li>
+          <li><a href="/app?q=I%20am%20moving%20back%20to%20Lithuania.%20Where%20do%20I%20start%3F">Moving back home</a></li>
+          <li><a href="/app?q=How%20do%20I%20renew%20my%20Lithuanian%20passport%20abroad%3F">Passport renewal abroad</a></li>
+          <li><a href="/app?q=How%20do%20I%20register%20a%20UAB%20online%3F">Starting a company remotely</a></li></ol></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust" id="trust">
+    <div class="wrap">
+      <p class="label">Why trust the answers</p>
+      <h2 class="rise">Read from the source, every time.</h2>
+      <div class="trust-row rise">
+        <div><b>29</b><span>official domains searched</span></div>
+        <div><b>6</b><span>specialist assistants</span></div>
+        <div><b>9</b><span>interface languages</span></div>
+        <div><b>0</b><span>ads, and never official</span></div>
+      </div>
+      <div class="agencies" aria-label="Agencies it reads">epaslaugos.lt · migracija.lt · vmi.lt · sodra.lt · ligoniukasa.lrv.lt · registrucentras.lt · e-tar.lt · globalilietuva.urm.lt</div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>One question is enough to start.</h2>
+      <p>Independent service. Not affiliated with the Government of Lithuania.</p>
+      <a class="btn" href="/app">Ask lietuva.chat</a>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap"><span>Prototype A · Gateway (ui-ux-pro-max: Enterprise Gateway, Swiss minimal)</span><span><a href="/">Current home</a> · <a href="/static/prototypes/b-swiss.html">Prototype B</a> · <a href="/static/prototypes/c-calm.html">Prototype C</a></span></div></footer>
+
+<script>
+// Audience gateway: the chosen path swaps the suggested questions (stops nothing else, no autoplay).
+(function () {
+  var sets = {
+    res: ['How much is withheld from my gross salary?', 'Am I covered by compulsory health insurance?', 'When is the annual income declaration due?'],
+    new: ['Do I need a temporary residence permit to work here?', 'How do I declare my place of residence in Vilnius?', 'How do I get a Lithuanian personal code?'],
+    abr: ['How do I vote in Lithuanian elections from abroad?', 'I am moving back to Lithuania. Where do I start?', 'How do I renew my Lithuanian passport abroad?']
+  };
+  var chips = document.getElementById('chips');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function render(key) {
+    chips.innerHTML = '';
+    sets[key].forEach(function (q) {
+      var a = document.createElement('a'); a.className = 'chip'; a.textContent = q; a.href = '/app?q=' + encodeURIComponent(q);
+      chips.appendChild(a);
+    });
+  }
+  function swap(key) {
+    if (reduced) { render(key); return; }
+    chips.classList.add('swap');
+    setTimeout(function () { render(key); chips.classList.add('swap'); requestAnimationFrame(function () { requestAnimationFrame(function () { chips.classList.remove('swap'); }); }); }, 180);
+  }
+  document.querySelectorAll('.iam input').forEach(function (r) { r.addEventListener('change', function () { swap(r.value); }); });
+  render('res');
+  var io = 'IntersectionObserver' in window && !reduced ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' }) : null;
+  document.querySelectorAll('.rise').forEach(function (el) { io ? io.observe(el) : el.classList.add('in'); });
+})();
+</script>
+</body>
+</html>

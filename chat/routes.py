@@ -215,7 +215,7 @@ def _ensure_guest(sess) -> int | None:
         row = db.execute(
             text(f"INSERT INTO {SCHEMA}.chat_users (email) VALUES (:e) "
                  "ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email RETURNING id"),
-            {"e": f"guest+{key}@eesti.local"},
+            {"e": f"guest+{key}@lietuva.local"},
         ).fetchone()
         db.commit()
         uid = row[0]
@@ -293,7 +293,7 @@ def register_chat_routes(rt):
                 return JSONResponse({
                     "error": "login_required",
                     "message": (f"You've used your {FREE_QUERIES} free questions. "
-                                "Sign in to keep asking eesti.chat."),
+                                "Sign in to keep asking lietuva.chat."),
                     "free_used": used,
                     "free_limit": FREE_QUERIES,
                 }, status_code=402)

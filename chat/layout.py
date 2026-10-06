@@ -12,7 +12,7 @@ from utils.brand import Icon, Mark, brand_head
 from utils.version import app_version
 
 
-def _head(title: str = "eesti.chat", with_brand: bool = True) -> Head:
+def _head(title: str = "lietuva.chat", with_brand: bool = True) -> Head:
     # Pages rendered through the app's global hdrs already get brand_head().
     return Head(
         Meta(charset="utf-8"),
@@ -20,14 +20,15 @@ def _head(title: str = "eesti.chat", with_brand: bool = True) -> Head:
         Meta(name="apple-mobile-web-app-capable", content="yes"),
         Meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent"),
         *(brand_head() if with_brand else ()),
-        Title(f"{title} — eesti.chat"),
+        Title(f"{title} — lietuva.chat"),
         Script(src="/static/marked.min.js?v=1"),
+        Script(src="/static/purify.min.js?v=3.4.16"),
     )
 
 
 def chat_page(user_email=None, sessions=None, current_sid="",
               messages=None, current_agent_slug=None, readonly=False, lang="en"):
-    from utils.i18n import js_translations, thinking_words
+    from utils.i18n import js_translations
     import json as _json
     from fasthtml.common import Button
     body = Body(
@@ -44,11 +45,10 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
         Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
-        Script(_json.dumps(thinking_words(lang), ensure_ascii=False), id="thinking-words-data", type="application/json"),
         Script(src=f"/static/chat.js?v={app_version()}"),
-        cls="bg-white text-ink font-sans antialiased app",
+        cls="bg-surface text-ink font-sans antialiased app",
     )
-    return (*_head("Ask eesti.chat", with_brand=False).children, body)
+    return (*_head("Ask lietuva.chat", with_brand=False).children, body)
 
 
 def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None):
@@ -76,7 +76,7 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
             Div(
                 Div(title, cls="chat-header-title"),
                 Div(
-                    Div("Shared via eesti.chat", cls="shared-subtitle"),
+                    Div("Shared via lietuva.chat", cls="shared-subtitle"),
                     cls="chat-header-actions",
                 ),
                 cls="chat-header",
@@ -90,6 +90,6 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
                 if (typeof marked !== 'undefined') b.innerHTML = marked.parse(b.textContent);
             });
         """)),
-        cls="bg-white text-ink font-sans antialiased",
+        cls="bg-surface text-ink font-sans antialiased",
     )
     return (*_head(title, with_brand=False).children, body)

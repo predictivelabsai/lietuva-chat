@@ -1,25 +1,27 @@
 {
   "version": 1,
-  "direction": "official editorial state portal",
+  "direction": "Vercel-style stark neutral UI; amber only in the mark and tiny details; Apple liquid-glass composer; never state-portal",
   "mode": "persuade-and-operate",
   "tokens": {
-    "blue": "#0030DE",
-    "blue-deep": "#000087",
-    "blue-ice": "#CEE2FD",
-    "ink": "#0F172A",
-    "ink-2": "#3D4B5E",
-    "ink-3": "#64748B",
-    "line": "#CBD5E1",
-    "bg-alt": "#F1F5F9",
-    "surface": "#FFFFFF"
+    "ink": "#171717",
+    "ink-2": "#4D4D4D",
+    "ink-3": "#666666",
+    "line": "#EBEBEB",
+    "paper": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "bg-alt": "#F5F5F5",
+    "accent": "#171717",
+    "amber": "#D97706"
   },
   "fonts": {
-    "display": "AinoHeadline",
-    "body": "Aino"
+    "display": "Geist",
+    "body": "Geist",
+    "mono": "Geist Mono"
   },
   "radius": {
-    "card": "6px",
-    "control": "4px",
-    "chip": "3px"
+    "control": "6px",
+    "card": "8-12px",
+    "pill": "999px",
+    "composer": "30px"
   }
 }

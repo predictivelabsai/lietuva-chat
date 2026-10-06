@@ -1,1 +1,1 @@
-"""eesti.chat discover assistants."""
+"""lietuva.chat discover assistants."""

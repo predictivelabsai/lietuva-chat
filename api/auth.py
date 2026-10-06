@@ -10,7 +10,7 @@ import time
 import base64
 
 
-JWT_SECRET = os.environ.get("JWT_SECRET", os.environ.get("APP_SECRET", "eesti-chat-app-2026"))
+JWT_SECRET = os.environ.get("JWT_SECRET", os.environ.get("APP_SECRET", "lietuva-chat-app-2026"))
 JWT_EXPIRY_HOURS = 72
 
 

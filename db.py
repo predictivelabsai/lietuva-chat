@@ -9,7 +9,7 @@ load_dotenv()
 log = logging.getLogger(__name__)
 
 DB_URL = os.environ.get("DB_URL", "").strip()
-SCHEMA = os.environ.get("DB_SCHEMA", "eesti").strip() or "eesti"
+SCHEMA = os.environ.get("DB_SCHEMA", "lietuva").strip() or "lietuva"
 LEGACY_SCHEMA = "carhero"
 
 # The portal runs without a database (anonymous chat, no persisted history).
@@ -148,7 +148,7 @@ def _init_chat_tables():
         if not exists:
             conn.execute(text(
                 f"INSERT INTO {SCHEMA}.chat_users (id, email, name, password_hash) "
-                f"VALUES (0, 'guest@eesti.chat', 'Guest', 'nologin')"
+                f"VALUES (0, 'guest@lietuva.chat', 'Guest', 'nologin')"
             ))
         # Seed admin user
         _seed_admin(conn)
@@ -317,7 +317,7 @@ def _seed_admin(conn):
         conn.execute(text(f"""
             INSERT INTO {SCHEMA}.chat_users (email, password_hash, name, is_verified, role)
             VALUES (:email, :pw, :name, TRUE, 'admin')
-        """), {"email": admin_email, "pw": pw_hash, "name": "eesti.chat Admin"})
+        """), {"email": admin_email, "pw": pw_hash, "name": "lietuva.chat Admin"})
     else:
         conn.execute(
             text(f"UPDATE {SCHEMA}.chat_users SET role = 'admin' WHERE email = :email"),

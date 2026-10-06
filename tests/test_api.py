@@ -1,4 +1,4 @@
-"""Tests for the eesti.chat API.
+"""Tests for the lietuva.chat API.
 
 Run: pytest tests/test_api.py -v
 Requires: server running on localhost:5010 with DB access.
@@ -199,7 +199,7 @@ class TestChat:
         assert len(token_events) > 0, "Should stream response tokens"
 
     def test_services_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "gov: how do I renew my Estonian ID card?")
+        events = self._stream_chat(client, auth_token, "gov: how do I renew my Lithuanian ID card?")
 
         route_event = next(e for e in events if e["event"] == "agent_route")
         assert route_event["data"]["slug"] == "services"
@@ -220,7 +220,7 @@ class TestChat:
         assert any(e["event"] == "done" for e in events)
 
     def test_explore_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "estonia: what makes Estonia's digital society distinctive?")
+        events = self._stream_chat(client, auth_token, "lithuania: what should a newcomer know about living in Lithuania?")
 
         route_event = next(e for e in events if e["event"] == "agent_route")
         assert route_event["data"]["slug"] == "explore"

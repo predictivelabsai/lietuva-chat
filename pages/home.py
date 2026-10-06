@@ -1,356 +1,233 @@
+import json
+from urllib.parse import quote
+
 from fasthtml.common import *
-from fasthtml.common import NotStr
 from utils.i18n import t, agent_t, get_lang
-from chat.components import signin_overlay
-from agents.registry import AGENTS_BY_SLUG
-from utils.brand import Icon, Mark, AGENT_ICONS
+from utils.brand import Icon, Mark
+from utils.version import app_version
+from utils.i18n import LANGUAGES
+from agents.registry import AGENTS, AGENTS_BY_SLUG
+from tools.search import OFFICIAL_DOMAINS
+from utils.brand import AGENT_ICONS
+from utils import popular
+
+# Life moments the hero conversation plays through: (number, sources read). Question, answer and
+# label strings live in utils/i18n.py under life_<n>, life_<n>_q and life_<n>_a.
+LIFE_MOMENTS = [
+    ('01', ('epaslaugos.lt', 'migracija.lt')),
+    ('02', ('vmi.lt', 'sodra.lt')),
+    ('03', ('ligoniukasa.lrv.lt',)),
+    ('04', ('registrucentras.lt',)),
+    ('05', ('globalilietuva.urm.lt',)),
+]
 
 
-def _stat(value, label):
-    return Div(
-        Span(value, cls='stat-value'),
-        Span(label, cls='stat-label'),
-        cls='stat-item reveal',
+def _accent_last(text):
+    """Split off the last word so it can carry the brand colour ("…in <em>Lithuania.</em>")."""
+    head, _, last = text.rpartition(' ')
+    return (head + ' ', Em(last, cls='home-title-accent')) if head else (text,)
+
+
+def _composer(lang, field_id, placeholder):
+    return Form(
+        Label(placeholder, **{'for': field_id}, cls='visually-hidden'),
+        Input(type='text', name='q', id=field_id, autocomplete='off', cls='home-composer-input', placeholder=placeholder),
+        Button(Icon('arrow-right', 20), type='submit', cls='home-composer-send',
+               title=t('hero_cta_start', lang), aria_label=t('hero_cta_start', lang)),
+        action='/app', method='get', role='search', cls='home-composer',
     )
 
 
-def _statement_parts(copy):
-    parts = []
-    for segment in copy.split('[['):
-        if ']]' not in segment:
-            parts.append(segment)
-            continue
-        accent, remainder = segment.split(']]', 1)
-        parts.append(
-            Span(
-                accent,
-                cls='statement-accent',
-            )
-        )
-        if remainder:
-            parts.append(remainder)
-    return parts
+SUN_LINES = ('M50 14 86 50 50 86 14 50Z M50 30 70 50 50 70 30 50Z M50 42 58 50 50 58 42 50Z '
+             'M50 14V2 M50 98V86 M14 50H2 M98 50H86 M24.5 24.5 16 16 M75.5 24.5 84 16 M24.5 75.5 16 84 M75.5 75.5 84 84')
 
 
-def _feature_visual(kind):
-    if kind == 'ask':
-        return Div(
-            Icon('chat', 88, cls='editorial-visual-icon', stroke=1.5),
-            cls='editorial-visual editorial-visual-blue',
-            aria_hidden='true',
-        )
-    if kind == 'stone':
-        return Div(
-            Mark(88, cls='editorial-mark'),
-            cls='editorial-visual editorial-visual-blue',
-            aria_hidden='true',
-        )
-    if kind == 'sources':
-        return Div(
-            Icon('source', 68, cls='editorial-visual-icon', stroke=1.5),
-            cls='editorial-visual editorial-visual-ink',
-            aria_hidden='true',
-        )
+def _demo_script(lang):
+    """The conversations as JSON for static/home-demo.js; the first one is also rendered server-side."""
+    return json.dumps([
+        {'q': t(f'life_{n}_q', lang), 'a': t(f'life_{n}_a', lang), 'src': list(src)}
+        for n, src in LIFE_MOMENTS
+    ], ensure_ascii=False)
+
+
+def _demo(lang):
+    """A window that looks like the product and plays a real exchange per life moment."""
+    n, src = LIFE_MOMENTS[0]
     return Div(
-        Mark(132, cls='editorial-mark editorial-mark-large'),
-        cls='editorial-visual editorial-visual-blue',
-        aria_hidden='true',
+        Div(
+            Span(Mark(16), 'lietuva.chat', cls='demo-window-brand'),
+            Span(t(f'life_{n}', lang), cls='demo-window-topic'),
+            cls='demo-window-bar',
+        ),
+        Div(
+            P(t(f'life_{n}_q', lang), cls='demo-q'),
+            P(Span(cls='demo-dot'), t('home_reading', lang), ' ', Span(' · '.join(src), cls='demo-reading-src'),
+              cls='demo-reading'),
+            P(t(f'life_{n}_a', lang), cls='demo-a'),
+            Div(*[Span(d, cls='demo-chip') for d in src], cls='demo-chips'),
+            cls='demo-thread', aria_live='polite',
+        ),
+        Div(*[Button(Span(num, cls='demo-tab-num'), t(f'life_{num}', lang), type='button',
+                     cls='demo-tab' + (' is-active' if k == 0 else ''), data_index=str(k),
+                     aria_pressed='true' if k == 0 else 'false')
+              for k, (num, _) in enumerate(LIFE_MOMENTS)], cls='demo-tabs'),
+        cls='demo-window', data_topic='1', data_script=_demo_script(lang),
+    )
+
+
+def _how(lang):
+    """How it answers: three short steps beside the live demo window."""
+    steps = Ol(*[Li(B(f'0{n}'), Strong(t(f'how_{k}', lang)), Span(t(f'how_{k}_body', lang)))
+                 for n, k in enumerate('abc', 1)], cls='how-steps')
+    return Section(
+        Div(
+            P(Span('02', cls='info-num'), t('info_02', lang), cls='info-label'),
+            H2(t('info_02_title', lang), cls='info-title'),
+            Div(steps, _demo(lang), cls='how-grid'),
+            cls='portal-container',
+        ),
+        cls='how',
+    )
+
+
+def _moments(lang):
+    """Life moments as one row that drifts sideways while you scroll (home-story.js)."""
+    cards = [A(Small(f'{n} · {t(f"life_{n}", lang)}'), Span(t(f'life_{n}_q', lang), cls='moment-q'),
+               B(t('ask_cta', lang) + ' →', cls='moment-go'), href=_ask_href(t(f'life_{n}_q', lang)), cls='moment')
+             for n, _ in LIFE_MOMENTS]
+    return Section(
+        H2(t('moments_title', lang), cls='moments-title fade'),
+        Div(*cards, cls='moments-track', id='moments-track'),
+        cls='moments', id='moments',
+    )
+
+
+# Questions people bring, each opening the chat with that question.
+ASK_TOPICS = ['residence', 'tax', 'health', 'family', 'business', 'abroad']
+
+# Lithuanian phrases on the audience postcards: (word, pronunciation).
+PHRASES = [('Labas', 'LAH-bahs'), ('Ačiū', 'AH-chyoo'), ('Sveiki atvykę', 'SVAY-kee aht-VEE-keh')]
+
+
+def _info(num, label, title, *body, id=None):
+    return Section(
+        Div(
+            P(Span(num, cls='info-num'), label, cls='info-label'),
+            Div(H2(title, cls='info-title'), *body, cls='info-body'),
+            cls='portal-container info-grid',
+        ),
+        cls='info', id=id,
+    )
+
+
+def _ask_href(text):
+    return f"/app?q={quote(text)}"
+
+
+def _ticker(lang):
+    """A slow marquee of real questions; the list is doubled so the loop is seamless."""
+    items = [t(f'tick_{n}', lang) for n in range(1, 9)]
+    row = [A(Span(cls='tick-dot'), q, href=_ask_href(q), cls='tick') for q in items]
+    return Div(
+        Div(*row, *[A(Span(cls='tick-dot'), q, href=_ask_href(q), cls='tick', tabindex='-1', aria_hidden='true')
+                    for q in items], cls='ticker-track'),
+        cls='ticker', aria_label=t('info_01', lang),
+    )
+
+
+def _juosta():
+    return Div(cls='juosta', aria_hidden='true')
+
+
+def _bento(lang):
+    """Product facts counted from the code, so they never drift: domains searched, assistants, languages."""
+    domains = Div(*[Span(d, cls='bento-domain') for d in OFFICIAL_DOMAINS[:14]], cls='bento-domains', aria_hidden='true')
+    agents = Div(*[Span(Icon(AGENT_ICONS.get(a.slug, 'chat'), 22), cls='bento-agent') for a in AGENTS],
+                 cls='bento-agents', aria_hidden='true')
+    hellos = Div(*[Span(w, cls='bento-hello') for w in ('Labas', 'Hello', 'Привет', 'Hallo', 'Bonjour', 'Hej', 'Sveiki', 'Moi', 'Tere')],
+                 cls='bento-hellos', aria_hidden='true')
+    return Section(
+        Div(
+            P(t('bento_label', lang), cls='bento-label'),
+            H2(t('bento_title', lang), cls='bento-title'),
+            Div(
+                Div(P(Span(str(len(OFFICIAL_DOMAINS)), cls='bento-num', data_count=str(len(OFFICIAL_DOMAINS))),
+                      t('bento_sources', lang), cls='bento-stat'), domains, cls='bento-card bento-wide reveal'),
+                Div(P(Span(str(len(AGENTS)), cls='bento-num', data_count=str(len(AGENTS))), t('bento_agents', lang),
+                      cls='bento-stat'), agents, cls='bento-card bento-green reveal'),
+                Div(P(Span(str(len(LANGUAGES)), cls='bento-num', data_count=str(len(LANGUAGES))), t('bento_langs', lang),
+                      cls='bento-stat'), hellos, cls='bento-card reveal'),
+                Div(H3(t('bento_cite', lang), cls='bento-h'), P(t('bento_cite_body', lang), cls='bento-p'),
+                    Div(Span('vmi.lt'), Span('sodra.lt'), Span('e-tar.lt'), cls='bento-chips', aria_hidden='true'),
+                    cls='bento-card bento-wide reveal'),
+                Div(Mark(40), H3(t('bento_independent', lang), cls='bento-h'), P(t('bento_independent_body', lang), cls='bento-p'),
+                    cls='bento-card bento-wide bento-ink reveal'),
+                cls='bento-grid',
+            ),
+            cls='portal-container',
+        ),
+        cls='bento',
+    )
+
+
+def _info_sections(lang):
+    asks = Div(*[A(Span(Span(cls='card-dot'), t(f'ask_{k}', lang), cls='qcard-topic'),
+                   Span(t(f'ask_{k}_q', lang), cls='qcard-q'),
+                   Span(Icon('arrow-right', 18), cls='qcard-go'),
+                   href=_ask_href(t(f'ask_{k}_q', lang)), cls='qcard reveal')
+                 for k in ASK_TOPICS], cls='qcards')
+
+    who = Div(*[Div(
+        Div(Span(word, cls='phrase-word'), Span(f'[{say}]', cls='phrase-say'),
+            Span(t(f'phrase_{n}_meaning', lang), cls='phrase-meaning'), cls='phrase', aria_label=t('phrase_label', lang)),
+        H3(t(f'who_{k}', lang), cls='who-h'), P(t(f'who_{k}_body', lang), cls='who-p'),
+        cls='who-item reveal')
+        for n, (k, (word, say)) in enumerate(zip(('res', 'new', 'abroad'), PHRASES), 1)], cls='who-grid')
+
+    agents = Div(*[A(Span(Icon(AGENT_ICONS.get(a.slug, 'chat'), 26), cls='agent-row-icon'),
+                     Span(Span(agent_t(a.slug, 'name', lang), cls='agent-row-name'),
+                          Span(agent_t(a.slug, 'one_liner', lang), cls='agent-row-copy'), cls='agent-row-text'),
+                     href=f"/app?q={quote(a.prefix)}", cls='agent-row reveal')
+                   for a in AGENTS], cls='agent-rows')
+
+    closing = Section(
+        Div(
+            H2(t('home_greeting', lang).rstrip('.'), Em('.'), cls='closing-title'),
+            P(t('home_independent', lang), cls='closing-note fade'),
+            _composer(lang, 'close-q', t('close_placeholder', lang)),
+            cls='portal-container closing-inner',
+        ),
+        cls='closing',
+    )
+
+    return (
+        _juosta(),
+        _ticker(lang),
+        _how(lang),
+        _info('01', t('info_01', lang), t('info_01_title', lang), asks, id='topics'),
+        _moments(lang),
+        _bento(lang),
+        _info('03', t('info_03', lang), t('info_03_title', lang), who),
+        _info('04', t('topics_title', lang), t('topics_subtitle', lang), agents, P(t('info_04_body', lang), cls='src-note')),
+        _juosta(),
+        closing,
+        Script(src=f'/static/home-story.js?v={app_version()}', defer=True),
+        Script(src=f'/static/home-demo.js?v={app_version()}', defer=True),
     )
 
 
 def home_page(sess=None):
     lang = get_lang(sess or {})
-
-    agents = ["eresidency", "moving", "tax", "digital", "services", "explore"]
-
-    hero_chips = [
-        A(
-            agent_t(slug, 'name', lang),
-            href=f"/app?q={AGENTS_BY_SLUG[slug].prefix.strip()}",
-            cls='hero-chip',
-        )
-        for slug in agents
-    ]
-
     hero = Section(
+        Div(NotStr(f'<svg viewBox="0 0 100 100" aria-hidden="true"><path d="{SUN_LINES}"/></svg>'), cls='sun', aria_hidden='true'),
         Div(
-            Div(
-                Span(t('feat_estonia', lang), cls='hero-kicker'),
-                H1(t('hero_h1', lang), cls='hero-title'),
-                P(t('hero_h2', lang), cls='hero-subtitle'),
-                P(t('hero_body', lang), cls='hero-copy'),
-                Div(
-                    Form(
-                        Label(t('chat_placeholder', lang), **{'for': 'hero-prompt-input'}, cls='visually-hidden'),
-                        Input(type='search', name='q', placeholder=t('chat_placeholder', lang),
-                             autocomplete='off', id='hero-prompt-input', cls='hero-prompt-input'),
-                        Button(
-                            Icon('arrow-right', 20),
-                            type='submit', cls='hero-prompt-submit', title=t('hero_cta_start', lang),
-                            aria_label=t('hero_cta_start', lang),
-                        ),
-                        action='/app', method='get', role='search', cls='hero-prompt-form',
-                    ),
-                    cls='hero-prompt-slot',
-                ),
-                Div(*hero_chips, cls='hero-chips'),
-                Div(
-                    A(
-                        Span(t('hero_cta_start', lang)), Icon('arrow-right', 16),
-                        href='/app', cls='hero-action hero-action-primary',
-                    ),
-                    A(
-                        Span(t('hero_cta_explore', lang)), Icon('arrow-right', 16),
-                        href='#topics', cls='hero-action hero-action-secondary',
-                    ),
-                    cls='hero-actions',
-                ),
-                cls='home-hero-content',
-            ),
-            cls='home-hero-inner',
+            P(t('home_eyebrow', lang), cls='home-hello'),
+            H1(*_accent_last(t('home_question', lang)), cls='home-question'),
+            _composer(lang, 'home-q', t('home_placeholder', lang)),
+            Div(*[A(q, href=_ask_href(q)) for q in popular.suggestions(lang)], cls='home-quiet'),
+            cls='home-inner',
         ),
-        cls='home-hero',
+        Span(cls='scroll-cue', aria_hidden='true'),
+        cls='home',
     )
-
-    statement = Section(
-        Div(
-            H2(*_statement_parts(t('home_statement', lang)), cls='statement-copy reveal'),
-            cls='portal-container statement-inner',
-        ),
-        cls='statement-section',
-    )
-
-    stats = Div(
-        Div(_stat('99%', t('stat_services', lang)),
-            _stat('2001', t('stat_xroad', lang)),
-            _stat('2014', t('stat_eres', lang)),
-            _stat('~2%', t('stat_signatures', lang)),
-            cls='portal-container stats-grid'),
-        cls='stats-band',
-    )
-
-    feature_rows = [
-        ('ask', 'editorial-row', t('how_01_title', lang), t('feat_ask', lang),
-         t('feat_ask_body', lang), t('feat_ask_link', lang), '/app'),
-        ('sources', 'editorial-row-reverse', t('how_03_title', lang), t('feat_sources', lang),
-         t('feat_sources_body', lang), t('feat_sources_link', lang), '#how'),
-        ('estonia', 'editorial-row', t('feat_estonia_link', lang), t('feat_estonia', lang),
-         t('feat_estonia_body', lang), t('feat_estonia_link', lang), '/about'),
-    ]
-
-    features = Section(
-        Div(
-            H2('Why eesti.chat', cls='visually-hidden'),
-            Div(
-                *[Article(
-                    _feature_visual(kind),
-                    Div(
-                        Span(eyebrow, cls='editorial-eyebrow'),
-                        H3(title, cls='editorial-title'),
-                        P(body, cls='editorial-copy'),
-                        A(Span(link), Icon('arrow-right', 16), href=href, cls='editorial-link'),
-                        cls='editorial-copy-column',
-                    ),
-                    cls=f'editorial-row-shell {direction} reveal',
-                ) for kind, direction, eyebrow, title, body, link, href in feature_rows],
-                cls='editorial-list',
-            ),
-            cls='portal-container',
-        ),
-        cls='public-section feature-section',
-    )
-
-    agent_cards = [
-        A(
-            Span(Icon(AGENT_ICONS[slug], 28), cls='agent-card-icon'),
-            Div(agent_t(slug, 'name', lang), cls='agent-card-title'),
-            P(agent_t(slug, 'one_liner', lang), cls='agent-card-copy'),
-            href=f"/app?q={AGENTS_BY_SLUG[slug].prefix.strip()}",
-            cls='portal-card agent-card reveal',
-        )
-        for slug in agents
-    ]
-
-    agents_section = Section(
-        Div(
-            Span(t('topics_title', lang), cls='section-label-blue'),
-            H2(t('topics_subtitle', lang), cls='section-title'),
-            Div(*agent_cards, cls='agent-grid'),
-            cls='portal-container',
-        ),
-        id='topics',
-        cls='public-section public-section-alt scroll-mt-16',
-    )
-
-    how = Section(
-        Div(
-            Span(t('how_02_title', lang), cls='section-label-blue'),
-            H2(t('how_title', lang), cls='section-title'),
-            Div(
-                *[Article(
-                    P(num, cls='step-number'),
-                    Div(
-                        H3(title, cls='step-title'),
-                        P(body, cls='step-copy'),
-                        cls='step-content',
-                    ),
-                    cls='step-row reveal',
-                ) for num, title, body in [
-                    ('01', t('how_01_title', lang), t('how_01_body', lang)),
-                    ('02', t('how_02_title', lang), t('how_02_body', lang)),
-                    ('03', t('how_03_title', lang), t('how_03_body', lang)),
-                ]],
-                cls='steps-list',
-            ),
-            cls='portal-container',
-        ),
-        id='how',
-        cls='public-section public-section-white scroll-mt-16',
-    )
-
-    cta = Section(
-        Div(
-            H2(t('cta_headline', lang), cls='section-title cta-title reveal'),
-            P(t('cta_body', lang), cls='cta-copy reveal'),
-            A(
-                Span(t('hero_cta_start', lang)), Icon('arrow-right', 16),
-                href='/app', cls='public-button public-button-primary reveal',
-            ),
-            cls='portal-container cta-inner',
-        ),
-        cls='public-section cta-section',
-    )
-
-    auth_modal = signin_overlay(lang)
-
-    auth_js = Script(NotStr("""
-function switchAuthTab(tab) {
-    document.getElementById('auth-form-login').style.display = tab === 'login' ? '' : 'none';
-    document.getElementById('auth-form-register').style.display = tab === 'register' ? '' : 'none';
-    document.getElementById('auth-form-forgot').style.display = tab === 'forgot' ? '' : 'none';
-    document.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
-    var tabEl = document.getElementById('auth-tab-' + tab);
-    if (tabEl) tabEl.classList.add('active');
-}
-function showForgotPassword(e) { e && e.preventDefault(); switchAuthTab('forgot'); }
-function showSignIn() {
-    var overlay = document.getElementById('signin-overlay');
-    overlay.classList.add('visible');
-    switchAuthTab('login');
-    var first = Array.from(overlay.querySelectorAll('.auth-panel input')).find(function(input) { return input.offsetParent !== null; });
-    if (first) first.focus();
-}
-async function doLogin() {
-    var email = document.getElementById('login-email').value.trim();
-    var password = document.getElementById('login-password').value;
-    var errEl = document.getElementById('login-error');
-    errEl.textContent = '';
-    if (!email || !password) { errEl.textContent = 'Enter your email and password'; return; }
-    var resp = await fetch('/auth/login', { method: 'POST', body: new URLSearchParams({ email: email, password: password }) });
-    var data = await resp.json();
-    if (data.ok) { window.location.href = '/app'; }
-    else if (data.error === 'no_password') {
-        errEl.innerHTML = 'No password is set. <a href="#" onclick="showSetPassword(\\'' + email + '\\');return false" style="color:var(--blue);font-weight:700;">Set one now</a>';
-    } else { errEl.textContent = data.error || 'Sign-in failed'; }
-}
-async function doRegister() {
-    var name = document.getElementById('reg-name').value.trim();
-    var email = document.getElementById('reg-email').value.trim();
-    var password = document.getElementById('reg-password').value;
-    var errEl = document.getElementById('reg-error');
-    var okEl = document.getElementById('reg-success');
-    errEl.textContent = ''; okEl.textContent = '';
-    if (!email || !password) { errEl.textContent = 'Enter your email and password'; return; }
-    var resp = await fetch('/auth/register', { method: 'POST', body: new URLSearchParams({ email: email, password: password, name: name }) });
-    var data = await resp.json();
-    if (data.ok) { okEl.textContent = data.message || 'Check your email to verify'; }
-    else { errEl.textContent = data.error || 'Registration failed'; }
-}
-async function doForgot() {
-    var email = document.getElementById('forgot-email').value.trim();
-    var msgEl = document.getElementById('forgot-msg');
-    msgEl.textContent = '';
-    if (!email) { msgEl.textContent = 'Enter your email address'; msgEl.style.color = 'var(--danger)'; return; }
-    var resp = await fetch('/auth/forgot', { method: 'POST', body: new URLSearchParams({ email: email }) });
-    var data = await resp.json();
-    msgEl.style.color = 'var(--success)';
-    msgEl.textContent = data.message || 'Reset link sent if account exists';
-}
-function showSetPassword(email) {
-    var form = document.getElementById('auth-form-login');
-    form.innerHTML = '<p style="font-size:13px;color:var(--ink-2);margin-bottom:12px;">Set a password for <strong>' + email + '</strong></p>'
-        + '<input type="password" id="set-pw-input" placeholder="New password (6 characters minimum)" aria-label="New password (6 characters minimum)" style="width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;margin-bottom:12px;">'
-        + '<div id="set-pw-error" role="alert" style="color:var(--danger);font-size:12px;margin-bottom:8px;"></div>'
-        + '<button onclick="doSetPassword(\\'' + email + '\\')" style="padding:8px 16px;background:var(--blue);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;">Set password</button>';
-}
-async function doSetPassword(email) {
-    var password = document.getElementById('set-pw-input').value;
-    var errEl = document.getElementById('set-pw-error');
-    if (!password || password.length < 6) { errEl.textContent = 'Use at least 6 characters'; return; }
-    var resp = await fetch('/auth/set-password', { method: 'POST', body: new URLSearchParams({ email: email, password: password }) });
-    var data = await resp.json();
-    if (data.ok) window.location.href = '/app';
-    else errEl.textContent = data.error || 'Could not set the password';
-}
-document.addEventListener('click', function(e) {
-    var overlay = document.getElementById('signin-overlay');
-    if (e.target === overlay) overlay.classList.remove('visible');
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-        var overlay = document.getElementById('signin-overlay');
-        if (overlay && overlay.classList.contains('visible')) {
-            var focusable = Array.from(overlay.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(function(el) { return !el.disabled && el.offsetParent !== null; });
-            if (focusable.length) {
-                var first = focusable[0], last = focusable[focusable.length - 1];
-                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-            }
-        }
-    }
-    if (e.key === 'Escape') {
-        var overlay = document.getElementById('signin-overlay');
-        if (overlay) overlay.classList.remove('visible');
-    }
-});
-"""))
-
-    auth_css = Style("""
-.signin-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.56); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
-.signin-overlay.visible { display:flex; }
-.auth-tab { padding:10px 16px; font-size:13px; font-weight:700; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--ink-3); cursor:pointer; }
-.auth-tab.active { color:var(--ink); border-bottom-color:var(--blue); }
-.google-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:10px 16px; border:1px solid var(--line); border-radius:4px; background:#fff; font-size:14px; font-weight:700; color:var(--ink-2); text-decoration:none; cursor:pointer; transition:background 0.15s, box-shadow 0.15s; }
-.google-btn:hover { background:var(--bg-alt); box-shadow:0 1px 3px rgba(15,23,42,0.08); }
-.google-btn-icon { display:flex; align-items:center; }
-.google-btn-text { font-family:'Aino', Verdana, system-ui, sans-serif; }
-.google-divider { display:flex; align-items:center; gap:12px; margin:14px 0; }
-.google-divider-line { flex:1; height:1px; background:var(--line); }
-.google-divider-text { font-size:12px; color:var(--ink-3); }
-""")
-
-    reveal_js = Script(NotStr("""
-document.documentElement.classList.add('js');
-(function() {
-    var items = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-        document.documentElement.classList.remove('js');
-        return;
-    }
-    var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(en) {
-            if (en.isIntersecting) {
-                en.target.classList.add('reveal-in');
-                io.unobserve(en.target);
-            }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    items.forEach(function(el) { io.observe(el); });
-})();
-"""))
-
-    return Div(
-        hero, statement, stats, features, agents_section, how, cta,
-        auth_modal, auth_css, auth_js, reveal_js,
-        cls='home-page',
-    )
+    return (hero, *_info_sections(lang))
