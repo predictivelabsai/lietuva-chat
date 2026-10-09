@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.1.5 — 2026-10-09
+
+**Add the LinkedIn launch posts and landing gifs in English and Lithuanian.**
+
+- English post in `docs/linkedin_en.md`, Lithuanian post in `docs/linkedin_lt.md`. The shorter English draft stays in `docs/linkedin.md`.
+- Landing gifs captured from the live site: `media/lietuva-landing.gif` and `media/lietuva-landing-lt.gif`, plus hero stills.
+- `scripts/capture_linkedin.cjs` recaptures either language with `CAPTURE_LANG=en` or `CAPTURE_LANG=lt`.
+
 ## v1.1.4 — 2026-10-06
 
 **Allow Coolify to run the container HTTP health check.**

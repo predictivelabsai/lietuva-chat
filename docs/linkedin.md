@@ -1,21 +1,18 @@
-# 🇺🇸 ➡️ 🇱🇹 The US built an AI front door to government. We built one for Lithuania.
+# 🇺🇸 ➡️ 🇱🇹 America.gov gives the US an AI front door. Here is one for Lithuania.
 
-On 29 September the United States launched **America.gov**: ask the federal government a question in plain language and an AI points you to the right agency. No account, no ads.
+On 29 September, the US launched [America.gov](https://www.gsa.gov/about-gsa/newsroom/news-releases/gsa-joins-the-white-houses-national-design-studio-in-unveiling-americagov-09292026): one place to ask about federal information and services in plain language.
 
-It's a good idea, and every country should have one. Lithuania doesn't yet. So we built an independent one.
+The idea travels well. People should be able to start with a question, even when they do not know which agency handles it.
 
-Meet **lietuva.chat**, an AI assistant for living, working and dealing with the state in Lithuania.
+Meet **lietuva.chat** 🇱🇹 — an independent AI assistant for living, working and dealing with the state in Lithuania.
 
-Ask about residence permits, taxes and Sodra, health insurance, starting a UAB, or moving back home from abroad. A specialist assistant reads the responsible agency's own pages (epaslaugos.lt, migracija.lt, vmi.lt, sodra.lt, the Health Insurance Fund, the Centre of Registers, e-TAR) and answers with links so you can check every step.
+Ask about residence permits, taxes, Sodra, health insurance, starting a company or moving back home. Six specialist assistants look for answers on official Lithuanian sites and show their sources so you can check the details yourself.
 
-It's built for three groups that today juggle a dozen agency websites:
-• residents sorting out everyday paperwork
-• newcomers before their first appointment
-• Lithuanians abroad: citizenship, voting, documents and coming home
+It is free to try without an account, works in Lithuanian and English, and is open source. It is **not** a government service.
 
-It's **independent and open source**, not a government service. The look is rooted in Lithuanian heritage: the sash-woven saulė, sash colours and Palemonas, the Lithuanian Language Commission's typeface.
+If you live in Lithuania, are moving here, or are returning from abroad, give it a question you would otherwise take to several agency websites.
 
 🔗 Try it: https://lietuva.chat
-⭐ Fork it: https://github.com/predictivelabsai/lietuva-chat
+⭐ Explore the code: https://github.com/predictivelabsai/lietuva-chat
 
 #Lithuania #Lietuva #AI #GovTech #DigitalGovernment #OpenSource
