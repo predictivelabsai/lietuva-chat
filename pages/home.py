@@ -32,6 +32,9 @@ def _composer(lang, field_id, placeholder):
     return Form(
         Label(placeholder, **{'for': field_id}, cls='visually-hidden'),
         Input(type='text', name='q', id=field_id, autocomplete='off', cls='home-composer-input', placeholder=placeholder),
+        Button(Icon('mic', 18), type='button', cls='voice-btn home-voice-btn',
+               title=t('chat_speak', lang), aria_label=t('chat_speak', lang),
+               onclick='toggleVoice(event)'),
         Button(Icon('arrow-right', 20), type='submit', cls='home-composer-send',
                title=t('hero_cta_start', lang), aria_label=t('hero_cta_start', lang)),
         action='/app', method='get', role='search', cls='home-composer',

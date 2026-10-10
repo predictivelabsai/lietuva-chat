@@ -138,4 +138,7 @@ async def startup():
         print(f"DB init warning: {e}")
 
 
+from voice import register_voice_routes
+register_voice_routes(app)
+
 serve(port=int(os.environ.get('PORT', 5011)), reload=False)

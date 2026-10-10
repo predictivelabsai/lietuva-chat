@@ -9,6 +9,7 @@ def test_privacy_page_discloses_core_mobile_data_flows():
     assert "Predictive Labs Ltd" in html
     assert "AI chat prompts" in html
     assert "OpenAI or xAI" in html
+    assert "microphone audio" in html
     assert "Google Sign-In" in html
     assert "Postmark" in html
     assert 'href="/delete-account"' in html

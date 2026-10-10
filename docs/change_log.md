@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.1.6 — 2026-10-10
+
+**Add speech-to-speech voice on the home composers and in chat.**
+
+- A microphone on both home search fields and in the chat composer talks to xAI through `/ws/voice`. The spoken voice is eve. The guide is lietuva.chat, not a government official.
+- The browser dictation button is replaced. Audio is sent only after the voice session is ready, and a quiet room can close a turn when server voice detection does not.
+- Privacy notice says microphone audio and the transcript go to xAI.
+
 ## v1.1.5 — 2026-10-09
 
 **Add the LinkedIn launch posts and landing gifs in English and Lithuanian.**

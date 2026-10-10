@@ -289,6 +289,11 @@
         b.addEventListener("click", () => onClick(b));
         return b;
     }
+    function speechLang() {
+        const form = $(".chat-form");
+        const code = (form && form.dataset.lang) || "en";
+        return ({ lt: "lt-LT", en: "en-GB", ru: "ru-RU", de: "de-DE", fr: "fr-FR", sv: "sv-SE", lv: "lv-LV", fi: "fi-FI", et: "et-EE" })[code] || "en-GB";
+    }
     function addActions(wrap, content, agentSlug) {
         if (!wrap || wrap.querySelector(".msg-actions")) return;
         addSources(wrap, content);
@@ -327,12 +332,6 @@
         wrap.appendChild(row);
         bindFeedbackRow(fb);
     }
-    function speechLang() {
-        const form = $(".chat-form");
-        const code = (form && form.dataset.lang) || "en";
-        return ({ lt: "lt-LT", en: "en-GB", ru: "ru-RU", de: "de-DE", fr: "fr-FR", sv: "sv-SE", lv: "lv-LV", fi: "fi-FI", et: "et-EE" })[code] || "en-GB";
-    }
-
     // -- Text size: A / A+ / A++, remembered on this device --
     window.setTextSize = (size) => {
         document.documentElement.dataset.textSize = size;
@@ -344,30 +343,6 @@
         try { size = localStorage.getItem("lc-text-size") || "m"; } catch (e) {}
         window.setTextSize(size);
     })();
-
-    // -- Voice input (only where the browser supports it) --
-    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let recognizer = null;
-    if (Recognition && $("#mic-btn")) $("#mic-btn").hidden = false;
-    window.toggleVoice = () => {
-        const mic = $("#mic-btn"), ta = $("#chat-input");
-        if (!Recognition || !mic || !ta) return;
-        if (recognizer) { recognizer.stop(); return; }
-        recognizer = new Recognition();
-        recognizer.lang = speechLang();
-        recognizer.interimResults = true;
-        const before = ta.value;
-        mic.classList.add("listening");
-        ta.placeholder = i18n("listening", "Listening… speak now");
-        recognizer.onresult = (e) => {
-            const text = Array.from(e.results).map(r => r[0].transcript).join("");
-            ta.value = (before ? before + " " : "") + text;
-            autoResize(ta);
-        };
-        recognizer.onend = () => { mic.classList.remove("listening"); recognizer = null; ta.focus(); };
-        recognizer.onerror = () => { mic.classList.remove("listening"); recognizer = null; };
-        recognizer.start();
-    };
 
     // -- Sample cards --
     window.updateSampleCards = (slug) => {

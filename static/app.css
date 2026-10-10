@@ -169,6 +169,7 @@ body.menu-open { overflow: hidden; }
 .home-composer:focus-within { box-shadow: var(--glass-shadow), 0 0 0 4px var(--green-soft); }
 .home-composer-input { min-width: 0; flex: 1; padding: 12px 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 17px; letter-spacing: -0.01em; text-overflow: ellipsis; }
 .home-composer-input::placeholder { color: var(--ink-3); }
+.home-composer .voice-btn { width: 46px; height: 46px; min-width: 46px; min-height: 46px; flex: 0 0 46px; margin-right: 6px; border: 0; }
 .home-composer-send { display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; flex: 0 0 50px; border: 0; border-radius: 50%; background: var(--accent-fill); color: var(--on-accent); cursor: pointer; transition: background-color 160ms ease, transform 160ms ease; }
 .home-composer-send:hover { background: var(--accent-fill-hover); }
 .home-composer-send:active { transform: scale(0.94); }
@@ -674,7 +675,9 @@ body.menu-open { overflow: hidden; }
   .site-menu-inner { border-radius: 24px; }
   .menu-body { grid-template-columns: 1fr; gap: 32px; }
   .home-composer-input { font-size: 16px; }
+  .home-composer .voice-btn { width: 44px; height: 44px; min-width: 44px; min-height: 44px; flex-basis: 44px; }
   .home-composer-send { width: 46px; height: 46px; flex-basis: 46px; }
+  .voice-panel, .voice-hint { width: calc(100% - 24px); }
   .info-grid { grid-template-columns: 1fr; gap: 16px; }
   .info-label { position: static; }
   .site-nav-links, .site-nav-cta { display: none; }
@@ -766,6 +769,27 @@ html[data-text-size="xl"] .messages > *, html[data-text-size="xl"] .chat-form, h
 .mic-btn[hidden] { display: none; }
 .mic-btn:hover { background: var(--bg-alt); color: var(--ink); }
 .mic-btn.listening { background: var(--green-soft); color: var(--green); animation: pulse 1.2s ease-in-out infinite; }
+.voice-btn { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; height: 44px; min-height: 44px; flex: 0 0 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--ink-2); cursor: pointer; transition: background-color var(--d1) ease, color var(--d1) ease; }
+.voice-btn:hover { background: var(--green-soft); color: var(--green); }
+.voice-btn.active { background: var(--green); color: var(--on-accent); }
+.voice-panel { display: flex; align-items: center; gap: 12px; width: min(calc(100% - 32px), 760px); margin: 0 auto 8px; padding: 10px 14px; border: 0; border-radius: 18px; background: var(--glass-bg); box-shadow: var(--glass-shadow); }
+.voice-orb { width: 10px; height: 10px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
+.voice-panel[data-state="listening"] .voice-orb { background: var(--green); animation: voicePulse 1.2s ease-in-out infinite; }
+.voice-panel[data-state="speaking"] .voice-orb { background: var(--green); animation: voicePulse 0.8s ease-in-out infinite; }
+.voice-panel[data-state="thinking"] .voice-orb { background: var(--ink-2); animation: voicePulse 1s ease-in-out infinite; }
+.voice-panel[data-state="error"] .voice-orb { background: #B42318; }
+@keyframes voicePulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(1.5); } }
+.voice-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 2px; }
+.voice-status { color: var(--ink); font-size: 13px; font-weight: 600; }
+.voice-line { color: var(--ink-2); font-size: 13px; font-weight: 400; line-height: 1.35; }
+.voice-line:empty { display: none; }
+.home-inner .voice-panel, .closing-inner .voice-panel { width: min(680px, 100%); margin: 0 auto 12px; }
+.voice-stop { padding: 6px 12px; border: 0; border-radius: 999px; background: var(--ink); color: var(--on-accent); font-size: 12px; font-weight: 600; cursor: pointer; }
+.voice-stop:hover { background: var(--green); }
+.voice-hint { display: flex; align-items: center; gap: 10px; width: min(calc(100% - 32px), 760px); margin: 0 auto 8px; padding: 8px 12px; border-radius: 14px; background: var(--panel); color: var(--ink-2); font-size: 13px; line-height: 1.4; }
+.voice-hint strong { color: var(--green); font-weight: 700; }
+.voice-hint-x { margin-left: auto; flex-shrink: 0; padding: 0 2px; border: 0; background: none; color: var(--ink-3); font-size: 18px; line-height: 1; cursor: pointer; }
+.voice-hint-x:hover { color: var(--ink); }
 .ai-notice { position: relative; z-index: 2; margin: -8px 0 0; padding: 4px 16px 10px; background: var(--chat-canvas); color: var(--ink-3); font-size: 13px; text-align: center; }
 .thinking-indicator { padding: 8px 14px; border-radius: 999px; background: var(--panel); width: fit-content; }
 .thinking-indicator .dot { background: var(--green); }
