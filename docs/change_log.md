@@ -1,5 +1,12 @@
 # Change Log
 
+## v1.1.7 — 2026-10-10
+
+**Make the Coolify deploy webhook a POST so a push to main actually deploys.**
+
+- The GitHub Action was calling the webhook with GET and hiding a failure when the URL was empty. This Coolify only accepts POST.
+- A failed webhook now fails the Action instead of printing success.
+
 ## v1.1.6 — 2026-10-10
 
 **Add speech-to-speech voice on the home composers and in chat.**

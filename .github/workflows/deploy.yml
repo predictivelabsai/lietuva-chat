@@ -10,10 +10,11 @@ jobs:
     steps:
       - name: Trigger Coolify deployment
         run: |
-          curl -f -X GET \
+          curl -fsS -X POST \
             "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
-            --max-time 120 || echo "Webhook timed out but deploy may still proceed"
+            -H "Accept: application/json" \
+            --max-time 120
         env:
           COOLIFY_WEBHOOK_URL: ${{ secrets.COOLIFY_WEBHOOK_URL }}
           COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
