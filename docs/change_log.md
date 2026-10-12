@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.1.8 — 2026-10-12
+
+**Smaller database pool.**
+
+- The engine keeps at most 2 connections plus 3 overflow (was 5 + 10), recycles them after 5 minutes, and names itself `lietuva-chat` in Postgres (`DB_APPLICATION_NAME` overrides). The Postgres server is shared and was near its connection limit.
+
 ## v1.1.7 — 2026-10-10
 
 **Make the Coolify deploy webhook a POST so a push to main actually deploys.**
