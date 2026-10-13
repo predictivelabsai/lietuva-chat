@@ -1,5 +1,33 @@
 # Change Log
 
+## v1.2.0 — 2026-10-13
+
+**A public MCP server for Lithuanian government open data, and the Business and Tax assistants now check official registers before searching the web.**
+
+- New `mcp_server/` (FastMCP, read-only):
+  - `company_search`, `company_details`, `company_tax_data`, from the Legal Entities Register (JAR) and VMI open data on data.gov.lt;
+  - `law_search` and `law_consolidated`, from the Register of Legal Acts (TAR), with base acts ranked above their amendments;
+  - `exchange_rate` (Bank of Lithuania);
+  - `gov_web_search`, limited to official sites.
+- Every result carries its source URL, licence note and retrieval time.
+- Anonymous and API-key tiers with rate limits, and a polite per-source pace towards upstream servers.
+- Company codes only: a personal code is refused before any request, whether it is passed as a company code or appears anywhere in free text, and the refusal never repeats it or suggests a web search.
+- Rate limits key on the address the reverse proxy appends to `X-Forwarded-For`, so a client cannot reset its limit by sending its own header (`MCP_TRUST_PROXY=0` when exposed directly).
+- `gov_web_search` always keeps the official-domain allowlist.
+- A consolidated law version that has already ended is never reported as in force.
+- Licences checked on data.gov.lt: JAR, both VMI datasets and TAR are CC BY 4.0, and every result says so. The Bank of Lithuania's terms of use ask only that it be named as the source.
+- `company_tax_data` reports `taxes_paid_year_to_date_eur`: VMI publishes current-year taxes cumulatively from 1 January (not Sodra contributions).
+- Long tool results are shortened to valid JSON that keeps the citation fields.
+- The chat's own `web_search` also refuses a personal code before calling the search provider.
+- `exchange_rate` takes `on_date` and returns the rate published that day or the last one before it, the rule in Article 5 of the Financial Accounting Law; the Tax assistant uses it for past transactions instead of today's rate.
+- `exchange_rate` keeps each currency's own date and marks a rate that is no longer published as `stale` (RUB has been frozen at 2022-03-01); rates are labelled as ECB and Bank of Lithuania rates, for information only.
+- Every assistant is now told today's date on each call. Without it, the Tax assistant guessed 2024 and linked an outdated version of the GPM law as the one in force.
+- The Business and Tax assistants get the tools in-process by default, or from a deployed server via `LIETUVA_MCP_URL`.
+- `Dockerfile.mcp` and `docker-compose.mcp.yaml` for a separate deployment. Docs are in `docs/mcp_server.md`.
+- Tests:
+  - recorded-fixture tests, with no network and no patched modules;
+  - a live smoke test behind `--run-integration`.
+
 ## v1.1.8 — 2026-10-12
 
 **Smaller database pool.**

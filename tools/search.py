@@ -9,6 +9,7 @@ import httpx
 from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
 
+from mcp_server.uapi import refuse_personal_code
 from utils.config import settings
 
 log = logging.getLogger(__name__)
@@ -104,6 +105,10 @@ def _exa(query: str, max_results: int, official_only: bool, days: int | None) ->
 
 def _web_search(**kw) -> str:
     args = SearchArgs(**kw)
+    try:
+        refuse_personal_code(args.query)
+    except ValueError as e:
+        return str(e)
     data = _exa(args.query, args.max_results, args.official_only, args.days)
     # If an official-only search comes back empty, retry once across the open web.
     if data and not data["results"] and args.official_only:

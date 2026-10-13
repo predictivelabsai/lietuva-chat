@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import logging
+from datetime import date
 from functools import lru_cache
 from pathlib import Path
+from typing import Callable
 
+from langchain_core.messages import SystemMessage
 from langchain_core.tools import BaseTool
 from langgraph.prebuilt import create_react_agent
 
@@ -28,10 +31,17 @@ def _load_system_prompt(slug: str) -> str:
     return "\n\n".join(p for p in parts if p).strip()
 
 
+def dated_prompt(system: str, today: Callable[[], date] = date.today):
+    """Prompt that tells the model today's date on every call; agents are cached, so a fixed string would go stale."""
+    def prompt(state) -> list:
+        return [SystemMessage(f"{system}\n\nToday's date is {today().isoformat()}."), *state["messages"]]
+    return prompt
+
+
 def build_agent(spec: AgentSpec, tools: list[BaseTool]):
     system = _load_system_prompt(spec.slug)
     llm = build_agent_llm()
-    return create_react_agent(llm, tools, prompt=system or None)
+    return create_react_agent(llm, tools, prompt=dated_prompt(system))
 
 
 @lru_cache(maxsize=64)

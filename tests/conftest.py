@@ -4,6 +4,7 @@ import os
 import sys
 from pathlib import Path
 
+import pytest
 from dotenv import load_dotenv
 
 # Ensure project root is importable
@@ -16,3 +17,29 @@ def pytest_addoption(parser):
         "--run-integration", action="store_true", default=False,
         help="Run integration tests that hit real APIs (Postmark, DB)",
     )
+
+
+@pytest.fixture
+def mcp_upstream(monkeypatch):
+    """Point the MCP server's HTTP client at recorded responses.
+    Call it with {url substring: fixture file or status}; it returns the Upstream."""
+    import httpx
+
+    import utils.config  # noqa: F401 — loads .env on first import, so do it before clearing keys
+    from mcp_server import config, core
+    from tests.mcp_upstream import Upstream
+
+    monkeypatch.delenv("EXA_API_KEY", raising=False)
+    monkeypatch.delenv("LIETUVA_MCP_URL", raising=False)
+    config.mcp_settings.cache_clear()
+    core.reset()
+
+    def install(routes):
+        fake = Upstream(routes)
+        core.set_transport(httpx.MockTransport(fake))
+        return fake
+
+    yield install
+    core.set_transport(None)
+    core.reset()
+    config.mcp_settings.cache_clear()
