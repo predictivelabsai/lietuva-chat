@@ -91,7 +91,9 @@ async def law_consolidated(
 async def exchange_rate(
     currency: Annotated[str | None, Field(description="ISO code, e.g. 'USD'. Omit for all rates.")] = None,
 ) -> Env:
-    """Latest euro reference exchange rates published by the Bank of Lithuania."""
+    """Latest euro exchange rates published by the Bank of Lithuania (ECB reference rates and its own).
+    Each rate has its own publication date; `stale` marks one that is no longer being published.
+    For information only."""
     return await rates.exchange_rate(currency)
 
 

@@ -49,6 +49,12 @@ description, current-year amounts are cumulative from 1 January to the end of th
 given month. They cover taxes and duties paid to VMI's budget accounts, not Sodra
 contributions, and are updated monthly.
 
+`exchange_rate` keeps each currency's own publication date. The feed mixes them:
+on 2026-10-13 the ECB currencies were dated 2026-10-12, the Bank of Lithuania's
+own currencies 2026-09-29, and RUB 2022-03-01 (the ECB stopped publishing it).
+A rate more than 31 days older than the newest one is returned with
+`"stale": true` and a note saying it is not current.
+
 ## Licences
 
 Checked on each dataset's data.gov.lt page on 2026-10-13:
@@ -59,7 +65,7 @@ Checked on each dataset's data.gov.lt page on 2026-10-13:
 | VMI taxpayer register (VAT) | [607](https://data.gov.lt/datasets/607/) | CC BY 4.0 |
 | Taxes paid by legal entities | [673](https://data.gov.lt/datasets/673/) | CC BY 4.0 |
 | Register of Legal Acts (TAR) | [2613](https://data.gov.lt/datasets/2613/) | CC BY 4.0; the acts themselves are not protected by copyright |
-| Euro exchange rates | ECB reference rates published by Lietuvos bankas | attribute the source |
+| Euro exchange rates | Bank of Lithuania FxRates (`tp=EU`): 29 ECB reference rates plus about 55 of the bank's own | attribute the source; for information only |
 
 CC BY 4.0 requires attribution, which every envelope carries in `source_name`,
 `source_url` and `licence`.
@@ -184,9 +190,10 @@ Deploy `Dockerfile.mcp` as its own service; see `docker-compose.mcp.yaml`.
 
 ## Open questions
 
-1. **Bank of Lithuania terms:** lb.lt returns 403 to scripts, so its own reuse
-   terms were not read. The rates are the ECB's euro reference rates; check
-   lb.lt by hand before the public launch.
+1. **Bank of Lithuania terms:** lb.lt returns 403 to scripts, so its reuse terms
+   were not read. About 55 of the 85 rates are the bank's own, not the ECB's.
+   Check its terms of use in a browser before the public launch, and whether
+   Lithuanian tax rules name a specific rate for converting foreign income.
 2. **Dataset 607 ↔ `mm_registras`:** matched by title and publisher (VMI); the
    page does not name the model path.
 3. **Deployment:** the host, the DNS record for `mcp.lietuva.chat` and a CI

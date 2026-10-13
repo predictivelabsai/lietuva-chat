@@ -36,4 +36,28 @@
       <Amt>1.1181</Amt>
     </CcyAmt>
   </FxRate>
+  <FxRate>
+    <Tp>EU</Tp>
+    <Dt>2026-09-29</Dt>
+    <CcyAmt>
+      <Ccy>EUR</Ccy>
+      <Amt>1</Amt>
+    </CcyAmt>
+    <CcyAmt>
+      <Ccy>AED</Ccy>
+      <Amt>4.1032</Amt>
+    </CcyAmt>
+  </FxRate>
+  <FxRate>
+    <Tp>EU</Tp>
+    <Dt>2022-03-01</Dt>
+    <CcyAmt>
+      <Ccy>EUR</Ccy>
+      <Amt>1</Amt>
+    </CcyAmt>
+    <CcyAmt>
+      <Ccy>RUB</Ccy>
+      <Amt>117.2900</Amt>
+    </CcyAmt>
+  </FxRate>
 </FxRates>

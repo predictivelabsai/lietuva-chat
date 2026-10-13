@@ -137,7 +137,9 @@ law_consolidated = _make(
     "Link to the consolidated version of a legal act in force on a date (from law_search's document_id).",
     _LawConsolidated)
 exchange_rate = _make(
-    "exchange_rate", "Latest euro reference exchange rates published by the Bank of Lithuania.", _Fx)
+    "exchange_rate",
+    "Latest euro exchange rates published by the Bank of Lithuania, each with its own date. For information "
+    "only: say the date, and if `stale` is true say the rate is not current.", _Fx)
 
 BUSINESS_TOOLS = [company_search, company_details, company_tax_data, law_search, law_consolidated, exchange_rate]
 TAX_TOOLS = [company_tax_data, law_search, law_consolidated, exchange_rate]

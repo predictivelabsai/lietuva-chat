@@ -12,11 +12,34 @@ from mcp_server.core import UpstreamError
 
 async def test_exchange_rate_all_and_one(mcp_upstream):
     fake = mcp_upstream({"getCurrentFxRates": "lb_fx.xml"})
-    all_rates = await rates.exchange_rate()
-    assert all_rates["data"] == {"date": "2026-10-12", "rates": {"GBP": 0.84478, "PLN": 4.385, "USD": 1.1181}}
+    data = (await rates.exchange_rate())["data"]
+    assert data["latest_date"] == "2026-10-12"
+    assert data["rates"]["USD"] == {"per_eur": 1.1181, "date": "2026-10-12"}
+    assert data["rates"]["AED"] == {"per_eur": 4.1032, "date": "2026-09-29"}
+    assert set(data["rates"]) == {"GBP", "PLN", "USD", "AED", "RUB"}
     one = await rates.exchange_rate("usd")
-    assert one["data"] == {"date": "2026-10-12", "currency": "USD", "per_eur": 1.1181}
+    assert one["data"] == {"currency": "USD", "per_eur": 1.1181, "date": "2026-10-12", "stale": False}
     assert one["cached"] is True and len(fake.requests) == 1
+
+
+async def test_each_rate_keeps_its_own_date(mcp_upstream):
+    """Bank of Lithuania's own rates are published less often than the ECB's: never relabel them."""
+    mcp_upstream({"getCurrentFxRates": "lb_fx.xml"})
+    aed = (await rates.exchange_rate("AED"))["data"]
+    assert aed["date"] == "2026-09-29" and aed["stale"] is False
+
+
+async def test_a_rate_no_longer_published_is_flagged(mcp_upstream):
+    mcp_upstream({"getCurrentFxRates": "lb_fx.xml"})
+    rub = (await rates.exchange_rate("RUB"))["data"]
+    assert rub["date"] == "2022-03-01" and rub["stale"] is True
+    assert "2022-03-01" in rub["note"] and "not current" in rub["note"]
+
+
+def test_rates_are_described_as_information_only():
+    from mcp_server.core import SOURCES
+    assert "Bank of Lithuania" in SOURCES["lb"].name and "ECB" in SOURCES["lb"].name
+    assert "information only" in SOURCES["lb"].licence
 
 
 @pytest.mark.parametrize("bad", ["JPY", "dollars", "U$D"])
