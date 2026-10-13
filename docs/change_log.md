@@ -19,6 +19,7 @@
 - `company_tax_data` reports `taxes_paid_year_to_date_eur`: VMI publishes current-year taxes cumulatively from 1 January (not Sodra contributions).
 - Long tool results are shortened to valid JSON that keeps the citation fields.
 - The chat's own `web_search` also refuses a personal code before calling the search provider.
+- `exchange_rate` takes `on_date` and returns the rate published that day or the last one before it, the rule in Article 5 of the Financial Accounting Law; the Tax assistant uses it for past transactions instead of today's rate.
 - `exchange_rate` keeps each currency's own date and marks a rate that is no longer published as `stale` (RUB has been frozen at 2022-03-01); rates are labelled as ECB and Bank of Lithuania rates, for information only.
 - Every assistant is now told today's date on each call. Without it, the Tax assistant guessed 2024 and linked an outdated version of the GPM law as the one in force.
 - The Business and Tax assistants get the tools in-process by default, or from a deployed server via `LIETUVA_MCP_URL`.

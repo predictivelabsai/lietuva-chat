@@ -90,11 +90,13 @@ async def law_consolidated(
 @mcp.tool(annotations=RO)
 async def exchange_rate(
     currency: Annotated[str | None, Field(description="ISO code, e.g. 'USD'. Omit for all rates.")] = None,
+    on_date: Annotated[str | None, Field(description="YYYY-MM-DD: the rate published on that day or the last "
+                                                     "one before it. Omit for the latest rates.")] = None,
 ) -> Env:
     """Latest euro exchange rates published by the Bank of Lithuania (ECB reference rates and its own).
     Each rate has its own publication date; `stale` marks one that is no longer being published.
     For information only."""
-    return await rates.exchange_rate(currency)
+    return await rates.exchange_rate(currency, on_date)
 
 
 @mcp.tool(annotations=RO)

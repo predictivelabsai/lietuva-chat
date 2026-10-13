@@ -118,6 +118,7 @@ class _LawConsolidated(BaseModel):
 
 class _Fx(BaseModel):
     currency: Optional[str] = Field(default=None, description="ISO currency code, e.g. USD")
+    on_date: Optional[str] = Field(default=None, description="YYYY-MM-DD of the transaction; omit for the latest")
 
 
 company_search = _make(
@@ -138,8 +139,9 @@ law_consolidated = _make(
     _LawConsolidated)
 exchange_rate = _make(
     "exchange_rate",
-    "Latest euro exchange rates published by the Bank of Lithuania, each with its own date. For information "
-    "only: say the date, and if `stale` is true say the rate is not current.", _Fx)
+    "Euro exchange rates published by the Bank of Lithuania, each with its own date. Pass on_date for a past "
+    "transaction to get the rate published that day or the last one before it. For information only: say the "
+    "rate's date, and if `stale` is true say the rate is not current.", _Fx)
 
 BUSINESS_TOOLS = [company_search, company_details, company_tax_data, law_search, law_consolidated, exchange_rate]
 TAX_TOOLS = [company_tax_data, law_search, law_consolidated, exchange_rate]

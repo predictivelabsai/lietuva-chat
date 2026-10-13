@@ -53,7 +53,20 @@ contributions, and are updated monthly.
 on 2026-10-13 the ECB currencies were dated 2026-10-12, the Bank of Lithuania's
 own currencies 2026-09-29, and RUB 2022-03-01 (the ECB stopped publishing it).
 A rate more than 31 days older than the newest one is returned with
-`"stale": true` and a note saying it is not current.
+`"stale": true` and a note saying it is not current. The Bank of Lithuania
+publishes its own rates monthly, so 31 days tolerates its normal cycle.
+
+These are the rates Lithuanian law refers to. Article 5 of the Financial
+Accounting Law (*Finansinės apskaitos įstatymas*, TAR.43178AA9832E, version in
+force from 2025-05-01; the Personal Income Tax Act points to it for currency
+conversion) lets an entity choose the ECB's euro reference rate, or the Bank of
+Lithuania's where the ECB publishes none, or a recognised market rate. With the
+first option it applies the rate published on the transaction day, or the last
+one before it; public-sector entities switch to a market rate when no rate has
+been published for more than 30 days. `exchange_rate` returns the latest rates
+with no date, or, with `on_date`, the rate published on that day or the last one
+before it (the bank's `getFxRates` returns exactly that: for Sunday 2026-03-15 it
+gives Friday 2026-03-13's USD rate). Rates for days before today are cached for 30 days; today's and the latest for 6 hours.
 
 ## Licences
 
@@ -192,8 +205,9 @@ Deploy `Dockerfile.mcp` as its own service; see `docker-compose.mcp.yaml`.
 
 1. **Bank of Lithuania terms:** lb.lt returns 403 to scripts, so its reuse terms
    were not read. About 55 of the 85 rates are the bank's own, not the ECB's.
-   Check its terms of use in a browser before the public launch, and whether
-   Lithuanian tax rules name a specific rate for converting foreign income.
+   Its terms page ([lb.lt/en/terms-of-use](https://www.lb.lt/en/terms-of-use)) sits behind a
+   Cloudflare check; a search-engine summary says it asks only for attribution
+   (last updated 2024-04-04). Confirm that on the page itself before the public launch.
 2. **Dataset 607 ↔ `mm_registras`:** matched by title and publisher (VMI); the
    page does not name the model path.
 3. **Deployment:** the host, the DNS record for `mcp.lietuva.chat` and a CI

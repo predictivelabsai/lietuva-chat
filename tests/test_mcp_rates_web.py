@@ -76,3 +76,21 @@ async def test_gov_web_search_refuses_personal_codes(mcp_upstream, monkeypatch):
 def test_gov_web_search_has_no_open_web_switch():
     import inspect
     assert "official_only" not in inspect.signature(web.gov_web_search).parameters
+
+
+async def test_exchange_rate_on_a_date_uses_the_last_rate_published_by_then(mcp_upstream):
+    """2026-03-15 is a Sunday: the rate is Friday's, as Article 5 of the Financial Accounting Law expects."""
+    fake = mcp_upstream({"getFxRates?tp=EU&dt=2026-03-15": "lb_fx_2026-03-15.xml"})
+    usd = (await rates.exchange_rate("USD", on_date="2026-03-15"))["data"]
+    assert usd == {"currency": "USD", "per_eur": 1.1476, "date": "2026-03-13", "stale": False, "on_date": "2026-03-15"}
+    rub = (await rates.exchange_rate("RUB", on_date="2026-03-15"))["data"]
+    assert rub["stale"] is True and rub["date"] == "2022-03-01"
+    assert len(fake.requests) == 1
+
+
+@pytest.mark.parametrize("bad", ["15/03/2026", "2999-01-01"])
+async def test_exchange_rate_rejects_bad_or_future_dates(mcp_upstream, bad):
+    fake = mcp_upstream({})
+    with pytest.raises(ValueError):
+        await rates.exchange_rate("USD", on_date=bad)
+    assert fake.requests == []
