@@ -10,6 +10,7 @@ from pages.home import home_page
 from pages.about import about_page
 from pages.contact import contact_page
 from pages.legal import delete_account_page, privacy_page
+from utils.i18n import get_lang, t
 
 from starlette.responses import JSONResponse as _JSONResponse
 
@@ -64,7 +65,8 @@ def index(sess):
 
 @rt
 def about(sess):
-    return Page(about_page(), active='about', title='About', sess=sess)
+    lang = get_lang(sess)
+    return Page(about_page(lang), active='about', title=t('nav_about', lang), sess=sess)
 
 @rt
 def changelog(sess):
@@ -72,15 +74,24 @@ def changelog(sess):
     return Page(changelog_page(), title='Changelog', sess=sess)
 
 @rt
-def contact(sess, name: str = '', email: str = '', message: str = '', request=None):
+def contact(sess, name: str = '', email: str = '', message: str = '', website: str = '', sent: str = '',
+            request=None):
+    from utils.contact import check_contact, deliver_contact
+    lang = get_lang(sess)
     error = ''
     if request and request.method == 'POST':
-        valid_email = re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', (email or '').strip())
-        if not valid_email or not (message or '').strip():
-            error = 'Please enter a valid email address and a message.'
+        if website:  # honeypot filled in: a bot; pretend it worked and send nothing
+            return RedirectResponse('/contact?sent=1', status_code=303)
+        problem = check_contact(name, email, message)
+        if problem:
+            error = t(problem, lang)
+        elif deliver_contact(name, email, message, lang=lang):
+            return RedirectResponse('/contact?sent=1', status_code=303)
+        else:
+            error = t('contact_send_failed', lang)
     return Page(
-        contact_page(name=name, email=email, message=message, error=error),
-        active='contact', title='Contact', sess=sess,
+        contact_page(name=name, email=email, message=message, error=error, sent=sent == '1', lang=lang),
+        active='contact', title=t('nav_contact', lang), sess=sess,
     )
 
 @rt

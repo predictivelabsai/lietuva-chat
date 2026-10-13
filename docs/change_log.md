@@ -1,5 +1,15 @@
 # Change Log
 
+## v1.1.9 — 2026-10-13
+
+**The About and Contact pages now follow the selected language (issue #3), and the contact form actually sends messages.**
+
+- Both pages, their page titles and the contact form's error message are translated into all nine interface languages instead of always showing English.
+- `tests/test_public_pages_i18n.py` checks every string in every language, and that `/about` and `/contact` render in the language chosen with `/set-lang`.
+- The contact form used to check a message and then discard it. It now delivers it through Postmark to `TO_EMAIL` (or `FROM_EMAIL` when that is empty), with the visitor's address as Reply-To.
+- After sending, the page redirects to `/contact?sent=1` and shows a translated thank-you, so a refresh cannot send twice. If delivery fails, the form keeps its text and says so.
+- Spam and safety: a hidden honeypot field, limits of 200 characters for the name and 5,000 for the message, HTML-escaped user text in the email and no line breaks in its subject.
+
 ## v1.1.8 — 2026-10-12
 
 **Smaller database pool.**

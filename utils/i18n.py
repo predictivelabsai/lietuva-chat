@@ -123,6 +123,42 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "nav_topics": {"en": "Topics", "et": "Teemad"},
     "nav_about": {"en": "About", "et": "Meist"},
     "nav_contact": {"en": "Contact", "et": "Kontakt"},
+    # About page (other languages in locales/*.json)
+    "about_h1_prefix": {"en": "About"},
+    "about_intro": {"en": "An independent AI assistant for living, working and dealing with the state in Lithuania."},
+    "about_what_h": {"en": "What we do"},
+    "about_what_p": {"en": "lietuva.chat helps residents, newcomers and Lithuanians abroad find their way through "
+                           "Lithuanian public services. Ask in plain language about residence permits, taxes and Sodra, "
+                           "health insurance, starting a company, family matters or moving back home. A specialist "
+                           "assistant answers from official Lithuanian sources and links them so you can check each step."},
+    "about_how_h": {"en": "How it works"},
+    "about_how_p": {"en": "You describe what you need instead of working out which agency is responsible. A router sends "
+                          "your question to the right assistant, which searches official sites such as epaslaugos.lt, "
+                          "migracija.lt, vmi.lt, sodra.lt, the Health Insurance Fund, the Centre of Registers and e-TAR, "
+                          "reads the current guidance and replies with citations."},
+    "about_tech_h": {"en": "Technology"},
+    "about_tech_p": {"en": "Built with FastHTML, LangGraph multi-agent orchestration, xAI Grok and live Exa web search. "
+                           "The interface is available in Lithuanian, English and several other languages."},
+    "about_disclaimer_h": {"en": "Disclaimer"},
+    "about_disclaimer_p": {"en": "lietuva.chat is an independent project. It is not a government service and is not "
+                                 "affiliated with the Government of Lithuania. Answers are AI-generated from public sources "
+                                 "and may be incomplete or out of date. Always confirm details with the responsible agency "
+                                 "before acting. This is not legal advice."},
+    # Contact page (other languages in locales/*.json)
+    "contact_title": {"en": "Contact us"},
+    "contact_intro": {"en": "Questions or feedback about lietuva.chat? Send us a message. "
+                            "For official matters, contact the relevant government authority."},
+    "contact_name": {"en": "Name"},
+    "contact_name_ph": {"en": "Your name"},
+    "contact_email": {"en": "Email"},
+    "contact_message": {"en": "Message"},
+    "contact_message_ph": {"en": "Your message..."},
+    "contact_send": {"en": "Send message"},
+    "contact_error": {"en": "Please enter a valid email address and a message."},
+    "contact_too_long": {"en": "Your message is too long. Please keep it under 5,000 characters."},
+    "contact_sent": {"en": "Thank you, your message has been sent. We will reply by email."},
+    "contact_send_failed": {"en": "Sorry, your message could not be sent right now. "
+                                  "Please try again later or write to info@lietuva.chat."},
     "nav_open_app": {"en": "Ask lietuva.chat", "et": "Küsi lietuva.chat"},
     "nav_login": {"en": "Log in", "et": "Logi sisse"},
     "nav_logout": {"en": "Log out", "et": "Logi välja"},
