@@ -1,5 +1,5 @@
 # Runtime deps for the standalone MCP server image (Dockerfile.mcp)
-mcp>=1.20,<2
+mcp>=1.30,<2
 httpx==0.28.1
 cachetools==7.2.1
 pydantic==2.*

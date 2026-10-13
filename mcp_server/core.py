@@ -27,16 +27,17 @@ class Source:
 
 SOURCES: dict[str, Source] = {s.key: s for s in [
     Source("jar", "Registrų centras – Legal Entities Register (JAR), via data.gov.lt",
-           "Open data on data.gov.lt; see the dataset page for its licence", 0.2,
+           "CC BY 4.0 (Registrų centras, data.gov.lt dataset 1484)", 0.2,
            "https://data.gov.lt/datasets/1484/"),
     Source("vmi", "State Tax Inspectorate (VMI), via data.gov.lt",
-           "Open data on data.gov.lt (taxes-paid dataset: CC BY 4.0)", 0.2,
+           "CC BY 4.0 (VMI open data, data.gov.lt datasets 607 and 673)", 0.2,
            "https://data.gov.lt/datasets/673/"),
     Source("tar", "Register of Legal Acts (TAR), via data.gov.lt",
-           "Legal acts are not protected by copyright (Law on Copyright and Related Rights, Art. 5)", 0.2,
+           "CC BY 4.0 (data.gov.lt dataset 2613); legal acts themselves are not protected by copyright", 0.2,
            "https://data.gov.lt/datasets/2613/"),
     Source("lb", "Bank of Lithuania (Lietuvos bankas) euro reference rates",
-           "Published by Lietuvos bankas; attribute the source", 0.5, "https://www.lb.lt"),
+           "ECB euro reference rates as published by Lietuvos bankas; attribute the source", 0.5,
+           "https://www.lb.lt"),
     Source("exa", "Exa web search (official Lithuanian domains)",
            "Third-party search results; see each URL", 0.1, "https://exa.ai"),
 ]}

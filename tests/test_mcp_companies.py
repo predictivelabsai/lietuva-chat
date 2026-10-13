@@ -81,8 +81,9 @@ async def test_company_tax_data_latest_first(mcp_upstream):
     fake = mcp_upstream({"Moketojas?mm_kodas.ja_kodas=302767152": "vmi_tax.json"})
     d = (await companies.company_tax_data("302767152"))["data"]
     assert d["name"] == "Vinted, UAB"
-    assert d["periods"][0] == {"year": 2026, "month": 8, "taxes_paid_eur": 21059261.66, "updated": "2026-09-11"}
-    assert "as published" in d["note"]
+    assert d["periods"][0] == {"year": 2026, "month": 8, "taxes_paid_year_to_date_eur": 21059261.66,
+                               "updated": "2026-09-11"}
+    assert "1 January" in d["note"] and "Sodra" in d["note"]
     assert "sort(-metai,-menuo)" in fake.urls[0]
 
 

@@ -20,9 +20,35 @@ log = logging.getLogger(__name__)
 MAX_CHARS = 6000
 
 
+def _dumps(payload: Any) -> str:
+    return json.dumps(payload, ensure_ascii=False, default=str)
+
+
+def _shorten(value: Any, limit: int = 400) -> Any:
+    if isinstance(value, str):
+        return value if len(value) <= limit else value[:limit] + "…"
+    if isinstance(value, list):
+        return [_shorten(v, limit) for v in value]
+    if isinstance(value, dict):
+        return {k: _shorten(v, limit) for k, v in value.items()}
+    return value
+
+
 def _compact(payload: Any) -> str:
-    s = json.dumps(payload, ensure_ascii=False, default=str)
-    return s if len(s) <= MAX_CHARS else s[:MAX_CHARS] + "… [truncated]"
+    """JSON for the model, at most MAX_CHARS: shorten long strings, then drop trailing data items.
+    The envelope's citation fields come first and are always kept."""
+    s = _dumps(payload)
+    if len(s) <= MAX_CHARS:
+        return s
+    small = _shorten(payload) if isinstance(payload, dict) else {"data": _shorten(payload)}
+    small["truncated"] = True
+    items = small.get("data")
+    while isinstance(items, list) and items and len(_dumps(small)) > MAX_CHARS:
+        items.pop()
+    if len(_dumps(small)) > MAX_CHARS:
+        small = {k: small[k] for k in ("source_name", "source_url", "licence", "retrieved_at") if k in small}
+        small.update(data=None, truncated=True)
+    return _dumps(small)
 
 
 async def call_mcp_tool(name: str, args: dict) -> dict:
@@ -30,14 +56,17 @@ async def call_mcp_tool(name: str, args: dict) -> dict:
     if not url:
         from mcp_server.sources import TOOL_FUNCS
         return await TOOL_FUNCS[name](**args)
+    import httpx
     from mcp import ClientSession
-    from mcp.client.streamable_http import streamablehttp_client
+    from mcp.client.streamable_http import streamable_http_client
     key = os.environ.get("LIETUVA_MCP_API_KEY", "").strip()
     headers = {"Authorization": f"Bearer {key}"} if key else None
-    async with streamablehttp_client(url, headers=headers, timeout=30) as (read, write, _):
-        async with ClientSession(read, write) as session:
-            await session.initialize()
-            res = await session.call_tool(name, args)
+    async with httpx.AsyncClient(headers=headers, timeout=httpx.Timeout(30.0, read=300.0),
+                                 follow_redirects=True) as http:
+        async with streamable_http_client(url, http_client=http) as (read, write, _):
+            async with ClientSession(read, write) as session:
+                await session.initialize()
+                res = await session.call_tool(name, args)
     if res.isError:
         raise RuntimeError(" ".join(getattr(c, "text", "") for c in res.content) or "tool failed")
     if res.structuredContent is not None:

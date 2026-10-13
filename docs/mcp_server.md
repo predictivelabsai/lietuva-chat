@@ -17,7 +17,7 @@ Every tool returns the same envelope:
 {
   "source_name": "Registrų centras – Legal Entities Register (JAR), via data.gov.lt",
   "source_url": "https://get.data.gov.lt/datasets/gov/rc/jar/iregistruoti/JuridinisAsmuo?ja_pavadinimas.lower().contains(%22vinted%22)&select(ja_kodas,ja_pavadinimas,reg_data,isreg_data)&limit(10)",
-  "licence": "Open data on data.gov.lt; see the dataset page for its licence",
+  "licence": "CC BY 4.0 (Registrų centras, data.gov.lt dataset 1484)",
   "retrieved_at": "2026-10-13T09:15:02+00:00",
   "cached": false,
   "data": [
@@ -43,6 +43,26 @@ than a fresh upstream call.
 
 `company_search` ranks active companies first; `law_search` ranks base acts
 above their amending acts; `company_tax_data` returns the latest periods first.
+
+`company_tax_data` reports `taxes_paid_year_to_date_eur`: per VMI's dataset
+description, current-year amounts are cumulative from 1 January to the end of the
+given month. They cover taxes and duties paid to VMI's budget accounts, not Sodra
+contributions, and are updated monthly.
+
+## Licences
+
+Checked on each dataset's data.gov.lt page on 2026-10-13:
+
+| Data | Dataset | Licence |
+|---|---|---|
+| Legal Entities Register (JAR) | [1484](https://data.gov.lt/datasets/1484/) | CC BY 4.0 |
+| VMI taxpayer register (VAT) | [607](https://data.gov.lt/datasets/607/) | CC BY 4.0 |
+| Taxes paid by legal entities | [673](https://data.gov.lt/datasets/673/) | CC BY 4.0 |
+| Register of Legal Acts (TAR) | [2613](https://data.gov.lt/datasets/2613/) | CC BY 4.0; the acts themselves are not protected by copyright |
+| Euro exchange rates | ECB reference rates published by Lietuvos bankas | attribute the source |
+
+CC BY 4.0 requires attribution, which every envelope carries in `source_name`,
+`source_url` and `licence`.
 
 ## Transports
 
@@ -164,12 +184,11 @@ Deploy `Dockerfile.mcp` as its own service; see `docker-compose.mcp.yaml`.
 
 ## Open questions
 
-1. **Licences:** the exact licence of the JAR (data.gov.lt/datasets/1484) and
-   VMI taxpayer-register datasets, and the Bank of Lithuania's reuse terms,
-   were not read (data.gov.lt pages return 403 to scripts). Check them by hand
-   before announcing the public endpoint, and update `SOURCES[...].licence`.
-2. **What VMI's `suma` means:** monthly, cumulative or year-to-date. The tool
-   reports it "as published" until this is confirmed.
+1. **Bank of Lithuania terms:** lb.lt returns 403 to scripts, so its own reuse
+   terms were not read. The rates are the ECB's euro reference rates; check
+   lb.lt by hand before the public launch.
+2. **Dataset 607 ↔ `mm_registras`:** matched by title and publisher (VMI); the
+   page does not name the model path.
 3. **Deployment:** the host, the DNS record for `mcp.lietuva.chat` and a CI
    deploy hook are not set up yet.
 4. **Later tools,** if an assistant needs them:

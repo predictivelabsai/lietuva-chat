@@ -14,8 +14,8 @@ VMI_REG = "datasets/gov/vmi/mm_registras/MokesciuMoketojas"
 VMI_TAX = "datasets/gov/vmi/ja_mokesciai/Moketojas"
 DAY = 24 * 3600
 _UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-TAX_NOTE = ("Amounts as published by VMI in its taxes-paid-by-legal-entities dataset. How each period "
-            "is totalled is defined at data.gov.lt/datasets/673 — do not call it a monthly figure.")
+TAX_NOTE = ("Taxes and duties paid to VMI's budget accounts, cumulative from 1 January to the end of the given "
+            "month (data.gov.lt dataset 673); not Sodra contributions. Updated monthly.")
 
 
 def _company_code(value: str) -> str:
@@ -57,7 +57,7 @@ def parse_company(row: dict, forma: dict, status: dict, vat_rows: list[dict]) ->
 
 
 def parse_tax(data: list[dict]) -> list[dict]:
-    return [{"year": r.get("metai"), "month": r.get("menuo"), "taxes_paid_eur": r.get("suma"),
+    return [{"year": r.get("metai"), "month": r.get("menuo"), "taxes_paid_year_to_date_eur": r.get("suma"),
              "updated": r.get("atnaujinta")} for r in data]
 
 

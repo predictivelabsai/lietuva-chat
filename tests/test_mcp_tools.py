@@ -27,9 +27,26 @@ async def test_upstream_outage_is_reported_not_raised(mcp_upstream):
     assert "HTTP 503" in out["error"] and "web_search" in out["error"]
 
 
-def test_long_results_are_truncated():
+def test_long_results_stay_valid_json_and_keep_citations():
     from tools.mcp_tools import MAX_CHARS, _compact
-    assert len(_compact({"x": "a" * 10_000})) <= MAX_CHARS + len("… [truncated]")
+    env = {"source_name": "TAR", "source_url": "https://get.data.gov.lt/x", "licence": "CC BY 4.0",
+           "retrieved_at": "2026-10-13T00:00:00+00:00", "cached": False,
+           "data": [{"title": "Įstatymas " + "x" * 2000, "url": f"https://e-tar.lt/{i}"} for i in range(40)]}
+    out = _compact(env)
+    parsed = json.loads(out)
+    assert len(out) <= MAX_CHARS and parsed["truncated"] is True
+    assert parsed["source_url"] == "https://get.data.gov.lt/x" and parsed["data"][0]["url"] == "https://e-tar.lt/0"
+
+
+def test_short_results_are_untouched():
+    from tools.mcp_tools import _compact
+    assert json.loads(_compact({"data": [1, 2]})) == {"data": [1, 2]}
+
+
+def test_any_oversized_value_still_gives_valid_json():
+    from tools.mcp_tools import MAX_CHARS, _compact
+    out = _compact({"x": "a" * 10_000, "y": {"z": "b" * 10_000}})
+    assert len(out) <= MAX_CHARS and json.loads(out)["truncated"] is True
 
 
 def test_assistants_get_the_structured_tools():

@@ -102,3 +102,9 @@ def test_settings_defaults(monkeypatch):
         monkeypatch.delenv(name, raising=False)
     s = MCPSettings()
     assert s.anon_rpm == 30 and s.key_rpm == 300 and s.api_key_hashes == frozenset()
+
+
+def test_open_data_sources_state_their_licence():
+    for key in ("jar", "vmi", "tar"):
+        assert "CC BY 4.0" in core.SOURCES[key].licence
+    assert "ECB" in core.SOURCES["lb"].licence
