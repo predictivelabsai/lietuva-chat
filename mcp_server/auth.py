@@ -53,7 +53,8 @@ class AuthRateLimitMiddleware:
     def _client_ip(self, scope) -> str:
         headers = dict(scope.get("headers") or [])
         if self.s.trust_proxy:
-            xff = headers.get(b"x-forwarded-for", b"").decode().split(",")[0].strip()
+            # Our proxy appends the address it saw; entries to its left are whatever the client sent.
+            xff = headers.get(b"x-forwarded-for", b"").decode().split(",")[-1].strip()
             if xff:
                 return xff
         client = scope.get("client") or ("unknown", 0)

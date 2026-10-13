@@ -40,3 +40,16 @@ async def test_gov_web_search_limits_to_official_domains(mcp_upstream, monkeypat
     body = json.loads(fake.requests[0].content)
     assert "vmi.lt" in body["includeDomains"] and body["numResults"] == 3
     assert fake.requests[0].headers["x-api-key"] == "test-key"
+
+
+async def test_gov_web_search_refuses_personal_codes(mcp_upstream, monkeypatch):
+    monkeypatch.setenv("EXA_API_KEY", "test-key")
+    fake = mcp_upstream({"api.exa.ai/search": "exa.json"})
+    with pytest.raises(ValueError, match="personal code"):
+        await web.gov_web_search("mano kodas 38001010000 deklaracija")
+    assert fake.requests == []
+
+
+def test_gov_web_search_has_no_open_web_switch():
+    import inspect
+    assert "official_only" not in inspect.signature(web.gov_web_search).parameters

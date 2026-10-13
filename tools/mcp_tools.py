@@ -39,7 +39,7 @@ async def call_mcp_tool(name: str, args: dict) -> dict:
             await session.initialize()
             res = await session.call_tool(name, args)
     if res.isError:
-        return {"error": " ".join(getattr(c, "text", "") for c in res.content) or "tool failed"}
+        raise RuntimeError(" ".join(getattr(c, "text", "") for c in res.content) or "tool failed")
     if res.structuredContent is not None:
         sc = res.structuredContent
         return sc.get("result", sc) if isinstance(sc, dict) and set(sc) == {"result"} else sc
@@ -59,7 +59,10 @@ def _make(name: str, description: str, schema: type[BaseModel]) -> StructuredToo
             while isinstance(e, BaseExceptionGroup) and e.exceptions:
                 e = e.exceptions[0]
             log.warning("MCP tool %s failed: %s", name, e)
-            return _compact({"error": f"{name} unavailable: {e}. Fall back to web_search."})
+            msg = str(e).rstrip(".")
+            # Searching the web with a personal code would leak it; only other failures get the fallback.
+            advice = "" if "personal code" in msg.lower() else " Fall back to web_search."
+            return _compact({"error": f"{name} unavailable: {msg}.{advice}"})
 
     return StructuredTool.from_function(coroutine=_run, name=name, description=description, args_schema=schema)
 

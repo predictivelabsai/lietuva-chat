@@ -90,3 +90,10 @@ async def test_upstream_failure_raises_upstream_error(mcp_upstream):
     mcp_upstream({})  # every URL 404s
     with pytest.raises(UpstreamError):
         await companies.company_search("Vinted")
+
+
+async def test_personal_code_inside_free_text_is_refused_without_echo(mcp_upstream):
+    fake = mcp_upstream({})
+    with pytest.raises(ValueError, match="personal code") as err:
+        await companies.company_search("Jonas 38001010000")
+    assert "38001010000" not in str(err.value) and fake.requests == []

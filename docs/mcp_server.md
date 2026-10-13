@@ -39,7 +39,7 @@ than a fresh upstream call.
 | `law_search` | Register of Legal Acts (TAR) | `get.data.gov.lt` `/lrsk/teises_aktai` | 24 h |
 | `law_consolidated` | TAR consolidated versions | `get.data.gov.lt` `/lrsk/teises_aktai` | 24 h |
 | `exchange_rate` | Bank of Lithuania euro rates | `lb.lt` FX rates webservice | 6 h |
-| `gov_web_search` | Official Lithuanian sites (Exa) | `api.exa.ai` | 6 h |
+| `gov_web_search` | Official Lithuanian sites only (Exa allowlist, always on) | `api.exa.ai` | 6 h |
 
 `company_search` ranks active companies first; `law_search` ranks base acts
 above their amending acts; `company_tax_data` returns the latest periods first.
@@ -96,6 +96,11 @@ It prints the key (`lk_…`) and its sha256 hash. Give the key to the client and
 put **only the hash** in `MCP_API_KEY_HASHES` (comma-separated). Raw keys are
 never stored.
 
+The client IP is the **right-most** `X-Forwarded-For` entry, the one the reverse proxy
+appends (entries to its left come from the client and are ignored). This needs a proxy
+that appends the caller's address. If the server is exposed directly, set
+`MCP_TRUST_PROXY=0` so the TCP peer address is used instead.
+
 The rate-limit counters are in memory, per container, so run **one replica**;
 scaling out needs shared counters (Redis).
 
@@ -111,7 +116,8 @@ We are a guest on government infrastructure:
 ## Privacy
 
 Tools accept **company codes only** (7–9 digits). An 11-digit personal code
-(*asmens kodas*) is refused before any upstream request, and the refusal message does not
+(*asmens kodas*) is refused before any upstream request — as a company code, and
+anywhere inside free text sent to JAR, TAR or web search — and the refusal message does not
 repeat it, so it never reaches a log either. User text reaches an upstream query only through a sanitizer
 (letters, digits, spaces and a small punctuation set) or a strict validator, so
 query syntax cannot be injected.

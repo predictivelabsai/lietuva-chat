@@ -59,3 +59,16 @@ async def test_law_consolidated_validates_inputs(mcp_upstream, doc, day):
     with pytest.raises(ValueError):
         await laws.law_consolidated(doc, day)
     assert fake.requests == []
+
+
+async def test_personal_code_in_law_search_is_refused(mcp_upstream):
+    fake = mcp_upstream({})
+    with pytest.raises(ValueError, match="personal code"):
+        await laws.law_search("įstatymas 48001010000")
+    assert fake.requests == []
+
+
+async def test_law_consolidated_ignores_a_version_that_has_ended(mcp_upstream):
+    mcp_upstream({"Suvestine?": "tar_suvestine_ended.json"})
+    d = (await laws.law_consolidated("TAR.C677663D2202", "2026-10-13"))["data"]
+    assert d["consolidated"] is None and "ended" in d["note"]

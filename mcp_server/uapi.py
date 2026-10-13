@@ -12,10 +12,20 @@ from mcp_server.core import fetch
 
 BASE = "https://get.data.gov.lt/"
 _UNSAFE = re.compile(r"[^\w\s\-.,'„“]")
+# Lithuanian personal codes (asmens kodas): 11 digits, the first 1–6.
+_PERSONAL_CODE = re.compile(r"(?<!\d)[1-6]\d{10}(?!\d)")
+
+
+def refuse_personal_code(s: str) -> str:
+    """Stop any text holding a personal code before it reaches an upstream; never repeat the code."""
+    if _PERSONAL_CODE.search(s):
+        raise ValueError("This looks like a personal code (asmens kodas). Personal codes are never looked up "
+                         "or sent anywhere; ask with a company name or company code instead.")
+    return s
 
 
 def clean_text(s: str, *, min_len: int = 2, max_len: int = 100) -> str:
-    s = " ".join(_UNSAFE.sub(" ", s).split())
+    s = " ".join(_UNSAFE.sub(" ", refuse_personal_code(s)).split())
     if len(s) < min_len:
         raise ValueError(f"The search text needs at least {min_len} letters or digits.")
     return s[:max_len]

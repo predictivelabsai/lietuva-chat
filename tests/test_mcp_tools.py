@@ -16,7 +16,7 @@ async def test_tool_errors_tell_the_agent_to_fall_back(mcp_upstream):
     fake = mcp_upstream({})
     from tools.mcp_tools import company_details
     out = json.loads(await company_details.ainvoke({"company_code": "38001010000"}))
-    assert "7 to 9 digits" in out["error"] and "web_search" in out["error"]
+    assert "7 to 9 digits" in out["error"] and "web_search" not in out["error"]
     assert fake.requests == []
 
 
@@ -24,7 +24,7 @@ async def test_upstream_outage_is_reported_not_raised(mcp_upstream):
     mcp_upstream({"getCurrentFxRates": 503})
     from tools.mcp_tools import exchange_rate
     out = json.loads(await exchange_rate.ainvoke({"currency": "USD"}))
-    assert "HTTP 503" in out["error"]
+    assert "HTTP 503" in out["error"] and "web_search" in out["error"]
 
 
 def test_long_results_are_truncated():

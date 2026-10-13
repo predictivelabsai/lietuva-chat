@@ -44,3 +44,18 @@ async def test_health_is_never_limited():
     async with client(anon_rpm=1) as c:
         codes = [(await c.get("/health")).status_code for _ in range(5)]
     assert codes == [200] * 5
+
+
+async def test_forwarded_for_uses_the_address_our_proxy_added():
+    # The proxy appends the real client address; anything to its left came from the client.
+    async with client(anon_rpm=1, trust_proxy=True) as c:
+        first = await c.post("/mcp", headers={"X-Forwarded-For": "1.1.1.1, 203.0.113.7"})
+        spoofed = await c.post("/mcp", headers={"X-Forwarded-For": "2.2.2.2, 203.0.113.7"})
+    assert first.status_code == 200 and spoofed.status_code == 429
+
+
+async def test_forwarded_for_is_ignored_without_a_trusted_proxy():
+    async with client(anon_rpm=1, trust_proxy=False) as c:
+        first = await c.post("/mcp", headers={"X-Forwarded-For": "1.1.1.1"})
+        second = await c.post("/mcp", headers={"X-Forwarded-For": "2.2.2.2"})
+    assert first.status_code == 200 and second.status_code == 429

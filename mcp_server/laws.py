@@ -49,9 +49,13 @@ def parse_consolidated(doc: str, day: str, found: list[dict]) -> dict:
         return {**out, "consolidated": None,
                 "note": "No consolidated version starts on or before this date; link the original act."}
     r = found[0]
+    valid_to = (r.get("galioja_iki") or "")[:10] or None
+    if valid_to and valid_to < day:
+        return {**out, "consolidated": None,
+                "note": f"The latest consolidated version ended on {valid_to}; link the original act and check e-TAR."}
     return {**out, "consolidated": {"url": r.get("nuoroda"),
                                     "valid_from": (r.get("galioja_nuo") or "")[:10] or None,
-                                    "valid_to": (r.get("galioja_iki") or "")[:10] or None}}
+                                    "valid_to": valid_to}}
 
 
 async def law_search(query: str, only_in_force: bool = True, limit: int = 10) -> dict:

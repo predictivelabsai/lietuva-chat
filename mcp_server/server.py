@@ -99,10 +99,9 @@ async def exchange_rate(
 async def gov_web_search(
     query: Annotated[str, Field(min_length=2, max_length=300)],
     max_results: Annotated[int, Field(ge=1, le=15)] = 6,
-    official_only: bool = True,
 ) -> Env:
     """Web search over official Lithuanian government websites (Exa). Use when no structured tool fits."""
-    return await web.gov_web_search(query, max_results, official_only)
+    return await web.gov_web_search(query, max_results)
 
 
 @mcp.custom_route("/health", methods=["GET"])
@@ -130,4 +129,4 @@ def run(transport: str = "http") -> None:
         return
     import uvicorn
     s = mcp_settings()
-    uvicorn.run(http_app(), host=s.host, port=s.port, proxy_headers=True, forwarded_allow_ips="*")
+    uvicorn.run(http_app(), host=s.host, port=s.port)

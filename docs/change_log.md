@@ -11,7 +11,10 @@
   - `gov_web_search`, limited to official sites.
 - Every result carries its source URL, licence note and retrieval time.
 - Anonymous and API-key tiers with rate limits, and a polite per-source pace towards upstream servers.
-- Company codes only: personal codes are refused before any request.
+- Company codes only: a personal code is refused before any request, whether it is passed as a company code or appears anywhere in free text, and the refusal never repeats it or suggests a web search.
+- Rate limits key on the address the reverse proxy appends to `X-Forwarded-For`, so a client cannot reset its limit by sending its own header (`MCP_TRUST_PROXY=0` when exposed directly).
+- `gov_web_search` always keeps the official-domain allowlist.
+- A consolidated law version that has already ended is never reported as in force.
 - Every assistant is now told today's date on each call. Without it, the Tax assistant guessed 2024 and linked an outdated version of the GPM law as the one in force.
 - The Business and Tax assistants get the tools in-process by default, or from a deployed server via `LIETUVA_MCP_URL`.
 - `Dockerfile.mcp` and `docker-compose.mcp.yaml` for a separate deployment. Docs are in `docs/mcp_server.md`.
