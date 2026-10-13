@@ -15,7 +15,7 @@
 - Rate limits key on the address the reverse proxy appends to `X-Forwarded-For`, so a client cannot reset its limit by sending its own header (`MCP_TRUST_PROXY=0` when exposed directly).
 - `gov_web_search` always keeps the official-domain allowlist.
 - A consolidated law version that has already ended is never reported as in force.
-- Licences checked on data.gov.lt: JAR, both VMI datasets and TAR are CC BY 4.0, and every result says so.
+- Licences checked on data.gov.lt: JAR, both VMI datasets and TAR are CC BY 4.0, and every result says so. The Bank of Lithuania's terms of use ask only that it be named as the source.
 - `company_tax_data` reports `taxes_paid_year_to_date_eur`: VMI publishes current-year taxes cumulatively from 1 January (not Sodra contributions).
 - Long tool results are shortened to valid JSON that keeps the citation fields.
 - The chat's own `web_search` also refuses a personal code before calling the search provider.

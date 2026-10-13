@@ -78,7 +78,7 @@ Checked on each dataset's data.gov.lt page on 2026-10-13:
 | VMI taxpayer register (VAT) | [607](https://data.gov.lt/datasets/607/) | CC BY 4.0 |
 | Taxes paid by legal entities | [673](https://data.gov.lt/datasets/673/) | CC BY 4.0 |
 | Register of Legal Acts (TAR) | [2613](https://data.gov.lt/datasets/2613/) | CC BY 4.0; the acts themselves are not protected by copyright |
-| Euro exchange rates | Bank of Lithuania FxRates (`tp=EU`): 29 ECB reference rates plus about 55 of the bank's own | attribute the source; for information only |
+| Euro exchange rates | Bank of Lithuania FxRates (`tp=EU`): 29 ECB reference rates plus about 55 of the bank's own | [lb.lt terms of use](https://www.lb.lt/en/terms-of-use) (updated 2024-04-04): "please indicate the Bank of Lithuania as the source"; no other condition |
 
 CC BY 4.0 requires attribution, which every envelope carries in `source_name`,
 `source_url` and `licence`.
@@ -203,16 +203,11 @@ Deploy `Dockerfile.mcp` as its own service; see `docker-compose.mcp.yaml`.
 
 ## Open questions
 
-1. **Bank of Lithuania terms:** lb.lt returns 403 to scripts, so its reuse terms
-   were not read. About 55 of the 85 rates are the bank's own, not the ECB's.
-   Its terms page ([lb.lt/en/terms-of-use](https://www.lb.lt/en/terms-of-use)) sits behind a
-   Cloudflare check; a search-engine summary says it asks only for attribution
-   (last updated 2024-04-04). Confirm that on the page itself before the public launch.
-2. **Dataset 607 ↔ `mm_registras`:** matched by title and publisher (VMI); the
+1. **Dataset 607 ↔ `mm_registras`:** matched by title and publisher (VMI); the
    page does not name the model path.
-3. **Deployment:** the host, the DNS record for `mcp.lietuva.chat` and a CI
+2. **Deployment:** the host, the DNS record for `mcp.lietuva.chat` and a CI
    deploy hook are not set up yet.
-4. **Later tools,** if an assistant needs them:
+3. **Later tools,** if an assistant needs them:
    - weather (api.meteo.lt: CC BY-SA 4.0, 180 requests/min/IP, credit LHMT);
    - Statistics Lithuania (SDMX);
    - the address register;

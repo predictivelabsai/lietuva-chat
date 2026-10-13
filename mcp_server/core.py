@@ -36,8 +36,9 @@ SOURCES: dict[str, Source] = {s.key: s for s in [
            "CC BY 4.0 (data.gov.lt dataset 2613); legal acts themselves are not protected by copyright", 0.2,
            "https://data.gov.lt/datasets/2613/"),
     Source("lb", "Bank of Lithuania FxRates (ECB euro reference rates and Bank of Lithuania rates)",
-           "Published by the ECB and the Bank of Lithuania; attribute the source. For information only, "
-           "not an official rate for a specific tax or legal purpose", 0.5, "https://www.lb.lt"),
+           "Indicate the Bank of Lithuania as the source (lb.lt terms of use, updated 2024-04-04). "
+           "For information only, not an official rate for a specific tax or legal purpose", 0.5,
+           "https://www.lb.lt/en/terms-of-use"),
     Source("exa", "Exa web search (official Lithuanian domains)",
            "Third-party search results; see each URL", 0.1, "https://exa.ai"),
 ]}

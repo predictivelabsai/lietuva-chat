@@ -107,4 +107,5 @@ def test_settings_defaults(monkeypatch):
 def test_open_data_sources_state_their_licence():
     for key in ("jar", "vmi", "tar"):
         assert "CC BY 4.0" in core.SOURCES[key].licence
-    assert "ECB" in core.SOURCES["lb"].licence
+    # lb.lt terms of use (updated 2024-04-04): "please indicate the Bank of Lithuania as the source".
+    assert "Bank of Lithuania as the source" in core.SOURCES["lb"].licence
