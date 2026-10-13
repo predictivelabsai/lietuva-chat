@@ -1,0 +1,30 @@
+# lietuva.chat MCP server (mcp.lietuva.chat). Build: docker build -f Dockerfile.mcp -t lietuva-mcp .
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    MCP_HOST=0.0.0.0 \
+    MCP_PORT=8000
+
+WORKDIR /app
+
+# Coolify's health check runs curl inside the container.
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
+COPY requirements-mcp.txt .
+RUN pip install --no-cache-dir -r requirements-mcp.txt
+
+# Server package + the shared official-domain list it reuses for web search.
+COPY mcp_server/ mcp_server/
+COPY tools/__init__.py tools/search.py tools/
+COPY utils/__init__.py utils/config.py utils/
+
+RUN useradd --create-home --uid 10001 app
+USER app
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()"
+
+CMD ["python", "-m", "mcp_server", "--transport", "http"]

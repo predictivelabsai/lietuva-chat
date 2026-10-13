@@ -1,5 +1,24 @@
 # Change Log
 
+## v1.2.0 — 2026-10-13
+
+**A public MCP server for Lithuanian government open data, and the Business and Tax assistants now check official registers before searching the web.**
+
+- New `mcp_server/` (FastMCP, read-only):
+  - `company_search`, `company_details`, `company_tax_data`, from the Legal Entities Register (JAR) and VMI open data on data.gov.lt;
+  - `law_search` and `law_consolidated`, from the Register of Legal Acts (TAR), with base acts ranked above their amendments;
+  - `exchange_rate` (Bank of Lithuania);
+  - `gov_web_search`, limited to official sites.
+- Every result carries its source URL, licence note and retrieval time.
+- Anonymous and API-key tiers with rate limits, and a polite per-source pace towards upstream servers.
+- Company codes only: personal codes are refused before any request.
+- Every assistant is now told today's date on each call. Without it, the Tax assistant guessed 2024 and linked an outdated version of the GPM law as the one in force.
+- The Business and Tax assistants get the tools in-process by default, or from a deployed server via `LIETUVA_MCP_URL`.
+- `Dockerfile.mcp` and `docker-compose.mcp.yaml` for a separate deployment. Docs are in `docs/mcp_server.md`.
+- Tests:
+  - recorded-fixture tests, with no network and no patched modules;
+  - a live smoke test behind `--run-integration`.
+
 ## v1.1.8 — 2026-10-12
 
 **Smaller database pool.**
