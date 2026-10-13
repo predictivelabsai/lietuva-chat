@@ -25,6 +25,7 @@ def mcp_upstream(monkeypatch):
     Call it with {url substring: fixture file or status}; it returns the Upstream."""
     import httpx
 
+    import utils.config  # noqa: F401 — loads .env on first import, so do it before clearing keys
     from mcp_server import config, core
     from tests.mcp_upstream import Upstream
 
