@@ -387,6 +387,8 @@ body.menu-open { overflow: hidden; }
 .contact-section { min-height: 520px; }
 .contact-form { max-width: 520px; margin-inline: auto; padding: 32px; border: 0; border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-float); }
 .contact-error { margin: 0 0 18px; color: var(--danger); font-size: 13px; }
+.contact-sent { margin: 0 0 18px; color: var(--green); font-size: 14px; font-weight: 500; }
+.contact-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .field-label { display: block; margin: 0 0 6px; color: var(--ink); font-size: 13px; font-weight: 600; }
 .public-field { width: 100%; margin: 0 0 18px; height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font-size: 14px; }
 .public-field:focus { border-color: var(--ink-3); outline: 0; box-shadow: 0 0 0 3px var(--green-soft); }

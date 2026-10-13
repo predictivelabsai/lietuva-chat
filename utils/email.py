@@ -21,6 +21,7 @@ def send_email(
     from_email: str | None = None,
     tag: str = "",
     api_token: str | None = None,
+    reply_to: str = "",
 ) -> dict:
     token = api_token or os.getenv("POSTMARK_API_TOKEN")
     if not token:
@@ -42,6 +43,8 @@ def send_email(
         payload["TextBody"] = text_body
     if tag:
         payload["Tag"] = tag
+    if reply_to:
+        payload["ReplyTo"] = reply_to
 
     headers = {
         "Accept": "application/json",
